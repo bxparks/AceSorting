@@ -2,7 +2,8 @@
  * Determine the size of various sorting algorithms in AceSorting library.
  */
 
-#include <stdint.h> // uint8_t
+#include <stdint.h> // uint8_t, uint16_t
+#include <stdlib.h> // qsort()
 #include <Arduino.h>
 #include <AceSorting.h>
 
@@ -19,16 +20,17 @@ using ace_sorting::quickSortMedianSwapped;
 
 // List of features of the AceSorting library that we want to examine.
 #define FEATURE_BASELINE 0
-#define FEATURE_BUBBLE_SORT 1
-#define FEATURE_INSERTION_SORT 2
-#define FEATURE_SHELL_SORT_CLASSIC 3
-#define FEATURE_SHELL_SORT_KNUTH 4
-#define FEATURE_SHELL_SORT_TOKUDA 5
-#define FEATURE_COMB_SORT_13 6
-#define FEATURE_COMB_SORT_125 7
-#define FEATURE_QUICK_SORT_MIDDLE 8
-#define FEATURE_QUICK_SORT_MEDIAN 9
-#define FEATURE_QUICK_SORT_MEDIAN_SWAPPED 10
+#define FEATURE_QSORT 1
+#define FEATURE_BUBBLE_SORT 2
+#define FEATURE_INSERTION_SORT 3
+#define FEATURE_SHELL_SORT_CLASSIC 4
+#define FEATURE_SHELL_SORT_KNUTH 5
+#define FEATURE_SHELL_SORT_TOKUDA 6
+#define FEATURE_COMB_SORT_13 7
+#define FEATURE_COMB_SORT_125 8
+#define FEATURE_QUICK_SORT_MIDDLE 9
+#define FEATURE_QUICK_SORT_MEDIAN 10
+#define FEATURE_QUICK_SORT_MEDIAN_SWAPPED 11
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -44,9 +46,23 @@ volatile uint8_t disableComilerOptimization;
 uint16_t data[] = {1, 0, 3, 32, 3, 43, 20, 39, 88, 18};
 const uint16_t DATA_SIZE = sizeof(data) / sizeof(data[0]);
 
+#if FEATURE == FEATURE_QSORT
+int compare(const void* a, const void* b) {
+  uint16_t va = *((uint16_t*) a);
+  uint16_t vb = *((uint16_t*) b);
+  return (va < vb) ? -1 : ((va == vb) ? 0 : 1);
+}
+
+void doQsort(uint16_t data[], uint16_t n) {
+  qsort(data, n, sizeof(uint16_t), compare);
+}
+#endif
+
 void setup() {
 #if FEATURE == FEATURE_BASELINE
   // nothing
+#elif FEATURE == FEATURE_QSORT
+  runQsort(data, DATA_SIZE);
 #elif FEATURE == FEATURE_BUBBLE_SORT
   bubbleSort(data, DATA_SIZE);
 #elif FEATURE == FEATURE_INSERTION_SORT

@@ -7,16 +7,17 @@
 
 BEGIN {
   labels[0] = "Baseline"
-  labels[1] = "bubbleSort()"
-  labels[2] = "insertionSort()"
-  labels[3] = "shellSortClassic()"
-  labels[4] = "shellSortKnuth()"
-  labels[5] = "shellSortTokuda()"
-  labels[6] = "combSort13()"
-  labels[7] = "combSort125()"
-  labels[8] = "quickSortMiddle()"
-  labels[9] = "quickSortMedian()"
-  labels[10] = "quickSortMedianSwapped()"
+  labels[1] = "qsort()"
+  labels[2] = "bubbleSort()"
+  labels[3] = "insertionSort()"
+  labels[4] = "shellSortClassic()"
+  labels[5] = "shellSortKnuth()"
+  labels[6] = "shellSortTokuda()"
+  labels[7] = "combSort13()"
+  labels[8] = "combSort125()"
+  labels[9] = "quickSortMiddle()"
+  labels[10] = "quickSortMedian()"
+  labels[11] = "quickSortMedianSwapped()"
   record_index = 0
 }
 {
@@ -46,6 +47,7 @@ END {
   for (i = 0; i < NUM_ENTRIES; i++) {
     name = labels[i]
     if (name ~ /Baseline/ \
+        || name ~ /^qsort()/ \
         || name ~ /^bubbleSort()/ \
         || name ~ /^shellSortClassic()/ \
         || name ~ /^combSort13()/ \

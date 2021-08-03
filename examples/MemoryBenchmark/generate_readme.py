@@ -56,7 +56,12 @@ ASCII table.
 ## Library Size Changes
 
 **v0.1.0**
-    * Initial version.
+
+* Initial version.
+* The memory usage for C-library `qsort()` is suspiciously low on the ESP32,
+    only 88 bytes, compared to 800-1400 bytes for other platforms. I think
+    this indicates that the `qsort()` function is already compiled into the
+    ESP32 runtime library.
 
 ## Arduino Nano
 
