@@ -43,8 +43,13 @@ using ace_sorting::quickSortMedianSwapped;
 // being tested when it determines that it does nothing.
 volatile uint8_t disableComilerOptimization;
 
-uint16_t data[] = {1, 0, 3, 32, 3, 43, 20, 39, 88, 18};
-const uint16_t DATA_SIZE = sizeof(data) / sizeof(data[0]);
+const uint16_t DATA_SIZE = 100;
+uint16_t data[DATA_SIZE];
+void setupData() {
+  for (uint16_t i = 0; i < DATA_SIZE; i++) {
+    data[i] = random(65536);
+  }
+}
 
 #if FEATURE == FEATURE_QSORT
 int compare(const void* a, const void* b) {
@@ -59,10 +64,12 @@ void doQsort(uint16_t data[], uint16_t n) {
 #endif
 
 void setup() {
+  setupData();
+
 #if FEATURE == FEATURE_BASELINE
   // nothing
 #elif FEATURE == FEATURE_QSORT
-  runQsort(data, DATA_SIZE);
+  doQsort(data, DATA_SIZE);
 #elif FEATURE == FEATURE_BUBBLE_SORT
   bubbleSort(data, DATA_SIZE);
 #elif FEATURE == FEATURE_INSERTION_SORT
