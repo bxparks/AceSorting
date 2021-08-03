@@ -33,6 +33,14 @@ typedef void (*SortFunction)(uint16_t data[], uint16_t n);
 
 class SortingTest : public TestOnce {
   public:
+    // Sort algorithms should not blow up if given n=0.
+    void assertSort0(SortFunction sortFunction) {
+      uint16_t list1[1] = {1};
+      sortFunction(list1, 0);
+      assertEqual(list1[0], 1);
+    }
+
+    // Sort algorithms should handle n=1 by also doing nothing.
     void assertSort1(SortFunction sortFunction) {
       uint16_t list1[1] = {1};
       sortFunction(list1, 1);
@@ -59,6 +67,7 @@ class SortingTest : public TestOnce {
     }
 
     void assertSort(SortFunction sortFunction) {
+      assertNoFatalFailure(assertSort0(sortFunction));
       assertNoFatalFailure(assertSort1(sortFunction));
       assertNoFatalFailure(assertSort2(sortFunction));
       assertNoFatalFailure(assertSort5(sortFunction));
