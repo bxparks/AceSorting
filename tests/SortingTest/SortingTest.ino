@@ -31,39 +31,58 @@ static const uint16_t LIST5[] = {
 
 typedef void (*SortFunction)(uint16_t data[], uint16_t n);
 
+static void fillArray(uint16_t data[], uint16_t n) {
+  for (uint16_t i = 0; i < n; ++i) {
+    data[i] = random(65536);
+  }
+}
+
 class SortingTest : public TestOnce {
   public:
     // Sort algorithms should not blow up if given n=0.
     void assertSort0(SortFunction sortFunction) {
       uint16_t list1[1] = {1};
       sortFunction(list1, 0);
-      assertEqual(list1[0], 1);
+      assertEqual(list1[0], (uint16_t) 1);
     }
 
     // Sort algorithms should handle n=1 by also doing nothing.
     void assertSort1(SortFunction sortFunction) {
       uint16_t list1[1] = {1};
       sortFunction(list1, 1);
-      assertEqual(list1[0], 1);
+      assertEqual(list1[0], (uint16_t) 1);
     }
 
     void assertSort2(SortFunction sortFunction) {
       uint16_t list2a[2] = {4, 1};
       sortFunction(list2a, 2);
-      assertEqual(list2a[0], 1);
-      assertEqual(list2a[1], 4);
+      assertEqual(list2a[0], (uint16_t) 1);
+      assertEqual(list2a[1], (uint16_t) 4);
 
       uint16_t list2b[2] = {1, 4};
       sortFunction(list2b, 2);
-      assertEqual(list2b[0], 1);
-      assertEqual(list2b[1], 4);
+      assertEqual(list2b[0], (uint16_t) 1);
+      assertEqual(list2b[1], (uint16_t) 4);
     }
 
     void assertSort5(SortFunction sortFunction) {
       uint16_t list5[5];
       memcpy(list5, LIST5, sizeof(LIST5));
+
+      assertFalse(isSorted(list5, 5));
       sortFunction(list5, 5);
       assertTrue(isSorted(list5, 5));
+    }
+
+    void assertSort300(SortFunction sortFunction) {
+      uint16_t dataSize = 300;
+      uint16_t* data = new uint16_t[dataSize];
+      fillArray(data, dataSize);
+
+      assertFalse(isSorted(data, dataSize));
+      sortFunction(data, dataSize);
+      assertTrue(isSorted(data, dataSize));
+      delete[] data;
     }
 
     void assertSort(SortFunction sortFunction) {
@@ -71,6 +90,7 @@ class SortingTest : public TestOnce {
       assertNoFatalFailure(assertSort1(sortFunction));
       assertNoFatalFailure(assertSort2(sortFunction));
       assertNoFatalFailure(assertSort5(sortFunction));
+      assertNoFatalFailure(assertSort300(sortFunction));
     }
 };
 
