@@ -3,6 +3,8 @@
  * Copyright (c) 2021 Brian T. Park
  */
 
+#include <stdint.h> // uint8_t, uint16_t
+#include <stdlib.h> // qsort()
 #include <Arduino.h> // F(), __FlashStringHelper
 #include <AceCommon.h>
 #include <AceSorting.h>
@@ -153,11 +155,24 @@ static void runSortForSizes(
   }
 }
 
+int compare(const void* a, const void* b) {
+  uint16_t va = *((uint16_t*) a);
+  uint16_t vb = *((uint16_t*) b);
+  return (va < vb) ? -1 : ((va == vb) ? 0 : 1);
+}
+
+void doQsort(uint16_t data[], uint16_t n) {
+  qsort(data, n, sizeof(uint16_t), compare);
+}
+
 //-----------------------------------------------------------------------------
 // Benchmarks
 //-----------------------------------------------------------------------------
 
 void runBenchmarks() {
+  runSortForSizes(
+      F("qsort()"), FAST_SAMPLE_SIZE, doQsort);
+
 #if ! defined(EPOXY_DUINO)
   runSortForSizes(
       F("bubbleSort()"), SLOW_SAMPLE_SIZE, bubbleSort<uint16_t>);

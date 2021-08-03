@@ -77,7 +77,8 @@ END {
     } else {
       displayName = name
     }
-    if (name ~ /^bubbleSort()/ \
+    if (name ~ /^qsort()/ \
+        || name ~ /^bubbleSort()/ \
         || name ~ /^shellSortClassic()/ \
         || name ~ /^combSort13()/ \
         || name ~ /^quickSortMiddle()/ \

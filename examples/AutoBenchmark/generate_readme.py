@@ -76,6 +76,8 @@ $ make README.md
 **v0.1**
 
 * Initial results.
+* The C-library `qsort()` is far slower than the C++ version because it uses
+  a callback to a comparison function through a function pointer.
 
 ## Results
 

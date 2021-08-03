@@ -23,10 +23,12 @@ SOFTWARE.
 */
 
 /*
- * A sketch that generates the min/avg/max benchmarks (in microseconds) of
- * various sort functions in the AceCommon library.
+ * A sketch that generates the min/avg/max benchmarks of various sorting
+ * functions in the AceSorting library.
  *
- * {name} min avg max loopCount sampleSize
+ * @verbatim
+ * {name} dataSize min avg max sampleSize
+ * @endverbatim
  *
  * This file can be fed into `generate_table.awk` to extract a human-readable
  * ASCII table that can be pasted directly into the README.md file as a code
