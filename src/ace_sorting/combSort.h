@@ -49,7 +49,7 @@ void combSort13(T data[], uint16_t n) {
 	uint16_t gap = n;
 	while (swapped || gap > 1) {
 		gap = gap * 10 / 13;
-		if (gap < 1) gap = 1;
+		if (gap == 0) gap = 1;
 		swapped = false;
 
 		uint16_t i;
@@ -77,7 +77,7 @@ void combSort125(T data[], uint16_t n) {
 	uint16_t gap = n;
 	while (swapped || gap > 1) {
 		gap = gap * 4 / 5;
-		if (gap < 1) gap = 1;
+		if (gap == 0) gap = 1;
 		swapped = false;
 
 		uint16_t i;

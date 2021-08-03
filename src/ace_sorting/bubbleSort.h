@@ -44,12 +44,11 @@ namespace ace_sorting {
 template <typename T>
 void bubbleSort(T data[], uint16_t n) {
   bool swapped;
-
   do {
     swapped = false;
-    for (uint16_t i = 0; i < n - 1; i++) {
-      if (data[i] > data[i + 1]) {
-        swap(data[i], data[i + 1]);
+    for (uint16_t i = 1; i < n; i++) {
+      if (data[i - 1] > data[i]) {
+        swap(data[i - 1], data[i]);
         swapped = true;
       }
     }

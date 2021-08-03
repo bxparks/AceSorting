@@ -76,8 +76,11 @@ void shellSortClassic(T data[], uint16_t n) {
  */
 template <typename T>
 void shellSortKnuth(T data[], uint16_t n) {
-  // Calculate the largest gap using Knuth's formula.
-	uint16_t gap = 0;
+  // Calculate the largest gap using Knuth's formula. If n is a compile-time
+  // constant and relatively "small" (observed to be true at least up to 100),
+  // the compiler will precalculate the loop below and replace it with a
+  // compile-time constant.
+	uint16_t gap = 1;
   while (gap < n / 3) {
     gap = gap * 3 + 1;
   }
@@ -125,8 +128,8 @@ void shellSortTokuda(T data[], const uint16_t n)
 
   // Find the starting gap.
 	uint16_t iGap;
-  for (iGap = 0; iGap < nGaps && sGaps[iGap] < n; iGap++) {}
-  iGap--;
+  for (iGap = 0; sGaps[iGap] < n && iGap < nGaps; iGap++) {}
+  if (iGap != 0) iGap--;
 
 	while (true) {
     uint16_t gap = sGaps[iGap];
