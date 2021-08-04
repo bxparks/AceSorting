@@ -16,7 +16,7 @@
 set -eu
 
 PROGRAM_NAME='MemoryBenchmark.ino'
-NUM_FEATURES=11 # excluding Baseline
+NUM_FEATURES=12 # excluding Baseline
 
 # Assume that https://github.com/bxparks/AUniter is installed as a
 # sibling project to AceCommon.

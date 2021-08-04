@@ -14,6 +14,7 @@ using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
 using ace_sorting::combSort13;
 using ace_sorting::combSort125;
+using ace_sorting::combSort133;
 using ace_sorting::quickSortMiddle;
 using ace_sorting::quickSortMedian;
 using ace_sorting::quickSortMedianSwapped;
@@ -28,9 +29,10 @@ using ace_sorting::quickSortMedianSwapped;
 #define FEATURE_SHELL_SORT_TOKUDA 6
 #define FEATURE_COMB_SORT_13 7
 #define FEATURE_COMB_SORT_125 8
-#define FEATURE_QUICK_SORT_MIDDLE 9
-#define FEATURE_QUICK_SORT_MEDIAN 10
-#define FEATURE_QUICK_SORT_MEDIAN_SWAPPED 11
+#define FEATURE_COMB_SORT_133 9
+#define FEATURE_QUICK_SORT_MIDDLE 10
+#define FEATURE_QUICK_SORT_MEDIAN 11
+#define FEATURE_QUICK_SORT_MEDIAN_SWAPPED 12
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -84,6 +86,8 @@ void setup() {
   combSort13(data, DATA_SIZE);
 #elif FEATURE == FEATURE_COMB_SORT_125
   combSort125(data, DATA_SIZE);
+#elif FEATURE == FEATURE_COMB_SORT_133
+  combSort133(data, DATA_SIZE);
 #elif FEATURE == FEATURE_QUICK_SORT_MIDDLE
   quickSortMiddle(data, DATA_SIZE);
 #elif FEATURE == FEATURE_QUICK_SORT_MEDIAN
