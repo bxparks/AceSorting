@@ -25,7 +25,7 @@ teensy32_results = check_output(
 print(f"""\
 # AutoBenchmark
 
-Determine the speed of various AceCommon functions and algorithms.
+Determine the speed of various AceSorting functions, for various array sizes.
 
 **Version**: AceSorting v0.1
 
@@ -81,8 +81,8 @@ $ make README.md
 
 ## Results
 
-The following results show the runtime of each sorting function in microseconds,
-when sorting different sized arrays.
+The following results show the runtime of each sorting function in milliseconds,
+when sorting different array sizes.
 
 ### Arduino Nano
 
