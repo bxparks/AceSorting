@@ -48,26 +48,26 @@ END {
   TOTAL_BENCHMARKS = benchmark_index
   TOTAL_SIZEOF = sizeof_index
 
-  printf("+-----------------------------+---------+---------+---------+----------+\n")
-  printf("| Function                    | arrSize |  random |  sorted | reversed |\n")
+  printf("+-----------------------------+------+---------+---------+----------+\n")
+  printf("| Function                    |    N |  random |  sorted | reversed |\n")
 
   for (i = 0; i < TOTAL_BENCHMARKS; i++) {
     name = u[i]["name"]
-    if (name ~ /^qsort\(\)/ \
-        || name ~ /^bubbleSort\(\)/ \
+    if (name ~ /^bubbleSort\(\)/ \
         || name ~ /^shellSortClassic\(\)/ \
         || name ~ /^combSort13\(\)/ \
         || name ~ /^quickSortMiddle\(\)/ \
+        || name ~ /^qsort\(\)/ \
     ) {
-      printf("|-----------------------------+---------+---------+---------+----------|\n")
+      printf("|-----------------------------+------+---------+---------+----------|\n")
     }
 
-    printf("| %-27s | %7d | %7.3f | %7.3f |  %7.3f |\n",
+    printf("| %-27s | %4d | %7.3f | %7.3f |  %7.3f |\n",
       name,
       u[i]["dataSize"],
       u[i]["random"],
       u[i]["sorted"],
       u[i]["reversed"]);
   }
-  printf("+-----------------------------+---------+---------+---------+----------+\n")
+  printf("+-----------------------------+------+---------+---------+----------+\n")
 }

@@ -186,24 +186,25 @@ void doQsort(uint16_t array[], uint16_t n) {
 //-----------------------------------------------------------------------------
 
 void runBenchmarks() {
-  runSort(F("qsort()"), FAST_SAMPLE_SIZE, doQsort);
-
 #if ! defined(EPOXY_DUINO)
   runSort(F("bubbleSort()"), SLOW_SAMPLE_SIZE, bubbleSort<uint16_t>);
 #endif
-
   runSort(F("insertionSort()"), SLOW_SAMPLE_SIZE, insertionSort<uint16_t>);
+
   runSort(
       F("shellSortClassic()"), FAST_SAMPLE_SIZE, shellSortClassic<uint16_t>);
   runSort(F("shellSortKnuth()"), FAST_SAMPLE_SIZE, shellSortKnuth<uint16_t>);
   runSort(F("shellSortTokuda()"), FAST_SAMPLE_SIZE, shellSortTokuda<uint16_t>);
+
   runSort(F("combSort13()"), FAST_SAMPLE_SIZE, combSort13<uint16_t>);
   runSort(F("combSort125()"), FAST_SAMPLE_SIZE, combSort125<uint16_t>);
   runSort(F("combSort133()"), FAST_SAMPLE_SIZE, combSort133<uint16_t>);
+
   runSort(F("quickSortMiddle()"), FAST_SAMPLE_SIZE, quickSortMiddle<uint16_t>);
   runSort(F("quickSortMedian()"), FAST_SAMPLE_SIZE, quickSortMedian<uint16_t>);
   runSort(
       F("quickSortMedianSwapped()"),
       FAST_SAMPLE_SIZE,
       quickSortMedianSwapped<uint16_t>);
+  runSort(F("qsort()"), FAST_SAMPLE_SIZE, doQsort);
 }

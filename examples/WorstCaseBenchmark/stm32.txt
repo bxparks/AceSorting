@@ -1,5 +1,4 @@
 BENCHMARKS
-qsort() 1000 8.266 2.658 3.615 20
 bubbleSort() 1000 239.048 0.252 251.276 3
 insertionSort() 1000 45.758 0.363 90.947 3
 shellSortClassic() 1000 6.301 4.024 5.045 20
@@ -11,4 +10,5 @@ combSort133() 1000 6.823 5.549 5.877 20
 quickSortMiddle() 1000 3.994 2.795 2.762 20
 quickSortMedian() 1000 4.241 3.315 3.245 20
 quickSortMedianSwapped() 1000 3.251 2.907 2.798 20
+qsort() 1000 8.266 2.658 3.615 20
 END
