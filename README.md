@@ -77,7 +77,7 @@ The source files are organized as follows:
 <a name="Dependencies"></a>
 ### Dependencies
 
-This library itself does *not* depend on any other libraries.
+This library itself does *not* depend on any other library.
 
 The unit tests depend on:
 
@@ -152,17 +152,18 @@ void insertionSort(T data[], uint16_t n);
 * additional ram consumption: none
 * runtime complexity: `O(N^2)` but 5-6X faster than `bubbleSort()`
 * stable sort
-* **recommendedation**: use for N smaller than about 100 and only if you need
+* **recommendation**: use for N smaller than about 100 and only if you need
   a stable sort
 
 <a name="ShellSort"></a>
 ### Shell Sort
 
-See https://en.wikipedia.org/wiki/Shellsort.
+See https://en.wikipedia.org/wiki/Shellsort. Three versions are provided in this
+library:
 
 ```C++
 template <typename T>
-void shellSortClass(T data[], uint16_t n);
+void shellSortClassic(T data[], uint16_t n);
 
 template <typename T>
 void shellSortKnuth(T data[], uint16_t n);
@@ -175,13 +176,15 @@ void shellSortTokuda(T data[], uint16_t n);
 * additional ram consumption: none
 * runtime complexity: `O(N^k)` where `k=1.3 to 1.5`
 * unstable sort
-* **recomendation**: `shellSortKnuth()`, consistently faster than the
-  other versions
+* **recomendation**: use `shellSortKnuth()`, which seems consistently faster
+  than `shellSortClassic()`, just as fast as `shellSortTokuda()` but is simpler
+  and takes less flash memory than `shellSortTokuda()`
 
 <a name="CombSort"></a>
 ### Comb Sort
 
-https://en.wikipedia.org/wiki/Comb_sort.
+https://en.wikipedia.org/wiki/Comb_sort. Three versions are provided in this
+library:
 
 ```C++
 template <typename T>
@@ -212,7 +215,8 @@ Comb Sort is consistently slower than Shell Sort.
 <a name="QuickSort"></a>
 ### Quick Sort
 
-https://en.wikipedia.org/wiki/Quicksort.
+https://en.wikipedia.org/wiki/Quicksort. Three versions are provided in this
+library:
 
 ```C++
 template <typename T>
@@ -238,12 +242,18 @@ void quickSortMedianSwapped(T data[], uint16_t n);
 <a name="CLibraryQsort"></a>
 ### C Library Qsort
 
+The C library `<stdlib.h>` provides a `qsort()` function that implements Quick
+Sort. Since this is a standard C library function, it should be available on all
+Arduino platforms. The signature looks like this:
+
 ```C++
 #include <stdlib.h>
 
 void qsort(void *base, size_t nmemb, size_t size,
     int (*compar)(const void *, const void *));
 ```
+
+It has the following characteristics:
 
 * flash consumption: 1084 bytes on AVR
 * additional ram consumption: `O(log(N))` bytes on stack due to recursion
@@ -252,11 +262,11 @@ void qsort(void *base, size_t nmemb, size_t size,
 * unstable sort
 * **not recommended** due to excessive flash consumption and slowness
 
-The C library `qsort()` is 2-3X slower than the C++ `quickSortXxx()`, and
-consumes 4-5X more flash memory. The `qsort()` function is probably more
-sophisticated in terms of handling edge cases, but it is a more general function
-that uses a comparator call-back function. That makes it far slower than the C++
-template version. Not recommended.
+According to benchmarks, `qsort()` is 2-3X slower than the C++ `quickSortXxx()`,
+and consumes 4-5X more flash memory. The `qsort()` function is probably more
+sophisticated in the handling of edge cases, but it suffers from being a general
+function that uses pointer to a comparator call-back function. That makes it
+2-3X slower than the C++ template functions in this library. Not recommended.
 
 <a name="SystemRequirements"></a>
 ## System Requirements
