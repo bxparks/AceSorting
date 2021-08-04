@@ -24,6 +24,7 @@ using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
 using ace_sorting::combSort13;
 using ace_sorting::combSort125;
+using ace_sorting::combSort133;
 using ace_sorting::quickSortMiddle;
 using ace_sorting::quickSortMedian;
 using ace_sorting::quickSortMedianSwapped;
@@ -115,7 +116,7 @@ static float measureSort(
 
     bool issorted = isSorted(array, arraySize);
     if (! issorted) {
-      SERIAL_PORT_MONITOR.println(F("Sorted array is NOT sorted!"));
+      SERIAL_PORT_MONITOR.println(F("Error: Sorted array is NOT sorted!"));
     }
     timingStats.update((float) elapsedMicros / 1000.0);
   }
@@ -176,6 +177,7 @@ void runBenchmarks() {
   runSort(F("shellSortTokuda()"), FAST_SAMPLE_SIZE, shellSortTokuda<uint16_t>);
   runSort(F("combSort13()"), FAST_SAMPLE_SIZE, combSort13<uint16_t>);
   runSort(F("combSort125()"), FAST_SAMPLE_SIZE, combSort125<uint16_t>);
+  runSort(F("combSort133()"), FAST_SAMPLE_SIZE, combSort133<uint16_t>);
   runSort(F("quickSortMiddle()"), FAST_SAMPLE_SIZE, quickSortMiddle<uint16_t>);
   runSort(F("quickSortMedian()"), FAST_SAMPLE_SIZE, quickSortMedian<uint16_t>);
   runSort(

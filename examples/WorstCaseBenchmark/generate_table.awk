@@ -53,11 +53,11 @@ END {
 
   for (i = 0; i < TOTAL_BENCHMARKS; i++) {
     name = u[i]["name"]
-    if (name ~ /^qsort()/ \
-        || name ~ /^bubbleSort()/ \
-        || name ~ /^shellSortClassic()/ \
-        || name ~ /^combSort13()/ \
-        || name ~ /^quickSortMiddle()/ \
+    if (name ~ /^qsort\(\)/ \
+        || name ~ /^bubbleSort\(\)/ \
+        || name ~ /^shellSortClassic\(\)/ \
+        || name ~ /^combSort13\(\)/ \
+        || name ~ /^quickSortMiddle\(\)/ \
     ) {
       printf("|-----------------------------+---------+---------+---------+----------|\n")
     }

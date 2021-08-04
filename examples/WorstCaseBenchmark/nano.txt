@@ -7,7 +7,8 @@ shellSortKnuth() 300 3.353 3.083 3.189 10
 shellSortTokuda() 300 4.688 4.474 4.576 10
 combSort13() 300 6.554 6.408 6.493 10
 combSort125() 300 7.560 7.419 7.501 10
-quickSortMiddle() 300 4.203 4.081 4.075 10
-quickSortMedian() 300 4.676 4.501 4.493 10
-quickSortMedianSwapped() 300 4.035 3.963 3.961 10
+combSort133() 300 6.024 5.885 5.965 10
+quickSortMiddle() 300 4.263 4.097 4.092 10
+quickSortMedian() 300 4.636 4.481 4.474 10
+quickSortMedianSwapped() 300 4.084 3.976 3.974 10
 END
