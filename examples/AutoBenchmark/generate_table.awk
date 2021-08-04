@@ -77,11 +77,11 @@ END {
     } else {
       displayName = name
     }
-    if (name ~ /^qsort\(\)/ \
-        || name ~ /^bubbleSort\(\)/ \
+    if (name ~ /^bubbleSort\(\)/ \
         || name ~ /^shellSortClassic\(\)/ \
         || name ~ /^combSort13\(\)/ \
         || name ~ /^quickSortMiddle\(\)/ \
+        || name ~ /^qsort\(\)/ \
     ) {
       printf("|---------------------+-------+-------+--------+---------+---------+---------|\n")
     }

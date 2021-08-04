@@ -1,8 +1,4 @@
 BENCHMARKS
-qsort() 10 0.164 0.198 0.240 10
-qsort() 30 0.752 0.838 0.924 10
-qsort() 100 3.512 3.661 3.848 10
-qsort() 300 12.624 13.074 13.528 10
 bubbleSort() 10 0.112 0.115 0.120 3
 bubbleSort() 30 0.888 0.951 1.048 3
 bubbleSort() 100 11.968 12.484 13.316 3
@@ -47,4 +43,8 @@ quickSortMedianSwapped() 10 0.080 0.091 0.108 10
 quickSortMedianSwapped() 30 0.304 0.338 0.364 10
 quickSortMedianSwapped() 100 1.344 1.399 1.468 10
 quickSortMedianSwapped() 300 4.632 4.861 5.112 10
+qsort() 10 0.164 0.198 0.240 10
+qsort() 30 0.752 0.838 0.924 10
+qsort() 100 3.512 3.661 3.848 10
+qsort() 300 12.624 13.074 13.528 10
 END
