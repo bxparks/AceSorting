@@ -15,6 +15,7 @@ using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
 using ace_sorting::combSort13;
 using ace_sorting::combSort125;
+using ace_sorting::combSort133;
 using ace_sorting::quickSortMiddle;
 using ace_sorting::quickSortMedian;
 using ace_sorting::quickSortMedianSwapped;
@@ -120,6 +121,10 @@ testF(SortingTest, combSort13) {
 
 testF(SortingTest, combSort125) {
   assertSort(combSort125<uint16_t>);
+}
+
+testF(SortingTest, combSort133) {
+  assertSort(combSort133<uint16_t>);
 }
 
 testF(SortingTest, quickSortMiddle) {

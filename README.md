@@ -6,18 +6,19 @@ using C++11 templates. Supports the following algorithms:
 * Bubble Sort
     * `bubbleSort()` (not recommended)
 * Insertion Sort
-    * `insertionSort()` (sometimes useful)
+    * `insertionSort()` (recommended if N < ~100)
 * Shell Sort
-    * `shellSortClassic()`
-    * `shellSortKnuth()` (recommended)
-    * `shellSortTokuda()`
+    * `shellSortClassic()`: gap factor 2
+    * `shellSortKnuth()`: gap factor 3 (recommended)
+    * `shellSortTokuda()`: gap factor 2.25
 * Comb Sort
-    * `combSort13()` (recommended)
-    * `combSort125()`
+    * `combSort13()`: gap factor 1.3
+    * `combSort125()`: gap factor 1.25
+    * `combSort133()`: gap factor 1.33 (recommended)
 * Quick Sort
-    * `quickSortMiddle()` (recommended)
-    * `quickSortMedian()`
-    * `quickSortMedianSwapped()`
+    * `quickSortMiddle()`: pivot on middle element (recommended)
+    * `quickSortMedian()`: pivot on median of low, mid, high
+    * `quickSortMedianSwapped()`: pivot on median and swap low, mid, high
 
 **Version**: Initial checkin (2021-08-02)
 
