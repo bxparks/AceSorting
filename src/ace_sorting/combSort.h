@@ -36,7 +36,11 @@ SOFTWARE.
 namespace ace_sorting {
 
 /**
- * Comb sort using a gap factor of 1.3.
+ * Comb sort using a gap factor of 1.3 (successive gap multiplication by 10 /
+ * 13). On 8-bit processors where the `int` type is 2 bytes, the multiplication
+ * of `n` by 10 can overflow the 16-bit integer. So the largest `n` that this
+ * function can support is 65536 / 10 or 6553.
+ *
  * Average complexity: O(n^2 / 2^p).
  * See https://en.wikipedia.org/wiki/Comb_sort
  *
@@ -64,7 +68,11 @@ void combSort13(T data[], uint16_t n) {
 }
 
 /**
- * Comb sort using a gap factor of 1.25.
+ * Comb sort using a gap factor of 1.25 (successive gap multiplication by 4 /
+ * 5). On 8-bit processors where the `int` type is 2 bytes, the multiplication
+ * of `n` by 4 can overflow the 16-bit integer. So the largest `n` that this
+ * function can support is 65535 / 4 or 16383.
+ *
  * Average complexity: O(n^2 / 2^p).
  * See https://en.wikipedia.org/wiki/Comb_sort
  *
@@ -92,9 +100,15 @@ void combSort125(T data[], uint16_t n) {
 }
 
 /**
- * Comb sort using a gap factor of 1.33333333 (4/3). Avoids integer division
- * which makes this smaller and faster on 8-bit processors without hardware
- * integer division.
+ * Comb sort using a gap factor of 1.33333333 (successive gap multiplication by
+ * 3 / 4). The multiplication by 3 can overflow the 2-byte `int` type on 8-bit
+ * processors, so the largest `n` supported by this function is 65535 / 3 or
+ * 21845.
+ *
+ * The division by 4 will be optimized by the compiler into a left shift by 2
+ * bits, so this algorithm does not perform any integer division, which makes
+ * this function smaller and faster on 8-bit processors without hardware integer
+ * division.
  *
  * Average complexity: O(n^2 / 2^p).
  * See https://en.wikipedia.org/wiki/Comb_sort
