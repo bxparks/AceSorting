@@ -36,10 +36,7 @@ SOFTWARE.
  */
 
 #include <Arduino.h>
-#include <AceCommon.h> // TimingStats
 #include "Benchmark.h"
-
-using namespace ace_common;
 
 #if ! defined(SERIAL_PORT_MONITOR)
 #define SERIAL_PORT_MONITOR Serial

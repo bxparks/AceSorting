@@ -23,6 +23,7 @@ using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
 using ace_sorting::combSort13;
 using ace_sorting::combSort125;
+using ace_sorting::combSort133;
 using ace_sorting::quickSortMiddle;
 using ace_sorting::quickSortMedian;
 using ace_sorting::quickSortMedianSwapped;
@@ -190,6 +191,8 @@ void runBenchmarks() {
       F("combSort13()"), FAST_SAMPLE_SIZE, combSort13<uint16_t>);
   runSortForSizes(
       F("combSort125()"), FAST_SAMPLE_SIZE, combSort125<uint16_t>);
+  runSortForSizes(
+      F("combSort133()"), FAST_SAMPLE_SIZE, combSort133<uint16_t>);
   runSortForSizes(
       F("quickSortMiddle()"), FAST_SAMPLE_SIZE, quickSortMiddle<uint16_t>);
   runSortForSizes(
