@@ -6,7 +6,7 @@ using C++11 templates. Supports the following algorithms:
 * Bubble Sort
     * `bubbleSort()` (not recommended)
 * Insertion Sort
-    * `insertionSort()` (recommended if N < ~100)
+    * `insertionSort()` (recommended if N < ~100) and stable sort is needed
 * Shell Sort
     * `shellSortClassic()`: gap factor 2
     * `shellSortKnuth()`: gap factor 3 (recommended)
@@ -35,6 +35,12 @@ using C++11 templates. Supports the following algorithms:
     * [Examples](#Examples)
 * [Usage](#Usage)
     * [Include Header and Namespace](#HeaderAndNamespace)
+    * [Bubble Sort](#BubbleSort)
+    * [Insertion Sort](#InsertionSort)
+    * [Shell Sort](#ShellSort)
+    * [Comb Sort](#CombSort)
+    * [Quick Sort](#QuickSort)
+    * [C Library Qsort](#CLibraryQsort)
 * [System Requirements](#SystemRequirements)
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
@@ -87,6 +93,17 @@ Some of the examples may depend on:
 * this `README.md` file
 * [Doxygen docs](https://bxparks.github.io/AceSorting/html) on Github pages.
 
+<a name="Examples"></a>
+### Examples
+
+* [examples/MemoryBenchmark](examples/MemoryBenchmark)
+    * Determine flash and static RAM consumption of various algorithms.
+* [examples/AutoBenchmark](examples/AutoBenchmark)
+    * Determine CPU runtime of various algorithms.
+* [examples/WorstCaseBenchmark](examples/WorstCaseBenchmark)
+    * Determine CPU runtime of worst case input data (e.g. sorted, reverse
+      sorted).
+
 <a name="Usage"></a>
 ## Usage
 
@@ -104,6 +121,142 @@ specific algorithm:
 #include <AceSorting.h>
 using ace_sorting::shellSortKnuth;
 ```
+
+<a name="BubbleSort"></a>
+### Bubble Sort
+
+See https://en.wikipedia.org/wiki/Bubble_sort.
+
+```C++
+template <typename T>
+void bubbleSort(T data[], uint16_t n);
+```
+
+* flash consumption: 44 bytes on AVR
+* additional ram consumption: none
+* runtime complexity: `O(N^2)`
+* stable sort
+* **not recommended**
+
+<a name="InsertionSort"></a>
+### Insertion Sort
+
+See https://en.wikipedia.org/wiki/Insertion_sort.
+
+```C++
+template <typename T>
+void insertionSort(T data[], uint16_t n);
+```
+
+* flash consumption, 60 bytes on AVR
+* additional ram consumption: none
+* runtime complexity: `O(N^2)` but 5-6X faster than `bubbleSort()`
+* stable sort
+* **recommendedation**: use for N smaller than about 100 and only if you need
+  a stable sort
+
+<a name="ShellSort"></a>
+### Shell Sort
+
+See https://en.wikipedia.org/wiki/Shellsort.
+
+```C++
+template <typename T>
+void shellSortClass(T data[], uint16_t n);
+
+template <typename T>
+void shellSortKnuth(T data[], uint16_t n);
+
+template <typename T>
+void shellSortTokuda(T data[], uint16_t n);
+```
+
+* flash consumption: 100-180 bytes of flash on AVR
+* additional ram consumption: none
+* runtime complexity: `O(N^k)` where `k=1.3 to 1.5`
+* unstable sort
+* **recomendation**: `shellSortKnuth()`, consistently faster than the
+  other versions
+
+<a name="CombSort"></a>
+### Comb Sort
+
+https://en.wikipedia.org/wiki/Comb_sort.
+
+```C++
+template <typename T>
+void combSort13(T data[], uint16_t n);
+
+template <typename T>
+void combSort125(T data[], uint16_t n);
+
+template <typename T>
+void combSort133(T data[], uint16_t n);
+```
+
+* flash consumption: 106-154 bytes on AVR
+* additional ram consumption: none
+* runtime complexity: `O(N^k)` where k seems similar to Shell Sort
+* unstable sort
+* **recommendation**: `combSort133()`, smallest and fastest among the 3 versions
+
+The `combSort133()` uses a gap factor of `4/3 = 1.33` instead of the `13/10`
+ratio found on many websites. Each successive gap size is calculated by
+multiplying by `3/4`. The compiler will optimize the division by 4 into a left
+bit shift. On 8-bit processors without hardware division, this makes
+`combSort133()` smaller and faster than the other versions.
+
+However, [examples/AutoBenchmark](examples/AutoBenchmark) indicates that
+Comb Sort is consistently slower than Shell Sort.
+
+<a name="QuickSort"></a>
+### Quick Sort
+
+https://en.wikipedia.org/wiki/Quicksort.
+
+```C++
+template <typename T>
+void quickSortMiddle(T data[], uint16_t n);
+
+template <typename T>
+void quickSortMedian(T data[], uint16_t n);
+
+template <typename T>
+void quickSortMedianSwapped(T data[], uint16_t n);
+```
+
+* flash consumption: 178-278 bytes on AVR
+* additional ram consumption: `O(log(N))` bytes on stack due to recursion
+* runtime complexity: `O(N log(N))`
+* unstable sort
+* **recommendation**
+    * avoid on 8-bit processors with limited ram due to extra stack usage by
+      recursion
+    * use `quickSortMiddle()` if you have to, which is the smallest among the 3
+      versions, but only slightly slower
+
+<a name="CLibraryQsort"></a>
+### C Library Qsort
+
+```C++
+#include <stdlib.h>
+
+void qsort(void *base, size_t nmemb, size_t size,
+    int (*compar)(const void *, const void *));
+```
+
+* flash consumption: 1084 bytes on AVR
+* additional ram consumption: `O(log(N))` bytes on stack due to recursion
+* runtime complexity: `O(N log(N))`, but 2-3X slower than C++ versions in this
+  library
+* unstable sort
+* **not recommended** due to excessive flash consumption and slowness
+
+The C library `qsort()` is 2-3X slower than the C++ `quickSortXxx()`, and
+consumes 4-5X more flash memory. The `qsort()` function is probably more
+sophisticated in terms of handling edge cases, but it is a more general function
+that uses a comparator call-back function. That makes it far slower than the C++
+template version. Not recommended.
 
 <a name="SystemRequirements"></a>
 ## System Requirements
