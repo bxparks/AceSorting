@@ -45,7 +45,7 @@ namespace ace_sorting {
 template <typename T>
 void combSort13(T data[], uint16_t n) {
 	bool swapped = true;
-	
+
 	uint16_t gap = n;
 	while (swapped || gap > 1) {
 		gap = gap * 10 / 13;
@@ -73,10 +73,41 @@ void combSort13(T data[], uint16_t n) {
 template <typename T>
 void combSort125(T data[], uint16_t n) {
 	bool swapped = true;
-	
+
 	uint16_t gap = n;
 	while (swapped || gap > 1) {
 		gap = gap * 4 / 5;
+		if (gap == 0) gap = 1;
+		swapped = false;
+
+		uint16_t i;
+    uint16_t j;
+		for (i = 0, j = gap; j < n; i++, j++) {
+			if (data[i] > data[j]) {
+        swap(data[i], data[j]);
+				swapped = true;
+			}
+		}
+	}
+}
+
+/**
+ * Comb sort using a gap factor of 1.33333333 (4/3). Avoids integer division
+ * which makes this smaller and faster on 8-bit processors without hardware
+ * integer division.
+ *
+ * Average complexity: O(n^2 / 2^p).
+ * See https://en.wikipedia.org/wiki/Comb_sort
+ *
+ * @tparam T type of data to sort
+ */
+template <typename T>
+void combSort133(T data[], uint16_t n) {
+	bool swapped = true;
+
+	uint16_t gap = n;
+	while (swapped || gap > 1) {
+		gap = gap * 3 / 4;
 		if (gap == 0) gap = 1;
 		swapped = false;
 

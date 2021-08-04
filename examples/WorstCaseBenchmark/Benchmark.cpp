@@ -3,6 +3,13 @@
  * Copyright (c) 2021 Brian T. Park
  */
 
+/*
+ * Determine runtime of potential worst case arrays:
+ *  * random
+ *  * already sorted
+ *  * reverse sorted.
+ */
+
 #include <stdint.h> // uint8_t, uint16_t
 #include <stdlib.h> // qsort()
 #include <Arduino.h> // F(), __FlashStringHelper
@@ -24,6 +31,7 @@ using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
 using ace_sorting::combSort13;
 using ace_sorting::combSort125;
+using ace_sorting::combSort133;
 using ace_sorting::quickSortMiddle;
 using ace_sorting::quickSortMedian;
 using ace_sorting::quickSortMedianSwapped;
@@ -98,24 +106,40 @@ static void fillArray(uint16_t array[], uint16_t n) {
   }
 }
 
+enum class InputType {
+  kRandom, kSorted, kReversed
+};
+
 static float measureSort(
     uint16_t array[],
     uint16_t arraySize,
     uint16_t sampleSize,
-    SortFunction sortFunction) {
+    SortFunction sortFunction,
+    InputType inputType) {
 
   timingStats.reset();
   for (uint8_t k = 0; k < sampleSize; k++) {
+    if (inputType == InputType::kRandom) {
+      fillArray(array, ARRAY_SIZE);
+    } else if (inputType == InputType::kSorted) {
+      fillArray(array, ARRAY_SIZE);
+      shellSortKnuth(array, ARRAY_SIZE);
+    } else if (inputType == InputType::kReversed) {
+      fillArray(array, ARRAY_SIZE);
+      shellSortKnuth(array, ARRAY_SIZE);
+      reverse(array, ARRAY_SIZE);
+    }
+
     yield();
     uint32_t startMicros = micros();
     sortFunction(array, arraySize);
     uint32_t elapsedMicros = micros() - startMicros;
     yield();
-    disableCompilerOptimization = array[0];
 
+    disableCompilerOptimization = array[0];
     bool issorted = isSorted(array, arraySize);
     if (! issorted) {
-      SERIAL_PORT_MONITOR.println(F("Sorted array is NOT sorted!"));
+      SERIAL_PORT_MONITOR.println(F("Error: Sorted array is NOT sorted!"));
     }
     timingStats.update((float) elapsedMicros / 1000.0);
   }
@@ -129,19 +153,18 @@ static void runSort(
 
   uint16_t* array = new uint16_t[ARRAY_SIZE];
 
-  // random array
-  fillArray(array, ARRAY_SIZE);
+  // random arrays
   float randomDuration = measureSort(
-      array, ARRAY_SIZE, sampleSize, sortFunction);
+      array, ARRAY_SIZE, sampleSize, sortFunction, InputType::kRandom);
 
   // already sorted array
   float alreadySortedDuration = measureSort(
-      array, ARRAY_SIZE, sampleSize, sortFunction);
+      array, ARRAY_SIZE, sampleSize, sortFunction, InputType::kSorted);
 
   // reverse sorted
   reverse(array, ARRAY_SIZE);
   float reverseSortedDuration = measureSort(
-      array, ARRAY_SIZE, sampleSize, sortFunction);
+      array, ARRAY_SIZE, sampleSize, sortFunction, InputType::kReversed);
 
   delete[] array;
   printStats(name, ARRAY_SIZE, randomDuration, alreadySortedDuration,
@@ -176,6 +199,7 @@ void runBenchmarks() {
   runSort(F("shellSortTokuda()"), FAST_SAMPLE_SIZE, shellSortTokuda<uint16_t>);
   runSort(F("combSort13()"), FAST_SAMPLE_SIZE, combSort13<uint16_t>);
   runSort(F("combSort125()"), FAST_SAMPLE_SIZE, combSort125<uint16_t>);
+  runSort(F("combSort133()"), FAST_SAMPLE_SIZE, combSort133<uint16_t>);
   runSort(F("quickSortMiddle()"), FAST_SAMPLE_SIZE, quickSortMiddle<uint16_t>);
   runSort(F("quickSortMedian()"), FAST_SAMPLE_SIZE, quickSortMedian<uint16_t>);
   runSort(

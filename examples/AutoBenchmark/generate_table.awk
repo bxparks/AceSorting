@@ -77,15 +77,16 @@ END {
     } else {
       displayName = name
     }
-    if (name ~ /^qsort()/ \
-        || name ~ /^bubbleSort()/ \
-        || name ~ /^shellSortClassic()/ \
-        || name ~ /^combSort13()/ \
-        || name ~ /^quickSortMiddle()/ \
+    if (name ~ /^qsort\(\)/ \
+        || name ~ /^bubbleSort\(\)/ \
+        || name ~ /^shellSortClassic\(\)/ \
+        || name ~ /^combSort13\(\)/ \
+        || name ~ /^quickSortMiddle\(\)/ \
     ) {
       printf("|---------------------+-------+-------+--------+---------+---------+---------|\n")
     }
 
+    # If entry is missing for a particular N, print nothing instead of "0.000".
     g1000 = g[name]["1000"]
     f1000 = (g1000 == "") ? "%7s" : "%7.3f"
 
