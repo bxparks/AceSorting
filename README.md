@@ -6,7 +6,7 @@ using C++11 templates. Supports the following algorithms:
 * Bubble Sort
     * `bubbleSort()` (not recommended)
 * Insertion Sort
-    * `insertionSort()` (recommended if N < ~100) and stable sort is needed
+    * `insertionSort()` (recommended if N < ~100 and a stable sort is needed)
 * Shell Sort
     * `shellSortClassic()`: gap factor 2
     * `shellSortKnuth()`: gap factor 3 (recommended)
@@ -41,6 +41,9 @@ using C++11 templates. Supports the following algorithms:
     * [Comb Sort](#CombSort)
     * [Quick Sort](#QuickSort)
     * [C Library Qsort](#CLibraryQsort)
+* [Resource Consumption](#ResourceConsumption)
+    * [Flash And Static Memory](#FlashAndStaticMemory)
+    * [CPU Cycles](#CpuCycles)
 * [System Requirements](#SystemRequirements)
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
@@ -267,6 +270,128 @@ and consumes 4-5X more flash memory. The `qsort()` function is probably more
 sophisticated in the handling of edge cases, but it suffers from being a general
 function that uses pointer to a comparator call-back function. That makes it
 2-3X slower than the C++ template functions in this library. Not recommended.
+
+<a name="ResourceConsumption"></a>
+## Resource Consumption
+
+<a name="FlashAndStaticMemory"></a>
+### Flash And Static Memory
+
+The full details of flash and static memory consumptions are given in
+[examples/MemoryBenchmark](examples/MemoryBenchmark). Here are 2 samples.
+
+**Arduino Nano (ATmega328)**
+
+```
++---------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |       delta |
+|----------------------------------------+--------------+-------------|
+| Baseline                               |   1066/  214 |     0/    0 |
+|----------------------------------------+--------------+-------------|
+| qsort()                                |   2150/  214 |  1084/    0 |
+|----------------------------------------+--------------+-------------|
+| bubbleSort()                           |   1110/  214 |    44/    0 |
+| insertionSort()                        |   1126/  214 |    60/    0 |
+|----------------------------------------+--------------+-------------|
+| shellSortClassic()                     |   1164/  214 |    98/    0 |
+| shellSortKnuth()                       |   1208/  214 |   142/    0 |
+| shellSortTokuda()                      |   1248/  240 |   182/   26 |
+|----------------------------------------+--------------+-------------|
+| combSort13()                           |   1220/  214 |   154/    0 |
+| combSort125()                          |   1216/  214 |   150/    0 |
+| combSort133()                          |   1172/  214 |   106/    0 |
+|----------------------------------------+--------------+-------------|
+| quickSortMiddle()                      |   1244/  214 |   178/    0 |
+| quickSortMedian()                      |   1296/  214 |   230/    0 |
+| quickSortMedianSwapped()               |   1344/  214 |   278/    0 |
++---------------------------------------------------------------------+
+```
+
+**ESP8266**
+
+```
++---------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |       delta |
+|----------------------------------------+--------------+-------------|
+| Baseline                               | 257100/26976 |     0/    0 |
+|----------------------------------------+--------------+-------------|
+| qsort()                                | 258076/26976 |   976/    0 |
+|----------------------------------------+--------------+-------------|
+| bubbleSort()                           | 257164/26976 |    64/    0 |
+| insertionSort()                        | 257164/26976 |    64/    0 |
+|----------------------------------------+--------------+-------------|
+| shellSortClassic()                     | 257196/26976 |    96/    0 |
+| shellSortKnuth()                       | 257212/26976 |   112/    0 |
+| shellSortTokuda()                      | 257256/27004 |   156/   28 |
+|----------------------------------------+--------------+-------------|
+| combSort13()                           | 257196/26976 |    96/    0 |
+| combSort125()                          | 257196/26976 |    96/    0 |
+| combSort133()                          | 257180/26976 |    80/    0 |
+|----------------------------------------+--------------+-------------|
+| quickSortMiddle()                      | 257244/26976 |   144/    0 |
+| quickSortMedian()                      | 257276/26976 |   176/    0 |
+| quickSortMedianSwapped()               | 257308/26976 |   208/    0 |
++---------------------------------------------------------------------+
+```
+
+<a name="CpuCycles"></a>
+### CPU Cycles
+
+The CPU benchmark numbers can be seen in
+[examples/AutoBenchmark](examples/AutoBenchmark). All times in milliseconds.
+Here are 2 samples.
+
+**Arduino Nano (ATmega328)**
+
+```
++---------------------+------------------------+---------+---------+---------+
+|            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
+| Function    \       |       |       |        |         |         |         |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| bubbleSort()        | 0.115 | 0.951 | 12.484 | 119.855 |         |         |
+| insertionSort()     | 0.040 | 0.259 |  2.480 |  21.713 |         |         |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| shellSortClassic()  | 0.091 | 0.378 |  1.798 |   7.479 |         |         |
+| shellSortKnuth()    | 0.102 | 0.330 |  1.443 |   5.698 |         |         |
+| shellSortTokuda()   | 0.075 | 0.333 |  1.629 |   6.484 |         |         |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| combSort13()        | 0.166 | 0.528 |  2.151 |   8.257 |         |         |
+| combSort125()       | 0.181 | 0.578 |  2.332 |   8.879 |         |         |
+| combSort133()       | 0.088 | 0.388 |  1.988 |   7.719 |         |         |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| quickSortMiddle()   | 0.092 | 0.367 |  1.561 |   5.920 |         |         |
+| quickSortMedian()   | 0.122 | 0.427 |  1.696 |   5.853 |         |         |
+| quickSortMdnSwppd() | 0.091 | 0.338 |  1.399 |   4.861 |         |         |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| qsort()             | 0.198 | 0.838 |  3.661 |  13.074 |         |         |
++---------------------+-------+-------+--------+---------+---------+---------+
+```
+
+**ESP8266**
+
+```
++---------------------+------------------------+---------+---------+---------+
+|            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
+| Function    \       |       |       |        |         |         |         |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| bubbleSort()        | 0.021 | 0.175 |  2.043 |  20.148 | 229.216 |         |
+| insertionSort()     | 0.007 | 0.038 |  0.371 |   3.080 |  34.652 |         |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| shellSortClassic()  | 0.013 | 0.051 |  0.246 |   1.018 |   4.377 |  16.195 |
+| shellSortKnuth()    | 0.010 | 0.036 |  0.172 |   0.682 |   2.983 |  11.385 |
+| shellSortTokuda()   | 0.009 | 0.038 |  0.183 |   0.735 |   3.131 |  11.370 |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| combSort13()        | 0.013 | 0.049 |  0.221 |   0.839 |   3.802 |  13.663 |
+| combSort125()       | 0.014 | 0.053 |  0.236 |   0.927 |   3.865 |  14.266 |
+| combSort133()       | 0.009 | 0.041 |  0.204 |   0.791 |   3.538 |  12.358 |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| quickSortMiddle()   | 0.015 | 0.048 |  0.190 |   0.665 |   2.581 |   8.730 |
+| quickSortMedian()   | 0.015 | 0.052 |  0.203 |   0.682 |   2.545 |   8.406 |
+| quickSortMdnSwppd() | 0.012 | 0.038 |  0.158 |   0.548 |   2.126 |   7.137 |
+|---------------------+-------+-------+--------+---------+---------+---------|
+| qsort()             | 0.026 | 0.092 |  0.414 |   1.508 |   6.018 |  20.715 |
++---------------------+-------+-------+--------+---------+---------+---------+
+```
 
 <a name="SystemRequirements"></a>
 ## System Requirements
