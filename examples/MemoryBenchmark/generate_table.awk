@@ -7,18 +7,19 @@
 
 BEGIN {
   labels[0] = "Baseline"
-  labels[1] = "qsort()"
-  labels[2] = "bubbleSort()"
-  labels[3] = "insertionSort()"
-  labels[4] = "shellSortClassic()"
-  labels[5] = "shellSortKnuth()"
-  labels[6] = "shellSortTokuda()"
-  labels[7] = "combSort13()"
-  labels[8] = "combSort125()"
-  labels[9] = "combSort133()"
+  labels[1] = "bubbleSort()"
+  labels[2] = "insertionSort()"
+  labels[3] = "shellSortClassic()"
+  labels[4] = "shellSortKnuth()"
+  labels[5] = "shellSortTokuda()"
+  labels[6] = "combSort13()"
+  labels[7] = "combSort13m()"
+  labels[8] = "combSort133()"
+  labels[9] = "combSort133m()"
   labels[10] = "quickSortMiddle()"
   labels[11] = "quickSortMedian()"
   labels[12] = "quickSortMedianSwapped()"
+  labels[13] = "qsort()"
   record_index = 0
 }
 {
@@ -48,11 +49,11 @@ END {
   for (i = 0; i < NUM_ENTRIES; i++) {
     name = labels[i]
     if (name ~ /Baseline/ \
-        || name ~ /^qsort\(\)/ \
         || name ~ /^bubbleSort\(\)/ \
         || name ~ /^shellSortClassic\(\)/ \
         || name ~ /^combSort13\(\)/ \
         || name ~ /^quickSortMiddle\(\)/ \
+        || name ~ /^qsort\(\)/ \
     ) {
       printf(\
         "|----------------------------------------+--------------+-------------|\n")
