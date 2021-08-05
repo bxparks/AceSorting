@@ -15,10 +15,10 @@ using C++11 templates. Supports the following algorithms:
     * `shellSortTokuda()`: gap factor 2.25
 * Comb Sort
     * `combSort13()`: gap factor 1.3 (13/10)
-    * `combSort13m()`: gap factor 1.3, modified for gap 8 and 9 (recommended
-      for 32-bit processors
+    * `combSort13m()`: gap factor 1.3, modified for gaps 9 and 10 (recommended
+      for 32-bit processors)
     * `combSort133()`: gap factor 1.33 (4/3) (recommended for 8-bit processors)
-    * `combSort133m()`: gap factor 1.33
+    * `combSort133m()`: gap factor 1.33, modified for gaps 9 and 10
 * Quick Sort
     * `quickSortMiddle()`: pivot on middle element (recommended)
     * `quickSortMedian()`: pivot on median of low, mid, high
