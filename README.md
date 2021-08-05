@@ -54,6 +54,7 @@ versions which take a custom comparator.
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
     * [Operating System](#OperatingSystem)
+* [Bugs and Limitations](#BugsAndLimitations)
 * [Alternative Libraries](#AlternativeLibraries)
 * [License](#License)
 * [Feedback and Support](#FeedbackAndSupport)
@@ -492,6 +493,43 @@ The following boards are **not** supported:
 I use Ubuntu 20.04 for the vast majority of my development. I expect that the
 library will work fine under MacOS and Windows, but I have not explicitly tested
 them.
+
+<a name="BugsAndLimitations"></a>
+## Bugs and Limitations
+
+* The number of elements `n` of the input `data` array is of type `uint16_t`,
+  which is exactly 2 bytes on all platforms.
+    * This means that the maximum number of elements is 65535. This should be
+      large enough for almost all applications on Arduino platforms, because
+      often the RAM size is limited.
+    * Using a fixed `uint16_t` means that the edge case behavior of these
+      algorithms are consistency across all platforms.
+    * Certain implementation choices and optimizations can be made if we know
+      that `n` cannot exceed a bounded value. For example, the
+      `shellSortTokuda()` function can use a pre-generated sequence of gaps
+      which is a reasonable size because it only needs to go up to 65535.
+    * The alternative was to use the `size_t` type whose size is dependent on
+      the platform. On 8-bit processors, `size_t` is 2 bytes; on 32-bit
+      processors `size_t` is 4 bytes; and on 64-bit processors, `size_t` is 8
+      bytes. However, I did not want to worry about edge case behavior of some
+      of these algorithms for extremely large values of `n`.
+    * There is also a common assumption that the natural-sized `int` (and
+      `unsigned int`) type is faster on their respective platforms . My actual
+      benchmarking experience suggests that this is not always true. Sometimes
+      it is, and sometimes it isn't, and the difference between using a
+      `uint16_t` versus `uint32_t` on a 32-bit processor is probably not as
+      great as choosing a better sorting algorithm.
+* No hybrid sorting algorithms (yet).
+    * Different sorting algorithms are more efficient at different ranges of
+      `N`. So hybrid algorithms will use different sorting algorithms at
+      different points in their iteration. An example is the
+      [Introsort](https://en.wikipedia.org/wiki/Introsort) which uses Quick
+      Sort, then switches to Heap Sort when the recursion depth becomes too
+      high, then switches to Insertion Sort when `N` is below a threshold.
+    * This library currently does not implement such sorting algorithms, partly
+      because they are more difficult to write and validate, and partly because
+      these hybrid algorithms will inevitably consume more flash memory, which
+      is usually a scarce resource in embedded environments.
 
 <a name="AlternativeLibraries"></a>
 ## Alternative Libraries
