@@ -22,9 +22,10 @@ using C++11 templates. Supports the following algorithms:
     * `quickSortMedian()`: pivot on median of low, mid, high
     * `quickSortMedianSwapped()`: pivot on median and swap low, mid, high
 
-**Version**: Initial checkin (2021-08-02)
+**Version**: 0.1 (2021-08-04)
 
-**Status**: Work in progress.
+**Status**: Simple versions are working and stable. Need to add overloaded
+versions which take a custom comparator.
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
