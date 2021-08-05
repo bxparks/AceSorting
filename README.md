@@ -48,6 +48,7 @@ using C++11 templates. Supports the following algorithms:
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
     * [Operating System](#OperatingSystem)
+* [Alternative Libraries](#AlternativeLibraries)
 * [License](#License)
 * [Feedback and Support](#FeedbackAndSupport)
 * [Authors](#Authors)
@@ -445,6 +446,54 @@ The following boards are **not** supported:
 I use Ubuntu 20.04 for the vast majority of my development. I expect that the
 library will work fine under MacOS and Windows, but I have not explicitly tested
 them.
+
+<a name="AlternativeLibraries"></a>
+## Alternative Libraries
+
+When I looked for sorting algorithm libraries for Arduino I found a small
+handful, but I found them unsuitable for me.
+
+* https://github.com/LinnesLab/KickSort
+    * Much of the AceSorting library was inspired by the KickSort library.
+    * The problem is that its `shellSort()` implementation was copied from
+      this post (https://forum.arduino.cc/index.php?topic=280486.0) from 2014.
+      Unfortunately, that implementation of Shell Sort is incorrect.
+    * No unit tests provided.
+* https://github.com/emilv/ArduinoSort
+    * Implements the Insertion Sort, which is an `O(N^2)` algorithm.
+    * Some unit testing provided.
+    * It is not suitable for array sizes greater than about 100.
+* https://github.com/luisllamasbinaburo/Arduino-QuickSort
+    * Documentation is in Spanish which I unfortunately do not understand.
+    * Provides a single version of Quick Sort, the equivalent of
+      `quickSortMiddle()` provided by this library.
+    * No unit tests provided.
+* https://github.com/arduino-libraries/Arduino_AVRSTL
+    * Provides a template `sort()` function.
+    * Often STL library functions are too general, therefore, too bloated for
+      many resource constrained environments. I suspect that the STL `sort()`
+      function falls into this category.
+    * The library is configured to target only the `avr` and `megaavr`
+      platforms. Does it work on other processors? I don't know, and I don't
+      want to spend the time to figure that out, because working with the STL
+      code is too painful.
+    * No unit tests provided.
+
+Here are some of the reasons that I created my own library:
+
+* Shell Sort is one of my favorite sorting algorithms because it can be very
+  fast and very small. But the KickSort library provides an incorrect
+  implementation which is even slower than Bubble Sort.
+* Most libraries do not come with unit tests, so I do not know what other bugs
+  are lurking in the code.
+* Most libraries do not evaluate the memory and CPU consumption of their sorting
+  algorithms. I wanted to know these numbers precisely so that I could make
+  informed trade off decisions.
+* I did not want to deal with the complexity of the C++ STL library. It is just
+  too painful in an embedded environment.
+* Lastly, I wanted to code my own sorting routines to make sure that I had a
+  complete understanding of each algorithm. I had forgotten so much
+  since my undergraduate years.
 
 <a name="License"></a>
 ## License
