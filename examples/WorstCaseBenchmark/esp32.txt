@@ -1,0 +1,15 @@
+BENCHMARKS
+bubbleSort() 1000 64.709 0.068 67.146 3
+insertionSort() 1000 14.837 0.092 29.422 3
+shellSortClassic() 1000 1.446 0.871 1.117 20
+shellSortKnuth() 1000 1.108 0.551 0.777 20
+shellSortTokuda() 1000 1.119 0.684 0.942 20
+combSort13() 1000 1.696 1.416 1.492 20
+combSort13m() 1000 1.655 1.493 1.569 20
+combSort133() 1000 1.678 1.365 1.441 20
+combSort133m() 1000 1.588 1.440 1.516 20
+quickSortMiddle() 1000 0.978 0.714 0.696 20
+quickSortMedian() 1000 0.973 0.746 0.727 20
+quickSortMedianSwapped() 1000 0.816 0.701 0.682 20
+qsort() 1000 2.103 0.607 0.849 20
+END
