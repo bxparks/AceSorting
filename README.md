@@ -12,9 +12,11 @@ using C++11 templates. Supports the following algorithms:
     * `shellSortKnuth()`: gap factor 3 (recommended)
     * `shellSortTokuda()`: gap factor 2.25
 * Comb Sort
-    * `combSort13()`: gap factor 1.3
-    * `combSort125()`: gap factor 1.25
-    * `combSort133()`: gap factor 1.33 (recommended)
+    * `combSort13()`: gap factor 1.3 (13/10)
+    * `combSort13m()`: gap factor 1.3, modified for gap 8 and 9 (recommended
+      for 32-bit processors
+    * `combSort133()`: gap factor 1.33 (4/3) (recommended for 8-bit processors)
+    * `combSort133m()`: gap factor 1.33
 * Quick Sort
     * `quickSortMiddle()`: pivot on middle element (recommended)
     * `quickSortMedian()`: pivot on median of low, mid, high
@@ -136,11 +138,11 @@ template <typename T>
 void bubbleSort(T data[], uint16_t n);
 ```
 
-* flash consumption: 44 bytes on AVR
-* additional ram consumption: none
-* runtime complexity: `O(N^2)`
-* stable sort
-* **not recommended**
+* Flash consumption: 44 bytes on AVR
+* Additional ram consumption: none
+* Runtime complexity: `O(N^2)`
+* Stable sort: Yes
+* **Not recommended**
 
 <a name="InsertionSort"></a>
 ### Insertion Sort
@@ -152,11 +154,11 @@ template <typename T>
 void insertionSort(T data[], uint16_t n);
 ```
 
-* flash consumption, 60 bytes on AVR
-* additional ram consumption: none
-* runtime complexity: `O(N^2)` but 5-6X faster than `bubbleSort()`
-* stable sort
-* **recommendation**: use for N smaller than about 100 and only if you need
+* Flash consumption, 60 bytes on AVR
+* Additional ram consumption: none
+* Runtime complexity: `O(N^2)` but 5-6X faster than `bubbleSort()`
+* Stable sort: Yes
+* **Recommendation**: Use for N smaller than about 100 and only if you need
   a stable sort
 
 <a name="ShellSort"></a>
@@ -176,45 +178,57 @@ template <typename T>
 void shellSortTokuda(T data[], uint16_t n);
 ```
 
-* flash consumption: 100-180 bytes of flash on AVR
-* additional ram consumption: none
-* runtime complexity: `O(N^k)` where `k=1.3 to 1.5`
-* unstable sort
-* **recomendation**: use `shellSortKnuth()`, which seems consistently faster
+* Flash consumption: 100-180 bytes of flash on AVR
+* Additional ram consumption: none
+* Runtime complexity: `O(N^k)` where `k=1.3 to 1.5`
+* Stable sort: No
+* **Recomendation**: Use `shellSortKnuth()`, which seems consistently faster
   than `shellSortClassic()`, just as fast as `shellSortTokuda()` but is simpler
-  and takes less flash memory than `shellSortTokuda()`
+  and takes less flash memory than `shellSortTokuda()`.
 
 <a name="CombSort"></a>
 ### Comb Sort
 
-https://en.wikipedia.org/wiki/Comb_sort. Three versions are provided in this
-library:
+See https://en.wikipedia.org/wiki/Comb_sort
+and https://rosettacode.org/wiki/Sorting_algorithms/Comb_sort.
+Four versions are provided in this library:
 
 ```C++
 template <typename T>
 void combSort13(T data[], uint16_t n);
 
 template <typename T>
-void combSort125(T data[], uint16_t n);
+void combSort13m(T data[], uint16_t n);
 
 template <typename T>
 void combSort133(T data[], uint16_t n);
+
+template <typename T>
+void combSort133m(T data[], uint16_t n);
 ```
 
-* flash consumption: 106-154 bytes on AVR
-* additional ram consumption: none
-* runtime complexity: `O(N^k)` where k seems similar to Shell Sort
-* unstable sort
-* **recommendation**: `combSort133()`, smallest and fastest among the 3 versions
+* Flash consumption: 106-172 bytes on AVR
+* Additional ram consumption: none
+* Runtime complexity: `O(N^k)` where k seems similar to Shell Sort
+* Stable sort: No
+* **Recommendation**:
+    * Use `combSort133()` on 8-bit processors.
+    * Use `combSort13m()` on 32-bit processors.
 
-The `combSort133()` uses a gap factor of `4/3 = 1.33` instead of the `13/10`
-ratio found on many websites. Each successive gap size is calculated by
-multiplying by `3/4`. The compiler will optimize the division by 4 into a left
-bit shift. On 8-bit processors without hardware division, this makes
-`combSort133()` smaller and faster than the other versions.
+The `combSort13()` and `combSort13m()` functions use a gap factor of `10/13 =
+1.3`. The `combSort13m()` function modifies the gap sequence when the gap is 9
+or 10. That apparently make the algorithm faster for reasons that I have not
+been able to find on the internet.
 
-However, [examples/AutoBenchmark](examples/AutoBenchmark) indicates that
-Comb Sort is consistently slower than Shell Sort.
+The `combSort133()` and `combSort133m()` use a gap factor of `4/3 = 1.33`. The
+`4/3` ratio allows the compiler to replace an integer division with a left bit
+shift, so that code is smaller and faster on 8-bit processors without hardware
+integer division. The `combSort133m()` function modifies the gap sequence when
+the gap is 9 or 10.
+
+Overall, [examples/AutoBenchmark](examples/AutoBenchmark) shows that Comb Sort
+is consistently slower than Shell Sort so it is difficult to recommend it over
+Shell Sort.
 
 <a name="QuickSort"></a>
 ### Quick Sort
@@ -233,15 +247,15 @@ template <typename T>
 void quickSortMedianSwapped(T data[], uint16_t n);
 ```
 
-* flash consumption: 178-278 bytes on AVR
-* additional ram consumption: `O(log(N))` bytes on stack due to recursion
-* runtime complexity: `O(N log(N))`
-* unstable sort
-* **recommendation**
-    * avoid on 8-bit processors with limited ram due to extra stack usage by
-      recursion
-    * use `quickSortMiddle()` if you have to, which is the smallest among the 3
-      versions, but only slightly slower
+* Flash consumption: 178-278 bytes on AVR
+* Additional ram consumption: `O(log(N))` bytes on stack due to recursion
+* Runtime complexity: `O(N log(N))`
+* Stable sort: No
+* **Recommendation**
+    * Avoid on 8-bit processors with limited ram due to extra stack usage by
+      recursion.
+    * Use `quickSortMiddle()` if you have to, which is the smallest among the 3
+      versions, but only slightly slower.
 
 <a name="CLibraryQsort"></a>
 ### C Library Qsort
@@ -259,12 +273,12 @@ void qsort(void *base, size_t nmemb, size_t size,
 
 It has the following characteristics:
 
-* flash consumption: 1084 bytes on AVR
-* additional ram consumption: `O(log(N))` bytes on stack due to recursion
-* runtime complexity: `O(N log(N))`, but 2-3X slower than C++ versions in this
+* Flash consumption: 1084 bytes on AVR
+* Additional ram consumption: `O(log(N))` bytes on stack due to recursion
+* Runtime complexity: `O(N log(N))`, but 2-3X slower than C++ versions in this
   library
-* unstable sort
-* **not recommended** due to excessive flash consumption and slowness
+* Stable sort: No
+* **Not recommended** due to excessive flash consumption and slowness.
 
 According to benchmarks, `qsort()` is 2-3X slower than the C++ `quickSortXxx()`,
 and consumes 4-5X more flash memory. The `qsort()` function is probably more
@@ -289,8 +303,6 @@ The full details of flash and static memory consumptions are given in
 |----------------------------------------+--------------+-------------|
 | Baseline                               |   1066/  214 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                |   2150/  214 |  1084/    0 |
-|----------------------------------------+--------------+-------------|
 | bubbleSort()                           |   1110/  214 |    44/    0 |
 | insertionSort()                        |   1126/  214 |    60/    0 |
 |----------------------------------------+--------------+-------------|
@@ -299,12 +311,15 @@ The full details of flash and static memory consumptions are given in
 | shellSortTokuda()                      |   1248/  240 |   182/   26 |
 |----------------------------------------+--------------+-------------|
 | combSort13()                           |   1220/  214 |   154/    0 |
-| combSort125()                          |   1216/  214 |   150/    0 |
+| combSort13m()                          |   1238/  214 |   172/    0 |
 | combSort133()                          |   1172/  214 |   106/    0 |
+| combSort133m()                         |   1194/  214 |   128/    0 |
 |----------------------------------------+--------------+-------------|
 | quickSortMiddle()                      |   1244/  214 |   178/    0 |
 | quickSortMedian()                      |   1296/  214 |   230/    0 |
 | quickSortMedianSwapped()               |   1344/  214 |   278/    0 |
+|----------------------------------------+--------------+-------------|
+| qsort()                                |   2150/  214 |  1084/    0 |
 +---------------------------------------------------------------------+
 ```
 
@@ -316,8 +331,6 @@ The full details of flash and static memory consumptions are given in
 |----------------------------------------+--------------+-------------|
 | Baseline                               | 257100/26976 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                | 258076/26976 |   976/    0 |
-|----------------------------------------+--------------+-------------|
 | bubbleSort()                           | 257164/26976 |    64/    0 |
 | insertionSort()                        | 257164/26976 |    64/    0 |
 |----------------------------------------+--------------+-------------|
@@ -326,12 +339,15 @@ The full details of flash and static memory consumptions are given in
 | shellSortTokuda()                      | 257256/27004 |   156/   28 |
 |----------------------------------------+--------------+-------------|
 | combSort13()                           | 257196/26976 |    96/    0 |
-| combSort125()                          | 257196/26976 |    96/    0 |
+| combSort13m()                          | 257212/26976 |   112/    0 |
 | combSort133()                          | 257180/26976 |    80/    0 |
+| combSort133m()                         | 257196/26976 |    96/    0 |
 |----------------------------------------+--------------+-------------|
 | quickSortMiddle()                      | 257244/26976 |   144/    0 |
 | quickSortMedian()                      | 257276/26976 |   176/    0 |
 | quickSortMedianSwapped()               | 257308/26976 |   208/    0 |
+|----------------------------------------+--------------+-------------|
+| qsort()                                | 258076/26976 |   976/    0 |
 +---------------------------------------------------------------------+
 ```
 
@@ -349,22 +365,23 @@ Here are 2 samples.
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.115 | 0.951 | 12.484 | 119.855 |         |         |
-| insertionSort()     | 0.040 | 0.259 |  2.480 |  21.713 |         |         |
+| bubbleSort()        | 0.101 | 0.989 | 11.841 | 112.304 |         |         |
+| insertionSort()     | 0.045 | 0.275 |  2.601 |  21.651 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.091 | 0.378 |  1.798 |   7.479 |         |         |
-| shellSortKnuth()    | 0.102 | 0.330 |  1.443 |   5.698 |         |         |
-| shellSortTokuda()   | 0.075 | 0.333 |  1.629 |   6.484 |         |         |
+| shellSortClassic()  | 0.090 | 0.365 |  1.797 |   7.412 |         |         |
+| shellSortKnuth()    | 0.102 | 0.329 |  1.443 |   5.728 |         |         |
+| shellSortTokuda()   | 0.074 | 0.340 |  1.631 |   6.554 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.166 | 0.528 |  2.151 |   8.257 |         |         |
-| combSort125()       | 0.181 | 0.578 |  2.332 |   8.879 |         |         |
-| combSort133()       | 0.088 | 0.388 |  1.988 |   7.719 |         |         |
+| combSort13()        | 0.163 | 0.550 |  2.220 |   8.135 |         |         |
+| combSort13m()       | 0.164 | 0.551 |  2.238 |   8.141 |         |         |
+| combSort133()       | 0.085 | 0.388 |  1.950 |   7.691 |         |         |
+| combSort133m()      | 0.089 | 0.419 |  1.995 |   7.730 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.092 | 0.367 |  1.561 |   5.920 |         |         |
-| quickSortMedian()   | 0.122 | 0.427 |  1.696 |   5.853 |         |         |
-| quickSortMdnSwppd() | 0.091 | 0.338 |  1.399 |   4.861 |         |         |
+| quickSortMiddle()   | 0.096 | 0.374 |  1.558 |   5.665 |         |         |
+| quickSortMedian()   | 0.118 | 0.429 |  1.711 |   5.863 |         |         |
+| quickSortMdnSwppd() | 0.091 | 0.334 |  1.399 |   4.893 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.198 | 0.838 |  3.661 |  13.074 |         |         |
+| qsort()             | 0.203 | 0.863 |  3.663 |  13.016 |         |         |
 +---------------------+-------+-------+--------+---------+---------+---------+
 ```
 
@@ -375,22 +392,23 @@ Here are 2 samples.
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.021 | 0.175 |  2.043 |  20.148 | 229.216 |         |
-| insertionSort()     | 0.007 | 0.038 |  0.371 |   3.080 |  34.652 |         |
+| bubbleSort()        | 0.021 | 0.191 |  2.232 |  20.144 | 225.651 |         |
+| insertionSort()     | 0.009 | 0.037 |  0.362 |   3.220 |  34.646 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.013 | 0.051 |  0.246 |   1.018 |   4.377 |  16.195 |
-| shellSortKnuth()    | 0.010 | 0.036 |  0.172 |   0.682 |   2.983 |  11.385 |
-| shellSortTokuda()   | 0.009 | 0.038 |  0.183 |   0.735 |   3.131 |  11.370 |
+| shellSortClassic()  | 0.013 | 0.050 |  0.246 |   1.020 |   4.402 |  16.259 |
+| shellSortKnuth()    | 0.010 | 0.036 |  0.173 |   0.691 |   3.016 |  11.270 |
+| shellSortTokuda()   | 0.009 | 0.038 |  0.181 |   0.730 |   3.141 |  11.368 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.013 | 0.049 |  0.221 |   0.839 |   3.802 |  13.663 |
-| combSort125()       | 0.014 | 0.053 |  0.236 |   0.927 |   3.865 |  14.266 |
-| combSort133()       | 0.009 | 0.041 |  0.204 |   0.791 |   3.538 |  12.358 |
+| combSort13()        | 0.013 | 0.049 |  0.229 |   0.836 |   3.810 |  13.769 |
+| combSort13m()       | 0.013 | 0.051 |  0.225 |   0.842 |   3.621 |  13.130 |
+| combSort133()       | 0.010 | 0.040 |  0.210 |   0.804 |   3.603 |  12.406 |
+| combSort133m()      | 0.010 | 0.044 |  0.205 |   0.803 |   3.448 |  12.407 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.015 | 0.048 |  0.190 |   0.665 |   2.581 |   8.730 |
-| quickSortMedian()   | 0.015 | 0.052 |  0.203 |   0.682 |   2.545 |   8.406 |
-| quickSortMdnSwppd() | 0.012 | 0.038 |  0.158 |   0.548 |   2.126 |   7.137 |
+| quickSortMiddle()   | 0.013 | 0.046 |  0.186 |   0.641 |   2.470 |   8.390 |
+| quickSortMedian()   | 0.016 | 0.052 |  0.201 |   0.679 |   2.577 |   8.439 |
+| quickSortMdnSwppd() | 0.012 | 0.039 |  0.158 |   0.550 |   2.116 |   7.180 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.026 | 0.092 |  0.414 |   1.508 |   6.018 |  20.715 |
+| qsort()             | 0.027 | 0.092 |  0.414 |   1.501 |   6.002 |  20.681 |
 +---------------------+-------+-------+--------+---------+---------+---------+
 ```
 

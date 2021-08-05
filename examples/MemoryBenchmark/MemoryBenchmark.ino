@@ -13,26 +13,28 @@ using ace_sorting::shellSortClassic;
 using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
 using ace_sorting::combSort13;
-using ace_sorting::combSort125;
+using ace_sorting::combSort13m;
 using ace_sorting::combSort133;
+using ace_sorting::combSort133m;
 using ace_sorting::quickSortMiddle;
 using ace_sorting::quickSortMedian;
 using ace_sorting::quickSortMedianSwapped;
 
 // List of features of the AceSorting library that we want to examine.
 #define FEATURE_BASELINE 0
-#define FEATURE_QSORT 1
-#define FEATURE_BUBBLE_SORT 2
-#define FEATURE_INSERTION_SORT 3
-#define FEATURE_SHELL_SORT_CLASSIC 4
-#define FEATURE_SHELL_SORT_KNUTH 5
-#define FEATURE_SHELL_SORT_TOKUDA 6
-#define FEATURE_COMB_SORT_13 7
-#define FEATURE_COMB_SORT_125 8
-#define FEATURE_COMB_SORT_133 9
+#define FEATURE_BUBBLE_SORT 1
+#define FEATURE_INSERTION_SORT 2
+#define FEATURE_SHELL_SORT_CLASSIC 3
+#define FEATURE_SHELL_SORT_KNUTH 4
+#define FEATURE_SHELL_SORT_TOKUDA 5
+#define FEATURE_COMB_SORT_13 6
+#define FEATURE_COMB_SORT_13M 7
+#define FEATURE_COMB_SORT_133 8
+#define FEATURE_COMB_SORT_133M 9
 #define FEATURE_QUICK_SORT_MIDDLE 10
 #define FEATURE_QUICK_SORT_MEDIAN 11
 #define FEATURE_QUICK_SORT_MEDIAN_SWAPPED 12
+#define FEATURE_QSORT 13
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -84,10 +86,12 @@ void setup() {
   shellSortTokuda(data, DATA_SIZE);
 #elif FEATURE == FEATURE_COMB_SORT_13
   combSort13(data, DATA_SIZE);
-#elif FEATURE == FEATURE_COMB_SORT_125
-  combSort125(data, DATA_SIZE);
+#elif FEATURE == FEATURE_COMB_SORT_13M
+  combSort13m(data, DATA_SIZE);
 #elif FEATURE == FEATURE_COMB_SORT_133
   combSort133(data, DATA_SIZE);
+#elif FEATURE == FEATURE_COMB_SORT_133M
+  combSort133m(data, DATA_SIZE);
 #elif FEATURE == FEATURE_QUICK_SORT_MIDDLE
   quickSortMiddle(data, DATA_SIZE);
 #elif FEATURE == FEATURE_QUICK_SORT_MEDIAN

@@ -52,9 +52,13 @@ void setup() {
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Wait for Leonardo/Micro
 
-  // Not very random, but maybe enough to get some variety in the random list of
-  // numbers.
+#if defined(EPOXY_DUINO)
+  // On Unix boxes, this should be a good enough random seed.
   randomSeed(micros());
+#else
+  // Attempt to get some entropy from the floating analog pin.
+  randomSeed(analogRead(A0));
+#endif
 
   SERIAL_PORT_MONITOR.println(F("BENCHMARKS"));
   runBenchmarks();
