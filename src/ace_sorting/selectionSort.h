@@ -44,16 +44,28 @@ namespace ace_sorting {
 template <typename T>
 void selectionSort(T data[], uint16_t n) {
   for (uint16_t i = 0; i < n; i++) {
-    // Find the smallest element
+
+    // Loop to find the smallest element.
     uint16_t iSmallest = i;
     T smallest = data[i];
-    for (uint16_t j = i + 1; j < n; j++) {
+
+    // Starting the loop with 'j = i + 1' increases flash usage on AVR by 12
+    // bytes. But it does not reduce the execution time signficantly, because
+    // the (i + 1) will be done anyway by the j++ in the loop. So the only thing
+    // we save is a single redundant 'smallest < smallest' comparison.
+    for (uint16_t j = i; j < n; j++) {
       if (data[j] < smallest) {
         iSmallest = j;
         smallest = data[j];
       }
     }
 
+    // This extra check (i != iSmallest) is not really necessary, because if the
+    // first element was already the smallest, it would swap the value back into
+    // itself. However, the one situation where Selection Sort *might* be used
+    // over Insertion Sort is when the write operation is far more expensive
+    // than a read operation. So this test preserves that advantage of the
+    // Selection Sort, by avoiding doing an unnecessary swap.
     if (i != iSmallest) {
       swap(data[i], data[iSmallest]);
     }

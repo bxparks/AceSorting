@@ -330,9 +330,9 @@ The full details of flash and static memory consumptions are given in
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           |   1110/  214 |    44/    0 |
 | insertionSort()                        |   1126/  214 |    60/    0 |
-| selectionSort()                        |   1166/  214 |   100/    0 |
+| selectionSort()                        |   1154/  214 |    88/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   1164/  214 |    98/    0 |
+| shellSortClassic()                     |   1162/  214 |    96/    0 |
 | shellSortKnuth()                       |   1208/  214 |   142/    0 |
 | shellSortTokuda()                      |   1248/  240 |   182/   26 |
 |----------------------------------------+--------------+-------------|
@@ -361,7 +361,7 @@ The full details of flash and static memory consumptions are given in
 | insertionSort()                        | 257164/26976 |    64/    0 |
 | selectionSort()                        | 257180/26976 |    80/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     | 257196/26976 |    96/    0 |
+| shellSortClassic()                     | 257180/26976 |    80/    0 |
 | shellSortKnuth()                       | 257212/26976 |   112/    0 |
 | shellSortTokuda()                      | 257256/27004 |   156/   28 |
 |----------------------------------------+--------------+-------------|
