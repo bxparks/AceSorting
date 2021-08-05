@@ -105,9 +105,6 @@ ASCII table.
 {stm32_results}
 ```
 
-An entry of `-1` indicates that the memory usage exceeded the maximum of the
-microcontroller and the compiler did not generate the desired information.
-
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
