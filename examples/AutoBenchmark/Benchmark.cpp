@@ -22,8 +22,9 @@ using ace_sorting::shellSortClassic;
 using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
 using ace_sorting::combSort13;
-using ace_sorting::combSort125;
+using ace_sorting::combSort13m;
 using ace_sorting::combSort133;
+using ace_sorting::combSort133m;
 using ace_sorting::quickSortMiddle;
 using ace_sorting::quickSortMedian;
 using ace_sorting::quickSortMedianSwapped;
@@ -34,12 +35,14 @@ using ace_sorting::quickSortMedianSwapped;
 
 #if defined(EPOXY_DUINO)
 const uint16_t DATA_SIZES[] = {10, 30, 100, 300, 1000, 3000, 10000, 30000};
+//const uint16_t DATA_SIZES[] = {65000};
 const uint16_t SLOW_SAMPLE_SIZE = 3;
-const uint16_t FAST_SAMPLE_SIZE = 50;
+const uint16_t FAST_SAMPLE_SIZE = 25;
 #elif defined(ARDUINO_ARCH_AVR)
 const uint16_t DATA_SIZES[] = {10, 30, 100, 300};
+//const uint16_t DATA_SIZES[] = {300};
 const uint16_t SLOW_SAMPLE_SIZE = 3;
-const uint16_t FAST_SAMPLE_SIZE = 10;
+const uint16_t FAST_SAMPLE_SIZE = 25;
 #else
 const uint16_t DATA_SIZES[] = {10, 30, 100, 300, 1000, 3000};
 const uint16_t SLOW_SAMPLE_SIZE = 3;
@@ -188,9 +191,11 @@ void runBenchmarks() {
   runSortForSizes(
       F("combSort13()"), FAST_SAMPLE_SIZE, combSort13<uint16_t>);
   runSortForSizes(
-      F("combSort125()"), FAST_SAMPLE_SIZE, combSort125<uint16_t>);
+      F("combSort13m()"), FAST_SAMPLE_SIZE, combSort13m<uint16_t>);
   runSortForSizes(
       F("combSort133()"), FAST_SAMPLE_SIZE, combSort133<uint16_t>);
+  runSortForSizes(
+      F("combSort133m()"), FAST_SAMPLE_SIZE, combSort133m<uint16_t>);
 
   runSortForSizes(
       F("quickSortMiddle()"), FAST_SAMPLE_SIZE, quickSortMiddle<uint16_t>);
