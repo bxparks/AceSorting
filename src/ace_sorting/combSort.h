@@ -36,10 +36,10 @@ SOFTWARE.
 namespace ace_sorting {
 
 /**
- * Comb sort using a gap factor of 1.3 (successive gap multiplication by 10 /
- * 13). On 8-bit processors where the `int` type is 2 bytes, the multiplication
- * of `n` by 10 can overflow the 16-bit integer. So the largest `n` that this
- * function can support is 65536 / 10 or 6553.
+ * Comb sort using a gap factor of 1.3 (successive gap is multiplied by
+ * 10 / 13). On 8-bit processors where the `int` type is 2 bytes, the
+ * multiplication of `n` by 10 can overflow the 16-bit integer. So the largest
+ * `n` that this function can support is 65536 / 10 or 6553.
  *
  * Average complexity: O(n^2 / 2^p).
  * See https://en.wikipedia.org/wiki/Comb_sort
@@ -68,10 +68,58 @@ void combSort13(T data[], uint16_t n) {
 }
 
 /**
- * Comb sort using a gap factor of 1.25 (successive gap multiplication by 4 /
- * 5). On 8-bit processors where the `int` type is 2 bytes, the multiplication
- * of `n` by 4 can overflow the 16-bit integer. So the largest `n` that this
- * function can support is 65535 / 4 or 16383.
+ * Same as combSort13() with the modification that if the gap is 9 or 10, it is
+ * set to 11, so that the gap sequence becomes (11, 8, 6, 4, 3, 2, 1). For
+ * reasons that I don't understand, this makes the algorithm faster and more
+ * resistence to outliers.
+ *
+ * Average complexity: O(n^2 / 2^p).
+ * See https://en.wikipedia.org/wiki/Comb_sort and
+ * https://rosettacode.org/wiki/Sorting_algorithms/Comb_sort.
+ *
+ * @tparam T type of data to sort
+ */
+template <typename T>
+void combSort13m(T data[], uint16_t n) {
+	bool swapped = true;
+
+	uint16_t gap = n;
+	while (swapped || gap > 1) {
+		gap = gap * 10 / 13;
+    if (gap == 9 || gap == 10) {
+      gap = 11;
+    } else if (gap == 0) {
+      gap = 1;
+    }
+		swapped = false;
+
+		uint16_t i;
+    uint16_t j;
+		for (i = 0, j = gap; j < n; i++, j++) {
+			if (data[i] > data[j]) {
+        swap(data[i], data[j]);
+				swapped = true;
+			}
+		}
+	}
+}
+
+/**
+ * Comb sort using a gap factor of 4/3=1.33 (successive gap is multiplied by 3
+ * / 4). The multiplication by 3 can overflow the 2-byte `int` type on 8-bit
+ * processors, so the largest `n` supported by this function is 65535 / 3 or
+ * 21845.
+ *
+ * This gap ratio seemed appealing because the division by 4 will be optimized
+ * by the compiler into a left shift by 2 bits, so this algorithm does not
+ * perform any integer division. Experimentation on 8-bit processors without
+ * hardware dvision this algorithm is slightly faster than combSort13() on
+ * average.
+ *
+ * On 32-bit or 64-bit processors with hardware division, experimentation shows
+ * that this algorithm is actually slightly slower on average than combSort13().
+ * And it seems to have a slightly higher variance, with some input data causing
+ * large spikes in runtime compared to the average.
  *
  * Average complexity: O(n^2 / 2^p).
  * See https://en.wikipedia.org/wiki/Comb_sort
@@ -79,12 +127,12 @@ void combSort13(T data[], uint16_t n) {
  * @tparam T type of data to sort
  */
 template <typename T>
-void combSort125(T data[], uint16_t n) {
+void combSort133(T data[], uint16_t n) {
 	bool swapped = true;
 
 	uint16_t gap = n;
 	while (swapped || gap > 1) {
-		gap = gap * 4 / 5;
+		gap = gap * 3 / 4;
 		if (gap == 0) gap = 1;
 		swapped = false;
 
@@ -100,15 +148,10 @@ void combSort125(T data[], uint16_t n) {
 }
 
 /**
- * Comb sort using a gap factor of 1.33333333 (successive gap multiplication by
- * 3 / 4). The multiplication by 3 can overflow the 2-byte `int` type on 8-bit
- * processors, so the largest `n` supported by this function is 65535 / 3 or
- * 21845.
- *
- * The division by 4 will be optimized by the compiler into a left shift by 2
- * bits, so this algorithm does not perform any integer division, which makes
- * this function smaller and faster on 8-bit processors without hardware integer
- * division.
+ * Same as combSort133() but modified so that a gap of 9 or 10 becomes gap=11 so
+ * that the final sequence becomes (11, 8, 6, 4, 3, 2, 1). Experimentation shows
+ * that this is often slightly slower than than combSort133(), probably due to
+ * the extra if/then/else statements in the loop.
  *
  * Average complexity: O(n^2 / 2^p).
  * See https://en.wikipedia.org/wiki/Comb_sort
@@ -116,13 +159,17 @@ void combSort125(T data[], uint16_t n) {
  * @tparam T type of data to sort
  */
 template <typename T>
-void combSort133(T data[], uint16_t n) {
+void combSort133m(T data[], uint16_t n) {
 	bool swapped = true;
 
 	uint16_t gap = n;
 	while (swapped || gap > 1) {
 		gap = gap * 3 / 4;
-		if (gap == 0) gap = 1;
+    if (gap == 9 || gap == 10) {
+      gap = 11;
+    } else if (gap == 0) {
+      gap = 1;
+    }
 		swapped = false;
 
 		uint16_t i;
