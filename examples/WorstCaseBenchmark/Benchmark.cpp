@@ -26,6 +26,7 @@ using ace_common::isSorted;
 using ace_common::reverse;
 using ace_sorting::bubbleSort;
 using ace_sorting::insertionSort;
+using ace_sorting::selectionSort;
 using ace_sorting::shellSortClassic;
 using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
@@ -191,6 +192,7 @@ void runBenchmarks() {
   runSort(F("bubbleSort()"), SLOW_SAMPLE_SIZE, bubbleSort<uint16_t>);
 #endif
   runSort(F("insertionSort()"), SLOW_SAMPLE_SIZE, insertionSort<uint16_t>);
+  runSort(F("selectionSort()"), SLOW_SAMPLE_SIZE, selectionSort<uint16_t>);
 
   runSort(
       F("shellSortClassic()"), FAST_SAMPLE_SIZE, shellSortClassic<uint16_t>);

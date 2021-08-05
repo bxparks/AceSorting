@@ -23,35 +23,43 @@ SOFTWARE.
 */
 
 /**
- * @mainpage AceSorting Library
+ * @file selectionSort.h
  *
- * This is the Doxygen documentation for the
- * <a href="https://github.com/bxparks/AceSorting">AceSorting Library</a>.
- *
- * Click on the "Classes" menu above to see the list of classes.
- *
- * Click on the "Files" menu above to see the list of header files.
+ * Selection sort.
  */
 
-#ifndef ACE_SEGMENT_ACE_SEGMENT_H
-#define ACE_SEGMENT_ACE_SEGMENT_H
+#ifndef ACE_SORTING_SELECTION_SORT_H
+#define ACE_SORTING_SELECTION_SORT_H
 
-// Blacklist platforms using https://github.com/arduino/ArduinoCore-api due to
-// incompatibilities.
-#if defined(ARDUINO_API_VERSION)
-#error Platforms using ArduinoCore-API not supported
-#endif
+#include "swap.h"
 
-// Version format: xxyyzz == "xx.yy.zz"
-#define ACE_SORTING_VERSION 100
-#define ACE_SORTING_VERSION_STRING "0.1.0"
+namespace ace_sorting {
 
-#include "ace_sorting/swap.h"
-#include "ace_sorting/bubbleSort.h"
-#include "ace_sorting/insertionSort.h"
-#include "ace_sorting/selectionSort.h"
-#include "ace_sorting/shellSort.h"
-#include "ace_sorting/combSort.h"
-#include "ace_sorting/quickSort.h"
+/**
+ * Selection sort.
+ * Average complexity: O(n^2)
+ *
+ * @tparam T type of data to sort
+ */
+template <typename T>
+void selectionSort(T data[], uint16_t n) {
+  for (uint16_t i = 0; i < n; i++) {
+    // Find the smallest element
+    uint16_t iSmallest = i;
+    T smallest = data[i];
+    for (uint16_t j = i + 1; j < n; j++) {
+      if (data[j] < smallest) {
+        iSmallest = j;
+        smallest = data[j];
+      }
+    }
+
+    if (i != iSmallest) {
+      swap(data[i], data[iSmallest]);
+    }
+  }
+}
+
+}
 
 #endif

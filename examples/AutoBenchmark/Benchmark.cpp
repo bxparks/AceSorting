@@ -18,6 +18,7 @@ using ace_common::GenericStats;
 using ace_common::isSorted;
 using ace_sorting::bubbleSort;
 using ace_sorting::insertionSort;
+using ace_sorting::selectionSort;
 using ace_sorting::shellSortClassic;
 using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
@@ -150,8 +151,12 @@ static void runSortForSizes(
     SortFunction sortFunction) {
   for (uint16_t i = 0; i < NUM_DATA_SIZES; i++) {
     uint16_t dataSize = DATA_SIZES[i];
+
+    // Don't run O(N^2) sorting algorithms on large arrays because they take too
+    // long to finish.
     if (sortFunction == &bubbleSort<uint16_t>
-        || sortFunction == &insertionSort<uint16_t>) {
+        || sortFunction == &insertionSort<uint16_t>
+        || sortFunction == &selectionSort<uint16_t>) {
       if (dataSize > 1000) break;
     }
 
@@ -180,6 +185,8 @@ void runBenchmarks() {
 #endif
   runSortForSizes(
       F("insertionSort()"), SLOW_SAMPLE_SIZE, insertionSort<uint16_t>);
+  runSortForSizes(
+      F("selectionSort()"), SLOW_SAMPLE_SIZE, selectionSort<uint16_t>);
 
   runSortForSizes(
       F("shellSortClassic()"), FAST_SAMPLE_SIZE, shellSortClassic<uint16_t>);
