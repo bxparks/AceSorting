@@ -10,6 +10,7 @@ using aunit::TestOnce;
 using ace_common::isSorted;
 using ace_sorting::bubbleSort;
 using ace_sorting::insertionSort;
+using ace_sorting::selectionSort;
 using ace_sorting::shellSortClassic;
 using ace_sorting::shellSortKnuth;
 using ace_sorting::shellSortTokuda;
@@ -98,6 +99,10 @@ class SortingTest : public TestOnce {
 
 testF(SortingTest, bubbleSort) {
   assertSort(bubbleSort<uint16_t>);
+}
+
+testF(SortingTest, selectionSort) {
+  assertSort(selectionSort<uint16_t>);
 }
 
 testF(SortingTest, insertionSort) {

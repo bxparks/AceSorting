@@ -46,7 +46,7 @@ template <typename T>
 void shellSortClassic(T data[], uint16_t n) {
 	uint16_t gap = n;
 	while (gap > 1) {
-		gap = (gap + 1) / 2;
+		gap /= 2;
 
     // Do insertion sort of each sub-array separated by gap.
 		for (uint16_t i = gap; i < n; i++) {
