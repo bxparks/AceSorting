@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* v0.2 (2021-08-06)
     * Add Selection Sort, mostly for completeness. It's another `O(N^2)` sort
       but is slower than Insertion Sort, and is not a stable sort.
     * Add [examples/HelloSort](examples/HelloSort).

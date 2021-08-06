@@ -2,7 +2,7 @@
 
 Determine the speed of various AceSorting functions, for various array sizes.
 
-**Version**: AceSorting v0.1
+**Version**: AceSorting v0.2
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 

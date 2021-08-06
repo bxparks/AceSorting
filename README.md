@@ -43,7 +43,7 @@ Supports the following algorithms:
 * Don't use the C library `qsort()`. It is 2-3X slower than the `quickSortXxx()`
   functions in this library, and consumes 4-5X more in flash bytes.
 
-**Version**: 0.1 (2021-08-04)
+**Version**: 0.2 (2021-08-06)
 
 **Status**: Simple versions are working and stable. Versions accepting custom
 comparators coming soon.
