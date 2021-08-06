@@ -1,0 +1,7 @@
+# See https://github.com/bxparks/EpoxyDuino for documentation about using
+# EpoxyDuino to compile and run AUnit tests natively on Linux or MacOS.
+
+APP_NAME := HelloSort
+ARDUINO_LIBS := AceSorting
+MORE_CLEAN := more_clean
+include ../../../EpoxyDuino/EpoxyDuino.mk

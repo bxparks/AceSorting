@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceSorting
-   &#160;<span id="projectnumber">0.1.0</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Sorting algorithms for Arduino (Bubble Sort, Insertion Sort, Shell Sort, Comb Sort, Quick Sort)</div>
   </td>
@@ -106,7 +106,7 @@ $(function() {
 <div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="shellSort_8h.html#aa17d405fc10023a2dae35c6800f72992">   46</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="shellSort_8h.html#aa17d405fc10023a2dae35c6800f72992">shellSortClassic</a>(T data[], uint16_t n) {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    uint16_t gap = n;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">while</span> (gap &gt; 1) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        gap = (gap + 1) / 2;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        gap /= 2;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// Do insertion sort of each sub-array separated by gap.</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">for</span> (uint16_t i = gap; i &lt; n; i++) {</div>

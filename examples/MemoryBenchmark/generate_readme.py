@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceSorting v0.1.0
+**Version**: AceSorting v0.2
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -104,9 +104,6 @@ ASCII table.
 ```
 {stm32_results}
 ```
-
-An entry of `-1` indicates that the memory usage exceeded the maximum of the
-microcontroller and the compiler did not generate the desired information.
 
 ## ESP8266
 

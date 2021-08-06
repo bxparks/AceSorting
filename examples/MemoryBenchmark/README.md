@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceSorting v0.1.0
+**Version**: AceSorting v0.2
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -53,8 +53,9 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           |   1110/  214 |    44/    0 |
 | insertionSort()                        |   1126/  214 |    60/    0 |
+| selectionSort()                        |   1154/  214 |    88/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   1164/  214 |    98/    0 |
+| shellSortClassic()                     |   1162/  214 |    96/    0 |
 | shellSortKnuth()                       |   1208/  214 |   142/    0 |
 | shellSortTokuda()                      |   1248/  240 |   182/   26 |
 |----------------------------------------+--------------+-------------|
@@ -86,8 +87,9 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           |   4104/  354 |    44/    0 |
 | insertionSort()                        |   4120/  354 |    60/    0 |
+| selectionSort()                        |   4148/  354 |    88/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   4158/  354 |    98/    0 |
+| shellSortClassic()                     |   4156/  354 |    96/    0 |
 | shellSortKnuth()                       |   4202/  354 |   142/    0 |
 | shellSortTokuda()                      |   4242/  380 |   182/   26 |
 |----------------------------------------+--------------+-------------|
@@ -119,8 +121,9 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           |  10696/    0 |    32/    0 |
 | insertionSort()                        |  10712/    0 |    48/    0 |
+| selectionSort()                        |  10740/    0 |    76/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |  10728/    0 |    64/    0 |
+| shellSortClassic()                     |  10720/    0 |    56/    0 |
 | shellSortKnuth()                       |  10736/    0 |    72/    0 |
 | shellSortTokuda()                      |  10836/    0 |   172/    0 |
 |----------------------------------------+--------------+-------------|
@@ -154,8 +157,9 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           |  26856/ 3844 |    36/    0 |
 | insertionSort()                        |  26864/ 3844 |    44/    0 |
+| selectionSort()                        |  26900/ 3844 |    80/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |  26896/ 3844 |    76/    0 |
+| shellSortClassic()                     |  26884/ 3844 |    64/    0 |
 | shellSortKnuth()                       |  26900/ 3844 |    80/    0 |
 | shellSortTokuda()                      |  26956/ 3844 |   136/    0 |
 |----------------------------------------+--------------+-------------|
@@ -173,9 +177,6 @@ ASCII table.
 
 ```
 
-An entry of `-1` indicates that the memory usage exceeded the maximum of the
-microcontroller and the compiler did not generate the desired information.
-
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
@@ -190,8 +191,9 @@ microcontroller and the compiler did not generate the desired information.
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           | 257164/26976 |    64/    0 |
 | insertionSort()                        | 257164/26976 |    64/    0 |
+| selectionSort()                        | 257180/26976 |    80/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     | 257196/26976 |    96/    0 |
+| shellSortClassic()                     | 257180/26976 |    80/    0 |
 | shellSortKnuth()                       | 257212/26976 |   112/    0 |
 | shellSortTokuda()                      | 257256/27004 |   156/   28 |
 |----------------------------------------+--------------+-------------|
@@ -223,8 +225,9 @@ microcontroller and the compiler did not generate the desired information.
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           | 198040/13284 |    44/    0 |
 | insertionSort()                        | 198072/13284 |    76/    0 |
+| selectionSort()                        | 198072/13284 |    76/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     | 198080/13284 |    84/    0 |
+| shellSortClassic()                     | 198072/13284 |    76/    0 |
 | shellSortKnuth()                       | 198084/13284 |    88/    0 |
 | shellSortTokuda()                      | 198152/13284 |   156/    0 |
 |----------------------------------------+--------------+-------------|
@@ -260,8 +263,9 @@ usage by objects.
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           |   7816/ 3256 |    28/    0 |
 | insertionSort()                        |   7844/ 3256 |    56/    0 |
+| selectionSort()                        |   7852/ 3256 |    64/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   7876/ 3256 |    88/    0 |
+| shellSortClassic()                     |   7868/ 3256 |    80/    0 |
 | shellSortKnuth()                       |   7880/ 3256 |    92/    0 |
 | shellSortTokuda()                      |   7976/ 3256 |   188/    0 |
 |----------------------------------------+--------------+-------------|

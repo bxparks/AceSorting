@@ -1,36 +1,58 @@
 # AceSorting
 
 Various sorting functions targeted for the Arduino environment, implemented
-using C++11 templates. Supports the following algorithms:
+using C++11 template functions. The library is intended to be
+compatible with most Arduino platforms, but some tradeoffs lean in favor of
+lower-end processors (e.g. AVR, lower-end STM32) as opposed to higher-end
+processors with larger amounts of RAM (e.g. ESP32, higher-end STM32).
+
+Supports the following algorithms:
 
 * Bubble Sort
     * `bubbleSort()` (not recommended)
 * Insertion Sort
-    * `insertionSort()` (recommended if N < ~100 and a stable sort is needed)
+    * `insertionSort()` (recommended if N < ~100 or a stable sort is needed)
+* Selection Sort
+    * `selectionSort()` (not recommended)
 * Shell Sort
     * `shellSortClassic()`: gap factor 2
     * `shellSortKnuth()`: gap factor 3 (recommended)
     * `shellSortTokuda()`: gap factor 2.25
 * Comb Sort
     * `combSort13()`: gap factor 1.3 (13/10)
-    * `combSort13m()`: gap factor 1.3, modified for gap 8 and 9 (recommended
-      for 32-bit processors
+    * `combSort13m()`: gap factor 1.3, modified for gaps 9 and 10 (recommended
+      for 32-bit processors)
     * `combSort133()`: gap factor 1.33 (4/3) (recommended for 8-bit processors)
-    * `combSort133m()`: gap factor 1.33
+    * `combSort133m()`: gap factor 1.33, modified for gaps 9 and 10
 * Quick Sort
     * `quickSortMiddle()`: pivot on middle element (recommended)
     * `quickSortMedian()`: pivot on median of low, mid, high
     * `quickSortMedianSwapped()`: pivot on median and swap low, mid, high
 
-**Version**: 0.1 (2021-08-04)
+**tl;dr**
 
-**Status**: Simple versions are working and stable. Need to add overloaded
-versions which take a custom comparator.
+* In most cases, use `shellSortKnuth()`, costing only 142 bytes on an AVR and
+  80-112 bytes on 32-bit processors. It is faster than any `O(N^2)` algorithm
+  while consuming only 34-82 extra bytes of flash over `insertionSort()`.
+* If `N > ~100`, and you need faster sorting, and you have sufficient memory for
+  recursive functions, use `quickSortMiddle()` on 8-bit AVR processors, and
+  `quickSortMedianSwapped()` on 32-bit processors.
+* Use `insertionSort()` if you need a stable sort.
+* Use `combSort133()` or `shellSortClassic()` to get the smallest sorting
+  function faster than `O(N^2)`.
+* Don't use the C library `qsort()`. It is 2-3X slower than the `quickSortXxx()`
+  functions in this library, and consumes 4-5X more in flash bytes.
+
+**Version**: 0.2 (2021-08-06)
+
+**Status**: Simple versions are working and stable. Versions accepting custom
+comparators coming soon.
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## Table of Contents
 
+* [Hello Sort](#HelloSort)
 * [Installation](#Installation)
     * [Source Code](#SourceCode)
     * [Dependencies](#Dependencies)
@@ -40,6 +62,7 @@ versions which take a custom comparator.
     * [Include Header and Namespace](#HeaderAndNamespace)
     * [Bubble Sort](#BubbleSort)
     * [Insertion Sort](#InsertionSort)
+    * [Selection Sort](#SelectionSort)
     * [Shell Sort](#ShellSort)
     * [Comb Sort](#CombSort)
     * [Quick Sort](#QuickSort)
@@ -51,10 +74,62 @@ versions which take a custom comparator.
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
     * [Operating System](#OperatingSystem)
+* [Bugs and Limitations](#BugsAndLimitations)
 * [Alternative Libraries](#AlternativeLibraries)
 * [License](#License)
 * [Feedback and Support](#FeedbackAndSupport)
 * [Authors](#Authors)
+
+<a name="HelloSort"></a>
+## Hello Sort
+
+This is a simplified version of the [examples/HelloSort](examples/HelloSort)
+demo:
+
+```C++
+#include <Arduino.h>
+#include <AceSorting.h>
+
+using ace_sorting::shellSortKnuth;
+
+const uint16_t ARRAY_SIZE = 50;
+int array[ARRAY_SIZE];
+
+void printArray(int* array, uint16_t arraySize) {
+  for (uint16_t i = 0; i < arraySize; i++) {
+    Serial.print(array[i]);
+    Serial.print(' ');
+  }
+  Serial.println();
+}
+
+void fillArray(int* array, uint16_t arraySize) {
+  for (uint16_t i = 0; i < arraySize; i++) {
+    array[i] = random(256);
+  }
+}
+
+void setup() {
+  delay(1000);
+  Serial.begin(115200);
+  while (!Serial); // Leonardo/Micro
+
+  // Attempt to get a random seed using the floating analog pin.
+  randomSeed(analogRead(A0));
+
+  fillArray();
+  Serial.println("Unsorted:");
+  printArray(array, arraySize);
+
+  // The compiler automatically generates the correct version of
+  // shellSortKnuth() based on the type of `array`.
+  shellSortKnuth(array, arraySize);
+  Serial.println("Sorted:");
+  printArray(array, arraySize);
+}
+
+void loop() {}
+```
 
 <a name="Installation"></a>
 ## Installation
@@ -103,13 +178,16 @@ Some of the examples may depend on:
 <a name="Examples"></a>
 ### Examples
 
-* [examples/MemoryBenchmark](examples/MemoryBenchmark)
-    * Determine flash and static RAM consumption of various algorithms.
-* [examples/AutoBenchmark](examples/AutoBenchmark)
-    * Determine CPU runtime of various algorithms.
-* [examples/WorstCaseBenchmark](examples/WorstCaseBenchmark)
-    * Determine CPU runtime of worst case input data (e.g. sorted, reverse
-      sorted).
+* [examples/HelloSort](examples/HelloSort)
+    * A demo of one of the sorting functions.
+* Benchmarks
+    * [examples/MemoryBenchmark](examples/MemoryBenchmark)
+        * Determine flash and static RAM consumption of various algorithms.
+    * [examples/AutoBenchmark](examples/AutoBenchmark)
+        * Determine CPU runtime of various algorithms.
+    * [examples/WorstCaseBenchmark](examples/WorstCaseBenchmark)
+        * Determine CPU runtime of worst case input data (e.g. sorted, reverse
+        sorted).
 
 <a name="Usage"></a>
 ## Usage
@@ -161,6 +239,26 @@ void insertionSort(T data[], uint16_t n);
 * Stable sort: Yes
 * **Recommendation**: Use for N smaller than about 100 and only if you need
   a stable sort
+
+<a name="SelectionSort"></a>
+### Selection Sort
+
+See https://en.wikipedia.org/wiki/Selection_sort.
+
+```C++
+template <typename T>
+void selectionSort(T data[], uint16_t n);
+```
+
+* Flash consumption, 100 bytes on AVR
+* Additional ram consumption: none
+* Runtime complexity: `O(N^2)` but 2X slower than `insertionSort()`
+* Stable sort: No
+* **Not recommended**:
+    * Larger and slower than `insertionSort()` but is not a stable sort.
+    * The only thing it has going for it is that it has the least number of
+      writes versus reads. Might be worth looking into if writing the data is
+      much more expensive than reading the data.
 
 <a name="ShellSort"></a>
 ### Shell Sort
@@ -306,8 +404,9 @@ The full details of flash and static memory consumptions are given in
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           |   1110/  214 |    44/    0 |
 | insertionSort()                        |   1126/  214 |    60/    0 |
+| selectionSort()                        |   1154/  214 |    88/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   1164/  214 |    98/    0 |
+| shellSortClassic()                     |   1162/  214 |    96/    0 |
 | shellSortKnuth()                       |   1208/  214 |   142/    0 |
 | shellSortTokuda()                      |   1248/  240 |   182/   26 |
 |----------------------------------------+--------------+-------------|
@@ -334,8 +433,9 @@ The full details of flash and static memory consumptions are given in
 |----------------------------------------+--------------+-------------|
 | bubbleSort()                           | 257164/26976 |    64/    0 |
 | insertionSort()                        | 257164/26976 |    64/    0 |
+| selectionSort()                        | 257180/26976 |    80/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     | 257196/26976 |    96/    0 |
+| shellSortClassic()                     | 257180/26976 |    80/    0 |
 | shellSortKnuth()                       | 257212/26976 |   112/    0 |
 | shellSortTokuda()                      | 257256/27004 |   156/   28 |
 |----------------------------------------+--------------+-------------|
@@ -366,23 +466,24 @@ Here are 2 samples.
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.101 | 0.989 | 11.841 | 112.304 |         |         |
-| insertionSort()     | 0.045 | 0.275 |  2.601 |  21.651 |         |         |
+| bubbleSort()        | 0.107 | 1.077 | 12.735 | 116.675 |         |         |
+| insertionSort()     | 0.045 | 0.263 |  2.557 |  22.252 |         |         |
+| selectionSort()     | 0.088 | 0.560 |  5.600 |  48.892 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.090 | 0.365 |  1.797 |   7.412 |         |         |
-| shellSortKnuth()    | 0.102 | 0.329 |  1.443 |   5.728 |         |         |
-| shellSortTokuda()   | 0.074 | 0.340 |  1.631 |   6.554 |         |         |
+| shellSortClassic()  | 0.074 | 0.310 |  1.706 |   6.865 |         |         |
+| shellSortKnuth()    | 0.101 | 0.330 |  1.450 |   5.665 |         |         |
+| shellSortTokuda()   | 0.075 | 0.327 |  1.614 |   6.540 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.163 | 0.550 |  2.220 |   8.135 |         |         |
-| combSort13m()       | 0.164 | 0.551 |  2.238 |   8.141 |         |         |
-| combSort133()       | 0.085 | 0.388 |  1.950 |   7.691 |         |         |
-| combSort133m()      | 0.089 | 0.419 |  1.995 |   7.730 |         |         |
+| combSort13()        | 0.160 | 0.534 |  2.214 |   8.167 |         |         |
+| combSort13m()       | 0.165 | 0.550 |  2.219 |   8.181 |         |         |
+| combSort133()       | 0.086 | 0.396 |  1.944 |   7.702 |         |         |
+| combSort133m()      | 0.086 | 0.416 |  1.978 |   7.740 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.096 | 0.374 |  1.558 |   5.665 |         |         |
-| quickSortMedian()   | 0.118 | 0.429 |  1.711 |   5.863 |         |         |
-| quickSortMdnSwppd() | 0.091 | 0.334 |  1.399 |   4.893 |         |         |
+| quickSortMiddle()   | 0.096 | 0.368 |  1.568 |   5.651 |         |         |
+| quickSortMedian()   | 0.117 | 0.431 |  1.717 |   5.905 |         |         |
+| quickSortMdnSwppd() | 0.094 | 0.341 |  1.417 |   4.909 |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.203 | 0.863 |  3.663 |  13.016 |         |         |
+| qsort()             | 0.204 | 0.855 |  3.629 |  13.021 |         |         |
 +---------------------+-------+-------+--------+---------+---------+---------+
 ```
 
@@ -393,23 +494,24 @@ Here are 2 samples.
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.021 | 0.191 |  2.232 |  20.144 | 225.651 |         |
+| bubbleSort()        | 0.021 | 0.192 |  2.231 |  20.143 | 225.651 |         |
 | insertionSort()     | 0.009 | 0.037 |  0.362 |   3.220 |  34.646 |         |
+| selectionSort()     | 0.017 | 0.085 |  0.892 |   7.930 |  87.723 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.013 | 0.050 |  0.246 |   1.020 |   4.402 |  16.259 |
-| shellSortKnuth()    | 0.010 | 0.036 |  0.173 |   0.691 |   3.016 |  11.270 |
-| shellSortTokuda()   | 0.009 | 0.038 |  0.181 |   0.730 |   3.141 |  11.368 |
+| shellSortClassic()  | 0.011 | 0.039 |  0.215 |   0.878 |   3.609 |  13.789 |
+| shellSortKnuth()    | 0.010 | 0.036 |  0.172 |   0.690 |   3.022 |  11.304 |
+| shellSortTokuda()   | 0.009 | 0.039 |  0.183 |   0.735 |   3.140 |  11.366 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.013 | 0.049 |  0.229 |   0.836 |   3.810 |  13.769 |
-| combSort13m()       | 0.013 | 0.051 |  0.225 |   0.842 |   3.621 |  13.130 |
-| combSort133()       | 0.010 | 0.040 |  0.210 |   0.804 |   3.603 |  12.406 |
-| combSort133m()      | 0.010 | 0.044 |  0.205 |   0.803 |   3.448 |  12.407 |
+| combSort13()        | 0.013 | 0.048 |  0.219 |   0.846 |   3.711 |  13.689 |
+| combSort13m()       | 0.014 | 0.051 |  0.222 |   0.840 |   3.622 |  13.104 |
+| combSort133()       | 0.010 | 0.040 |  0.208 |   0.796 |   3.571 |  12.430 |
+| combSort133m()      | 0.010 | 0.044 |  0.206 |   0.793 |   3.465 |  12.387 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.013 | 0.046 |  0.186 |   0.641 |   2.470 |   8.390 |
-| quickSortMedian()   | 0.016 | 0.052 |  0.201 |   0.679 |   2.577 |   8.439 |
-| quickSortMdnSwppd() | 0.012 | 0.039 |  0.158 |   0.550 |   2.116 |   7.180 |
+| quickSortMiddle()   | 0.013 | 0.045 |  0.185 |   0.651 |   2.519 |   8.307 |
+| quickSortMedian()   | 0.016 | 0.052 |  0.200 |   0.677 |   2.551 |   8.403 |
+| quickSortMdnSwppd() | 0.012 | 0.039 |  0.159 |   0.558 |   2.122 |   7.109 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.027 | 0.092 |  0.414 |   1.501 |   6.002 |  20.681 |
+| qsort()             | 0.028 | 0.092 |  0.416 |   1.516 |   6.010 |  20.789 |
 +---------------------+-------+-------+--------+---------+---------+---------+
 ```
 
@@ -466,6 +568,36 @@ I use Ubuntu 20.04 for the vast majority of my development. I expect that the
 library will work fine under MacOS and Windows, but I have not explicitly tested
 them.
 
+<a name="BugsAndLimitations"></a>
+## Bugs and Limitations
+
+* The number of elements `n` of the input `data` array is of type `uint16_t`.
+    * The maximum size of the input array is 65535.
+    * If you need bigger, copy the sorting algorithm that you want and change
+      the `uint16_t n` to a `uint32_t n`.
+    * Using a fixed `uint16_t` means that the edge case behavior of these
+      algorithms are consistency across all platforms.
+    * Certain implementation choices and optimizations can be made if we know
+      that `n` cannot exceed a bounded value. For example, the
+      `shellSortTokuda()` function can use a pre-generated sequence of gaps
+      which is a reasonable size because it only needs to go up to 65535.
+    * The alternative was to use the `size_t` type whose size is different on
+      different platforms: 2 bytes on 8-bit processors, 4 bytes on 32-bit
+      processors, and 8 bytes on 64-bit processors. However, I did not want to
+      worry about edge case behavior of some of these algorithms for extremely
+      large values of `n`.
+* No hybrid sorting algorithms.
+    * Different sorting algorithms are more efficient at different ranges of
+      `N`. So hybrid algorithms will use different sorting algorithms at
+      different points in their iteration. An example is the
+      [Introsort](https://en.wikipedia.org/wiki/Introsort) which uses Quick
+      Sort, then switches to Heap Sort when the recursion depth becomes too
+      high, then switches to Insertion Sort when `N` is below a threshold.
+    * This library currently does not implement such sorting algorithms, partly
+      because they are more difficult to write and validate, and partly because
+      these hybrid algorithms will inevitably consume more flash memory, which
+      is usually a scarce resource in embedded environments.
+
 <a name="AlternativeLibraries"></a>
 ## Alternative Libraries
 
@@ -510,9 +642,9 @@ Here are some of the reasons that I created my own library:
   informed trade off decisions.
 * I did not want to deal with the complexity of the C++ STL library. It is just
   too painful in an embedded environment.
-* Lastly, I wanted to code my own sorting routines to make sure that I had a
-  complete understanding of each algorithm. I had forgotten so much
-  since my undergraduate years.
+* Lastly, I wanted to implement my own sorting routines to make sure that I had
+  a complete understanding of each algorithm. I had forgotten so much since my
+  undergraduate years.
 
 <a name="License"></a>
 ## License
