@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceSorting: /home/brian/src/AceSorting/src/ace_sorting/swap.h Source File</title>
+<title>AceSorting: /home/brian/src/AceSorting/src/ace_sorting/selectionSort.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -68,10 +68,10 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">swap.h</div>  </div>
+<div class="title">selectionSort.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="swap_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<a href="selectionSort_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">MIT License</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">Copyright (c) 2021 Brian T. Park</span></div>
@@ -95,22 +95,51 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">SOFTWARE.</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#ifndef ACE_SORTING_SWAP_H</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#define ACE_SORTING_SWAP_H</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#ifndef ACE_SORTING_SELECTION_SORT_H</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#define ACE_SORTING_SELECTION_SORT_H</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>ace_sorting {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="swap_8h.html">swap.h</a>&quot;</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0">   41</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0">swap</a>(T&amp; a, T&amp; b) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    T temp = a;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    a = b;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    b = temp;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>ace_sorting {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="selectionSort_8h.html#a68fc184ad9a55e35542cb1c78065bbd7">   45</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="selectionSort_8h.html#a68fc184ad9a55e35542cb1c78065bbd7">selectionSort</a>(T data[], uint16_t n) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; n; i++) {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// Loop to find the smallest element.</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    uint16_t iSmallest = i;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    T smallest = data[i];</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// Starting the loop with &#39;j = i + 1&#39; increases flash usage on AVR by 12</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// bytes. But it does not reduce the execution time signficantly, because</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// the (i + 1) will be done anyway by the j++ in the loop. So the only thing</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// we save is a single redundant &#39;smallest &lt; smallest&#39; comparison.</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">for</span> (uint16_t j = i; j &lt; n; j++) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">if</span> (data[j] &lt; smallest) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        iSmallest = j;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        smallest = data[j];</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">// This extra check (i != iSmallest) is not really necessary, because if the</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// first element was already the smallest, it would swap the value back into</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">// itself. However, the one situation where Selection Sort *might* be used</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// over Insertion Sort is when the write operation is far more expensive</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// than a read operation. So this test preserves that advantage of the</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// Selection Sort, by avoiding doing an unnecessary swap.</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (i != iSmallest) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <a class="code" href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0">swap</a>(data[i], data[iSmallest]);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aswap_8h_html"><div class="ttname"><a href="swap_8h.html">swap.h</a></div></div>
 <div class="ttc" id="aswap_8h_html_a14e0c07fb427a4bc51b26fa03ae19eb0"><div class="ttname"><a href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0">ace_sorting::swap</a></div><div class="ttdeci">void swap(T &amp;a, T &amp;b)</div><div class="ttdoc">Swap the parameters.</div><div class="ttdef"><b>Definition:</b> <a href="swap_8h_source.html#l00041">swap.h:41</a></div></div>
+<div class="ttc" id="aselectionSort_8h_html_a68fc184ad9a55e35542cb1c78065bbd7"><div class="ttname"><a href="selectionSort_8h.html#a68fc184ad9a55e35542cb1c78065bbd7">ace_sorting::selectionSort</a></div><div class="ttdeci">void selectionSort(T data[], uint16_t n)</div><div class="ttdoc">Selection sort.</div><div class="ttdef"><b>Definition:</b> <a href="selectionSort_8h_source.html#l00045">selectionSort.h:45</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
