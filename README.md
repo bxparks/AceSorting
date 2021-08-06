@@ -41,17 +41,18 @@ Supports the following algorithms:
 * Use `combSort133()` or `shellSortClassic()` to get the smallest sorting
   function faster than `O(N^2)`.
 * Don't use the C library `qsort()`. It is 2-3X slower than the `quickSortXxx()`
-  functions in this library, and but consumes 4-5X more in flash bytes.
+  functions in this library, and consumes 4-5X more in flash bytes.
 
 **Version**: 0.1 (2021-08-04)
 
-**Status**: Simple versions are working and stable. Need to add overloaded
-versions which take a custom comparator.
+**Status**: Simple versions are working and stable. Versions accepting custom
+comparators coming soon.
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## Table of Contents
 
+* [Hello Sort](#HelloSort)
 * [Installation](#Installation)
     * [Source Code](#SourceCode)
     * [Dependencies](#Dependencies)
