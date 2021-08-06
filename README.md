@@ -1,7 +1,12 @@
 # AceSorting
 
 Various sorting functions targeted for the Arduino environment, implemented
-using C++11 templates. Supports the following algorithms:
+using C++11 template functions. The library is intended to be
+compatible with most Arduino platforms, but some tradeoffs lean in favor of
+lower-end processors (e.g. AVR, lower-end STM32) as opposed to higher-end
+processors with larger amounts of RAM (e.g. ESP32, higher-end STM32).
+
+Supports the following algorithms:
 
 * Bubble Sort
     * `bubbleSort()` (not recommended)
@@ -23,6 +28,20 @@ using C++11 templates. Supports the following algorithms:
     * `quickSortMiddle()`: pivot on middle element (recommended)
     * `quickSortMedian()`: pivot on median of low, mid, high
     * `quickSortMedianSwapped()`: pivot on median and swap low, mid, high
+
+**tl;dr**
+
+* In most cases, use `shellSortKnuth()`, costing only 142 bytes on an AVR and
+  80-112 bytes on 32-bit processors. It is faster than any `O(N^2)` algorithm
+  while consuming only 34-82 extra bytes of flash over `insertionSort()`.
+* If `N > ~100`, and you need faster sorting, and you have sufficient memory for
+  recursive functions, use `quickSortMiddle()` on 8-bit AVR processors, and
+  `quickSortMedianSwapped()` on 32-bit processors.
+* Use `insertionSort()` if you need a stable sort.
+* Use `combSort133()` or `shellSortClassic()` to get the smallest sorting
+  function faster than `O(N^2)`.
+* Don't use the C library `qsort()`. It is 2-3X slower than the `quickSortXxx()`
+  functions in this library, and but consumes 4-5X more in flash bytes.
 
 **Version**: 0.1 (2021-08-04)
 
@@ -59,6 +78,57 @@ versions which take a custom comparator.
 * [License](#License)
 * [Feedback and Support](#FeedbackAndSupport)
 * [Authors](#Authors)
+
+<a name="HelloSort"></a>
+## Hello Sort
+
+This is a simplified version of the [examples/HelloSort](examples/HelloSort)
+demo:
+
+```C++
+#include <Arduino.h>
+#include <AceSorting.h>
+
+using ace_sorting::shellSortKnuth;
+
+const uint16_t ARRAY_SIZE = 50;
+int array[ARRAY_SIZE];
+
+void printArray(int* array, uint16_t arraySize) {
+  for (uint16_t i = 0; i < arraySize; i++) {
+    Serial.print(array[i]);
+    Serial.print(' ');
+  }
+  Serial.println();
+}
+
+void fillArray(int* array, uint16_t arraySize) {
+  for (uint16_t i = 0; i < arraySize; i++) {
+    array[i] = random(256);
+  }
+}
+
+void setup() {
+  delay(1000);
+  Serial.begin(115200);
+  while (!Serial); // Leonardo/Micro
+
+  // Attempt to get a random seed using the floating analog pin.
+  randomSeed(analogRead(A0));
+
+  fillArray();
+  Serial.println("Unsorted:");
+  printArray(array, arraySize);
+
+  // The compiler automatically generates the correct version of
+  // shellSortKnuth() based on the type of `array`.
+  shellSortKnuth(array, arraySize);
+  Serial.println("Sorted:");
+  printArray(array, arraySize);
+}
+
+void loop() {}
+```
 
 <a name="Installation"></a>
 ## Installation
@@ -107,13 +177,16 @@ Some of the examples may depend on:
 <a name="Examples"></a>
 ### Examples
 
-* [examples/MemoryBenchmark](examples/MemoryBenchmark)
-    * Determine flash and static RAM consumption of various algorithms.
-* [examples/AutoBenchmark](examples/AutoBenchmark)
-    * Determine CPU runtime of various algorithms.
-* [examples/WorstCaseBenchmark](examples/WorstCaseBenchmark)
-    * Determine CPU runtime of worst case input data (e.g. sorted, reverse
-      sorted).
+* [examples/HelloSort](examples/HelloSort)
+    * A demo of one of the sorting functions.
+* Benchmarks
+    * [examples/MemoryBenchmark](examples/MemoryBenchmark)
+        * Determine flash and static RAM consumption of various algorithms.
+    * [examples/AutoBenchmark](examples/AutoBenchmark)
+        * Determine CPU runtime of various algorithms.
+    * [examples/WorstCaseBenchmark](examples/WorstCaseBenchmark)
+        * Determine CPU runtime of worst case input data (e.g. sorted, reverse
+        sorted).
 
 <a name="Usage"></a>
 ## Usage
@@ -568,9 +641,9 @@ Here are some of the reasons that I created my own library:
   informed trade off decisions.
 * I did not want to deal with the complexity of the C++ STL library. It is just
   too painful in an embedded environment.
-* Lastly, I wanted to code my own sorting routines to make sure that I had a
-  complete understanding of each algorithm. I had forgotten so much
-  since my undergraduate years.
+* Lastly, I wanted to implement my own sorting routines to make sure that I had
+  a complete understanding of each algorithm. I had forgotten so much since my
+  undergraduate years.
 
 <a name="License"></a>
 ## License
