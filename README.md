@@ -497,29 +497,22 @@ them.
 <a name="BugsAndLimitations"></a>
 ## Bugs and Limitations
 
-* The number of elements `n` of the input `data` array is of type `uint16_t`,
-  which is exactly 2 bytes on all platforms.
-    * This means that the maximum number of elements is 65535. This should be
-      large enough for almost all applications on Arduino platforms, because
-      often the RAM size is limited.
+* The number of elements `n` of the input `data` array is of type `uint16_t`.
+    * The maximum size of the input array is 65535.
+    * If you need bigger, copy the sorting algorithm that you want and change
+      the `uint16_t n` to a `uint32_t n`.
     * Using a fixed `uint16_t` means that the edge case behavior of these
       algorithms are consistency across all platforms.
     * Certain implementation choices and optimizations can be made if we know
       that `n` cannot exceed a bounded value. For example, the
       `shellSortTokuda()` function can use a pre-generated sequence of gaps
       which is a reasonable size because it only needs to go up to 65535.
-    * The alternative was to use the `size_t` type whose size is dependent on
-      the platform. On 8-bit processors, `size_t` is 2 bytes; on 32-bit
-      processors `size_t` is 4 bytes; and on 64-bit processors, `size_t` is 8
-      bytes. However, I did not want to worry about edge case behavior of some
-      of these algorithms for extremely large values of `n`.
-    * There is also a common assumption that the natural-sized `int` (and
-      `unsigned int`) type is faster on their respective platforms . My actual
-      benchmarking experience suggests that this is not always true. Sometimes
-      it is, and sometimes it isn't, and the difference between using a
-      `uint16_t` versus `uint32_t` on a 32-bit processor is probably not as
-      great as choosing a better sorting algorithm.
-* No hybrid sorting algorithms (yet).
+    * The alternative was to use the `size_t` type whose size is different on
+      different platforms: 2 bytes on 8-bit processors, 4 bytes on 32-bit
+      processors, and 8 bytes on 64-bit processors. However, I did not want to
+      worry about edge case behavior of some of these algorithms for extremely
+      large values of `n`.
+* No hybrid sorting algorithms.
     * Different sorting algorithms are more efficient at different ranges of
       `N`. So hybrid algorithms will use different sorting algorithms at
       different points in their iteration. An example is the
