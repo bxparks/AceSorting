@@ -26,10 +26,19 @@ SOFTWARE.
  * @file shellSort.h
  *
  * Shell sort with different gap algorithms.
+ * See https://en.wikipedia.org/wiki/Shellsort
  */
 
 #ifndef ACE_SORTING_SHELL_SORT_H
 #define ACE_SORTING_SHELL_SORT_H
+
+// If set to 1, use the direct inlined implementation of the 2-argument
+// shellSortXxx(). Otherwise, use the 3-argument shellSortXxx() to implement
+// 2-argument shellSortXxx(). For shellSortXxx(), the compiler will optimize
+// both versions to be identical.
+#if ! defined(ACE_SORTING_DIRECT_SHELL_SORT)
+  #define ACE_SORTING_DIRECT_SHELL_SORT 0
+#endif
 
 namespace ace_sorting {
 
@@ -40,7 +49,7 @@ namespace ace_sorting {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_SHELL_SORT
 template <typename T>
 void shellSortClassic(T data[], uint16_t n) {
   uint16_t gap = n;
@@ -119,7 +128,7 @@ void shellSortClassic(T data[], uint16_t n, F&& lessThan) {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_SHELL_SORT
 template <typename T>
 void shellSortKnuth(T data[], uint16_t n) {
   // Calculate the largest gap using Knuth's formula. If n is a compile-time
@@ -210,7 +219,7 @@ void shellSortKnuth(T data[], uint16_t n, F&& lessThan) {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_SHELL_SORT
 template<typename T>
 void shellSortTokuda(T data[], const uint16_t n)
 {

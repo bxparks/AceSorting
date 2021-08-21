@@ -34,6 +34,16 @@ SOFTWARE.
 
 #include "swap.h"
 
+// If set to 1, use the direct inlined implementation of the 2-argument
+// quickSortXxx(). Otherwise, use the 3-argument quickSortXxx() to implement
+// 2-argument quickSortXxx(). Unlike other sorting algorithms, the compiler
+// cannot seem to optimize away the extra level of indirection, probably due to
+// the recursive calls. We save 40 bytes of flash (out of 200-300 bytes) if we
+// use the direct inlined version for the 2-argument variant. Set this to 1.
+#if ! defined(ACE_SORTING_DIRECT_QUICK_SORT)
+  #define ACE_SORTING_DIRECT_QUICK_SORT 1
+#endif
+
 namespace ace_sorting {
 
 /**
@@ -45,7 +55,7 @@ namespace ace_sorting {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_QUICK_SORT
 template <typename T>
 void quickSortMiddle(T data[], uint16_t n) {
   if (n <= 1) return;
@@ -72,8 +82,11 @@ void quickSortMiddle(T data[], uint16_t n) {
 #else
 template <typename T>
 void quickSortMiddle(T data[], uint16_t n) {
-  // This lambda expression does not perform any captures, so the compiler will
-  // optimize and inline the less-than expression.
+  // This lambda expression does not perform any captures, so the compiler ought
+  // to be able to optimize and inline the less-than expression. However, the
+  // optimization does not seem to work, probably because of the recursive call
+  // into itself. So we set ACE_SORTING_DIRECT_QUICK_SORT=1 to use the direct
+  // inlined version.
   auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
   quickSortMiddle(data, n, lessThan);
 }
@@ -121,7 +134,7 @@ void quickSortMiddle(T data[], uint16_t n, F&& lessThan) {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_QUICK_SORT
 template <typename T>
 void quickSortMedian(T data[], uint16_t n) {
   if (n <= 1) return;
@@ -225,7 +238,7 @@ void quickSortMedian(T data[], uint16_t n, F&& lessThan) {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_QUICK_SORT
 template <typename T>
 void quickSortMedianSwapped(T data[], uint16_t n) {
   if (n <= 1) return;

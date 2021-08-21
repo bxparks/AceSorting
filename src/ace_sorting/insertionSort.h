@@ -32,6 +32,14 @@ SOFTWARE.
 #ifndef ACE_SORTING_INSERTION_SORT_H
 #define ACE_SORTING_INSERTION_SORT_H
 
+// If set to 1, use the direct inlined implementation of the 2-argument
+// insertionSort(). Otherwise, use the 3-argument insertionSort() to implement
+// 2-argument insertionSort(). For insertionSort(), the compiler will optimize
+// both versions to be identical.
+#if ! defined(ACE_SORTING_DIRECT_INSERTION_SORT)
+  #define ACE_SORTING_DIRECT_INSERTION_SORT 0
+#endif
+
 namespace ace_sorting {
 
 /**
@@ -41,7 +49,7 @@ namespace ace_sorting {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_INSERTION_SORT
 template <typename T>
 void insertionSort(T data[], uint16_t n) {
   for (uint16_t i = 1; i < n; i++) {

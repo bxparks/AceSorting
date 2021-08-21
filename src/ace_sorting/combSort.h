@@ -33,6 +33,14 @@ SOFTWARE.
 
 #include "swap.h"
 
+// If set to 1, use the direct inlined implementation of the 2-argument
+// combSortXxx(). Otherwise, use the 3-argument combSortXxx() to implement
+// 2-argument combSortXxx(). For combSortXxx(), the compiler will optimize both
+// versions to be identical.
+#if ! defined(ACE_SORTING_DIRECT_COMB_SORT)
+  #define ACE_SORTING_DIRECT_COMB_SORT 0
+#endif
+
 namespace ace_sorting {
 
 /**
@@ -46,7 +54,7 @@ namespace ace_sorting {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort13(T data[], uint16_t n) {
   bool swapped = true;
@@ -119,7 +127,7 @@ void combSort13(T data[], uint16_t n, F&& lessThan) {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort13m(T data[], uint16_t n) {
   bool swapped = true;
@@ -211,7 +219,7 @@ void combSort13m(T data[], uint16_t n, F&& lessThan) {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort133(T data[], uint16_t n) {
   bool swapped = true;
@@ -283,7 +291,7 @@ void combSort133(T data[], uint16_t n, F&& lessThan) {
  *
  * @tparam T type of data to sort
  */
-#if defined(ACE_SORTING_DIRECT)
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort133m(T data[], uint16_t n) {
   bool swapped = true;
