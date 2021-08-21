@@ -1,9 +1,11 @@
 /*
- * Quick demo of one of the sorting functions: create an array of integers with
- * random numbers, and sort the array. Print out the unsorted and sorted arrays.
- * Other sorting functions follow the same pattern. The compiler is able to
- * infer the type of the data, so you don't normally need to specify the
- * template type to the shellSortKnuth() function.
+ * Quick demo of one of the sorting functions, in this example,
+ * shellSortKnuth(). All the other sorting algorithms have the exact same
+ * function signature. First, create an array of integers with random numbers.
+ * Then sort the array in different ways, including reverse sorting. Print out
+ * the unsorted and sorted arrays. The compiler is able to infer the type of the
+ * data, so you don't normally need to specify the template type to the
+ * shellSortKnuth() function.
  */
 
 #include <Arduino.h>
@@ -18,6 +20,7 @@ using ace_sorting::shellSortKnuth;
 const uint16_t ARRAY_SIZE = 50;
 int array[ARRAY_SIZE];
 
+// Print given array.
 void printArray(int* array, uint16_t arraySize) {
   for (uint16_t i = 0; i < arraySize; i++) {
     SERIAL_PORT_MONITOR.print(array[i]);
@@ -26,10 +29,15 @@ void printArray(int* array, uint16_t arraySize) {
   SERIAL_PORT_MONITOR.println();
 }
 
+// Fill array with random numbers.
 void fillArray(int* array, uint16_t arraySize) {
   for (uint16_t i = 0; i < arraySize; i++) {
     array[i] = random(256);
   }
+}
+
+bool lessThan(int a, int b) {
+  return a < b;
 }
 
 //-----------------------------------------------------------------------------
@@ -49,15 +57,34 @@ void setup() {
   randomSeed(analogRead(A0));
 #endif
 
+  SERIAL_PORT_MONITOR.print("Unsorted: ");
   fillArray(array, ARRAY_SIZE);
-  SERIAL_PORT_MONITOR.println("Unsorted:");
   printArray(array, ARRAY_SIZE);
+  SERIAL_PORT_MONITOR.println();
 
-  // The compiler automatically generates the correct version of
-  // shellSortKnuth() based on the type of `array`.
+  // Use default ascending sort order.
+  SERIAL_PORT_MONITOR.print("Sorted using implicit ascending: ");
   shellSortKnuth(array, ARRAY_SIZE);
-  SERIAL_PORT_MONITOR.println("Sorted:");
   printArray(array, ARRAY_SIZE);
+  SERIAL_PORT_MONITOR.println();
+
+  // Use function pointer.
+  SERIAL_PORT_MONITOR.print("Sorted using function pointer: ");
+  shellSortKnuth(array, ARRAY_SIZE, lessThan);
+  printArray(array, ARRAY_SIZE);
+  SERIAL_PORT_MONITOR.println();
+
+  // Use lambda expression
+  SERIAL_PORT_MONITOR.print("Sorted using lambda expression: ");
+  shellSortKnuth(array, ARRAY_SIZE, [](int a, int b) { return a < b; });
+  printArray(array, ARRAY_SIZE);
+  SERIAL_PORT_MONITOR.println();
+
+  // Reverse sort using lambda expression
+  SERIAL_PORT_MONITOR.print("Reverse sorted using lambda expression: ");
+  shellSortKnuth(array, ARRAY_SIZE, [](int a, int b) { return a > b; });
+  printArray(array, ARRAY_SIZE);
+  SERIAL_PORT_MONITOR.println();
 
 #if defined(EPOXY_DUINO)
   exit(0);

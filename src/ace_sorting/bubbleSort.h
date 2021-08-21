@@ -41,13 +41,42 @@ namespace ace_sorting {
  *
  * @tparam T type of data to sort
  */
+#if defined(ACE_SORTING_DIRECT)
 template <typename T>
 void bubbleSort(T data[], uint16_t n) {
   bool swapped;
   do {
     swapped = false;
     for (uint16_t i = 1; i < n; i++) {
-      if (data[i - 1] > data[i]) {
+      if (data[i] < data[i - 1]) {
+        swap(data[i - 1], data[i]);
+        swapped = true;
+      }
+    }
+  } while (swapped);
+}
+#else
+template <typename T>
+void bubbleSort(T data[], uint16_t n) {
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  bubbleSort(data, n, lessThan);
+}
+#endif
+
+/**
+ * Same as the 2-argument bubbleSort() with the addition of a `lessThan`
+ * lambda expression or function.
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template <typename T, typename F>
+void bubbleSort(T data[], uint16_t n, F&& lessThan) {
+  bool swapped;
+  do {
+    swapped = false;
+    for (uint16_t i = 1; i < n; i++) {
+      if (lessThan(data[i], data[i - 1])) {
         swap(data[i - 1], data[i]);
         swapped = true;
       }

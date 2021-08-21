@@ -31,8 +31,6 @@ SOFTWARE.
 #ifndef ACE_SORTING_SHELL_SORT_H
 #define ACE_SORTING_SHELL_SORT_H
 
-#include "swap.h"
-
 namespace ace_sorting {
 
 /**
@@ -42,14 +40,15 @@ namespace ace_sorting {
  *
  * @tparam T type of data to sort
  */
+#if defined(ACE_SORTING_DIRECT)
 template <typename T>
 void shellSortClassic(T data[], uint16_t n) {
-	uint16_t gap = n;
-	while (gap > 1) {
-		gap /= 2;
+  uint16_t gap = n;
+  while (gap > 1) {
+    gap /= 2;
 
     // Do insertion sort of each sub-array separated by gap.
-		for (uint16_t i = gap; i < n; i++) {
+    for (uint16_t i = gap; i < n; i++) {
       T temp = data[i];
 
       // Shift one slot to the right.
@@ -64,9 +63,55 @@ void shellSortClassic(T data[], uint16_t n) {
       // to be relatively cheap to copy, and checking for (i != j) is more
       // expensive than just doing the extra assignment.
       data[j] = temp;
-		}
-	}
+    }
+  }
 }
+#else
+template <typename T>
+void shellSortClassic(T data[], uint16_t n) {
+  // This lambda expression does not perform any captures, so the compiler will
+  // optimize and inline the less-than expression.
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  shellSortClassic(data, n, lessThan);
+}
+#endif
+
+/**
+ * Shell sort with gap size reduced by factor of 2 each iteration.
+ * Average complexity: Between O(n^1.3) to O(n^1.5)
+ * See https://en.wikipedia.org/wiki/Shellsort
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template <typename T, typename F>
+void shellSortClassic(T data[], uint16_t n, F&& lessThan) {
+  uint16_t gap = n;
+  while (gap > 1) {
+    gap /= 2;
+
+    // Do insertion sort of each sub-array separated by gap.
+    for (uint16_t i = gap; i < n; i++) {
+      T temp = data[i];
+
+      // Shift one slot to the right.
+      uint16_t j;
+      for (j = i; j >= gap; j -= gap) {
+        // The following is equivalent to: (data[j - gap] <= temp)
+        if (! lessThan(temp, data[j - gap])) break;
+        data[j] = data[j - gap];
+      }
+
+      // Just like insertionSort(), this can assign 'temp' back into the
+      // original slot if no shifting was done. That's ok because T is assumed
+      // to be relatively cheap to copy, and checking for (i != j) is more
+      // expensive than just doing the extra assignment.
+      data[j] = temp;
+    }
+  }
+}
+
+//-----------------------------------------------------------------------------
 
 /**
  * Shell sort using gap size from Knuth.
@@ -74,20 +119,21 @@ void shellSortClassic(T data[], uint16_t n) {
  *
  * @tparam T type of data to sort
  */
+#if defined(ACE_SORTING_DIRECT)
 template <typename T>
 void shellSortKnuth(T data[], uint16_t n) {
   // Calculate the largest gap using Knuth's formula. If n is a compile-time
   // constant and relatively "small" (observed to be true at least up to 100),
   // the compiler will precalculate the loop below and replace it with a
   // compile-time constant.
-	uint16_t gap = 1;
+  uint16_t gap = 1;
   while (gap < n / 3) {
     gap = gap * 3 + 1;
   }
 
-	while (gap > 0) {
+  while (gap > 0) {
     // Do insertion sort of each sub-array separated by gap.
-		for (uint16_t i = gap; i < n; i++) {
+    for (uint16_t i = gap; i < n; i++) {
       T temp = data[i];
 
       // Shift one slot to the right.
@@ -102,11 +148,60 @@ void shellSortKnuth(T data[], uint16_t n) {
       // to be relatively cheap to copy, and checking for (i != j) is more
       // expensive than just doing the extra assignment.
       data[j] = temp;
-		}
+    }
 
     gap = (gap - 1) / 3;
-	}
+  }
 }
+#else
+template <typename T>
+void shellSortKnuth(T data[], uint16_t n) {
+  // This lambda expression does not perform any captures, so the compiler will
+  // optimize and inline the less-than expression.
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  shellSortKnuth(data, n, lessThan);
+}
+#endif
+
+/**
+ * Shell sort using gap size from Knuth.
+ * Average complexity: Between O(n^1.3) to O(n^1.5)
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template <typename T, typename F>
+void shellSortKnuth(T data[], uint16_t n, F&& lessThan) {
+  uint16_t gap = 1;
+  while (gap < n / 3) {
+    gap = gap * 3 + 1;
+  }
+
+  while (gap > 0) {
+    // Do insertion sort of each sub-array separated by gap.
+    for (uint16_t i = gap; i < n; i++) {
+      T temp = data[i];
+
+      // Shift one slot to the right.
+      uint16_t j;
+      for (j = i; j >= gap; j -= gap) {
+        // The following is equivalent to: (data[j - gap] <= temp)
+        if (! lessThan(temp, data[j - gap])) break;
+        data[j] = data[j - gap];
+      }
+
+      // Just like insertionSort(), this can assign 'temp' back into the
+      // original slot if no shifting was done. That's ok because T is assumed
+      // to be relatively cheap to copy, and checking for (i != j) is more
+      // expensive than just doing the extra assignment.
+      data[j] = temp;
+    }
+
+    gap = (gap - 1) / 3;
+  }
+}
+
+//-----------------------------------------------------------------------------
 
 /**
  * Shell sort using gap sizes empirically determined by Tokuda. See
@@ -115,6 +210,7 @@ void shellSortKnuth(T data[], uint16_t n) {
  *
  * @tparam T type of data to sort
  */
+#if defined(ACE_SORTING_DIRECT)
 template<typename T>
 void shellSortTokuda(T data[], const uint16_t n)
 {
@@ -122,20 +218,20 @@ void shellSortTokuda(T data[], const uint16_t n)
   // https://en.wikipedia.org/wiki/Shellsort
   // https://oeis.org/A108870
   static const uint16_t sGaps[] = {
-      1, 4, 9, 20, 46, 103, 233, 525, 1182, 2660, 5985, 13467, 30301, 
+      1, 4, 9, 20, 46, 103, 233, 525, 1182, 2660, 5985, 13467, 30301,
   };
   const uint16_t nGaps = sizeof(sGaps) / sizeof(uint16_t);
 
   // Find the starting gap.
-	uint16_t iGap;
+  uint16_t iGap;
   for (iGap = 0; sGaps[iGap] < n && iGap < nGaps; iGap++) {}
   if (iGap != 0) iGap--;
 
-	while (true) {
+  while (true) {
     uint16_t gap = sGaps[iGap];
 
     // Do insertion sort of each sub-array separated by gap.
-		for (uint16_t i = gap; i < n; i++) {
+    for (uint16_t i = gap; i < n; i++) {
       T temp = data[i];
 
       // Shift one slot to the right.
@@ -150,11 +246,71 @@ void shellSortTokuda(T data[], const uint16_t n)
       // to be relatively cheap to copy, and checking for (i != j) is more
       // expensive than just doing the extra assignment.
       data[j] = temp;
-		}
+    }
 
     if (iGap == 0) break;
     iGap--;
-	}
+  }
+}
+#else
+template <typename T>
+void shellSortTokuda(T data[], uint16_t n) {
+  // This lambda expression does not perform any captures, so the compiler will
+  // optimize and inline the less-than expression.
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  shellSortTokuda(data, n, lessThan);
+}
+#endif
+
+/**
+ * Shell sort using gap sizes empirically determined by Tokuda. See
+ * https://en.wikipedia.org/wiki/Shellsort and https://oeis.org/A108870.
+ * Average complexity: Between O(n^1.3) to O(n^1.5)
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template<typename T, typename F>
+void shellSortTokuda(T data[], const uint16_t n, F&& lessThan)
+{
+  // Experimentally observed ideal gaps.
+  // https://en.wikipedia.org/wiki/Shellsort
+  // https://oeis.org/A108870
+  static const uint16_t sGaps[] = {
+      1, 4, 9, 20, 46, 103, 233, 525, 1182, 2660, 5985, 13467, 30301,
+  };
+  const uint16_t nGaps = sizeof(sGaps) / sizeof(uint16_t);
+
+  // Find the starting gap.
+  uint16_t iGap;
+  for (iGap = 0; sGaps[iGap] < n && iGap < nGaps; iGap++) {}
+  if (iGap != 0) iGap--;
+
+  while (true) {
+    uint16_t gap = sGaps[iGap];
+
+    // Do insertion sort of each sub-array separated by gap.
+    for (uint16_t i = gap; i < n; i++) {
+      T temp = data[i];
+
+      // Shift one slot to the right.
+      uint16_t j;
+      for (j = i; j >= gap; j -= gap) {
+        // The following is equivalent to: (data[j - gap] <= temp)
+        if (! lessThan(temp, data[j - gap])) break;
+        data[j] = data[j - gap];
+      }
+
+      // Just like insertionSort(), this can assign 'temp' back into the
+      // original slot if no shifting was done. That's ok because T is assumed
+      // to be relatively cheap to copy, and checking for (i != j) is more
+      // expensive than just doing the extra assignment.
+      data[j] = temp;
+    }
+
+    if (iGap == 0) break;
+    iGap--;
+  }
 }
 
 }
