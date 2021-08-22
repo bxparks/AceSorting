@@ -1,11 +1,26 @@
 /*
  * Quick demo of one of the sorting functions, in this example,
  * shellSortKnuth(). All the other sorting algorithms have the exact same
- * function signature. First, create an array of integers with random numbers.
- * Then sort the array in different ways, including reverse sorting. Print out
- * the unsorted and sorted arrays. The compiler is able to infer the type of the
- * data, so you don't normally need to specify the template type to the
- * shellSortKnuth() function.
+ * function signature. The compiler is able to infer the type of the data, so
+ * you don't normally need to specify the template type to the shellSortKnuth()
+ * function.
+ *
+ * Expected output:
+ *
+ * Unsorted: 234 19 95 219 255 132 27 194 83 96 245 161 228 205 193 215 101 216
+ * 120 95
+ *
+ * Sorted using implicit ascending: 19 27 83 95 95 96 101 120 132 161 193 194
+ * 205 215 216 219 228 234 245 255
+ *
+ * Sorted using function pointer: 19 27 83 95 95 96 101 120 132 161 193 194 205
+ * 215 216 219 228 234 245 255
+ *
+ * Sorted using lambda expression: 19 27 83 95 95 96 101 120 132 161 193 194 205
+ * 215 216 219 228 234 245 255
+ *
+ * Reverse sorted using lambda expression: 255 245 234 228 219 216 215 205 194
+ * 193 161 132 120 101 96 95 95 83 27 19
  */
 
 #include <Arduino.h>
@@ -13,11 +28,12 @@
 
 using ace_sorting::shellSortKnuth;
 
+// ESP32 does not define SERIAL_PORT_MONITOR
 #if !defined(SERIAL_PORT_MONITOR)
   #define SERIAL_PORT_MONITOR Serial
 #endif
 
-const uint16_t ARRAY_SIZE = 50;
+const uint16_t ARRAY_SIZE = 20;
 int array[ARRAY_SIZE];
 
 // Print given array.

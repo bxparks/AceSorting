@@ -3,5 +3,4 @@
 
 APP_NAME := HelloSort
 ARDUINO_LIBS := AceSorting
-MORE_CLEAN := more_clean
 include ../../../EpoxyDuino/EpoxyDuino.mk
