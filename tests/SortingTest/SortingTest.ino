@@ -8,6 +8,7 @@
 using aunit::TestRunner;
 using aunit::TestOnce;
 using ace_common::isSorted;
+using ace_common::isReverseSorted;
 using ace_sorting::bubbleSort;
 using ace_sorting::insertionSort;
 using ace_sorting::selectionSort;
@@ -97,6 +98,8 @@ class SortingTest : public TestOnce {
     }
 };
 
+//----------------------------------------------------------------------------
+
 testF(SortingTest, bubbleSort) {
   assertSort(bubbleSort<uint16_t>);
 }
@@ -147,6 +150,123 @@ testF(SortingTest, quickSortMedian) {
 
 testF(SortingTest, quickSortMedianSwapped) {
   assertSort(quickSortMedianSwapped<uint16_t>);
+}
+
+//----------------------------------------------------------------------------
+
+/*
+// It does not seem possible to create a pointer to the 3-argument version
+// of the generic xxxSort() function because of the template F&& argument
+// which has no human-readable name because the lambda expression is generated
+// by the compiler. So the following attempt does not work.
+//
+typedef bool (*Compare)(const uint16_t& a, const uint16_t& b);
+typedef void (*GenericSortFunction)(
+    uint16_t data[], uint16_t n, Compare lessThan);
+*/
+
+// Define lambda expression that reverses the sort order. A normal function will
+// also work. The nice thing about using a lambda expression is that it can be
+// embedded directly in the calling function and be able to capture variables in
+// the local scope, though that feature is not used here.
+auto&& greaterThan = [](const uint16_t& a, const uint16_t& b) {
+  return a > b;
+};
+
+class ReverseSortingTest : public TestOnce {
+  protected:
+    const uint16_t kDataSize = 300;
+
+    void setup() override {
+      TestOnce::setup();
+      mData = new uint16_t[kDataSize];
+      fillArray(mData, kDataSize);
+    }
+
+    void teardown() override {
+      delete[] mData;
+      TestOnce::teardown();
+    }
+
+    uint16_t* mData;
+};
+
+testF(ReverseSortingTest, bubbleSort) {
+  assertFalse(isSorted(mData, kDataSize));
+  bubbleSort(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, insertionSort) {
+  assertFalse(isSorted(mData, kDataSize));
+  insertionSort(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, selectionSort) {
+  assertFalse(isSorted(mData, kDataSize));
+  selectionSort(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, shellSortClassic) {
+  assertFalse(isSorted(mData, kDataSize));
+  shellSortClassic(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, shellSortKnuth) {
+  assertFalse(isSorted(mData, kDataSize));
+  shellSortKnuth(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, shellSortTokuda) {
+  assertFalse(isSorted(mData, kDataSize));
+  shellSortTokuda(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, combSort13) {
+  assertFalse(isSorted(mData, kDataSize));
+  combSort13(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, combSort13m) {
+  assertFalse(isSorted(mData, kDataSize));
+  combSort13m(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, combSort133) {
+  assertFalse(isSorted(mData, kDataSize));
+  combSort133(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, combSort133m) {
+  assertFalse(isSorted(mData, kDataSize));
+  combSort133m(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, quickSortMiddle) {
+  assertFalse(isSorted(mData, kDataSize));
+  quickSortMiddle(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, quickSortMedian) {
+  assertFalse(isSorted(mData, kDataSize));
+  quickSortMedian(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
+}
+
+testF(ReverseSortingTest, quickSortMedianSwapped) {
+  assertFalse(isSorted(mData, kDataSize));
+  quickSortMedianSwapped(mData, kDataSize, greaterThan);
+  assertTrue(isReverseSorted(mData, kDataSize));
 }
 
 //----------------------------------------------------------------------------

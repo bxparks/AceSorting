@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceSorting v0.2
+**Version**: AceSorting v0.3
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -55,13 +55,20 @@ ASCII table.
 
 ## Library Size Changes
 
-**v0.1.0**
+**v0.1**
 
 * Initial version.
 * The memory usage for C-library `qsort()` is suspiciously low on the ESP32,
   only 88 bytes, compared to 800-1400 bytes for other platforms. I think this
   indicates that the `qsort()` function is already compiled into the ESP32
   runtime library.
+
+**v0.3**
+
+* Add 3-argument version of sorting functions to pass in a comparison predicate,
+  and route the 2-argument version into the 3-argument version.
+* Usually no difference in flash size, as the compiler seems to be able to
+  inline the lambda expression. In fact, some actually got a few bytes smaller.
 
 ## Arduino Nano
 

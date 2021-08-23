@@ -27,7 +27,7 @@ print(f"""\
 
 Determine the speed of various AceSorting functions, for various array sizes.
 
-**Version**: AceSorting v0.2
+**Version**: AceSorting v0.3
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -78,6 +78,11 @@ $ make README.md
 * Initial results.
 * The C-library `qsort()` is far slower than the C++ version because it uses
   a callback to a comparison function through a function pointer.
+
+**v0.3**
+
+* No performance change after rerouting 2-argument sorting functions into
+  the 3-argument versions using a default lambda expression.
 
 ## Results
 

@@ -7,7 +7,7 @@ could trigger worst case runtime. Three types of arrays are tested:
 * already sorted array
 * reverse sorted array
 
-**Version**: AceSorting v0.2
+**Version**: AceSorting v0.3
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 

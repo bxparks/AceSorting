@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceSorting v0.2
+**Version**: AceSorting v0.3
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -31,13 +31,20 @@ ASCII table.
 
 ## Library Size Changes
 
-**v0.1.0**
+**v0.1**
 
 * Initial version.
 * The memory usage for C-library `qsort()` is suspiciously low on the ESP32,
   only 88 bytes, compared to 800-1400 bytes for other platforms. I think this
   indicates that the `qsort()` function is already compiled into the ESP32
   runtime library.
+
+**v0.3**
+
+* Add 3-argument version of sorting functions to pass in a comparison predicate,
+  and route the 2-argument version into the 3-argument version.
+* Usually no difference in flash size, as the compiler seems to be able to
+  inline the lambda expression. In fact, some actually got a few bytes smaller.
 
 ## Arduino Nano
 
@@ -66,7 +73,7 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | quickSortMiddle()                      |   1244/  214 |   178/    0 |
 | quickSortMedian()                      |   1296/  214 |   230/    0 |
-| quickSortMedianSwapped()               |   1344/  214 |   278/    0 |
+| quickSortMedianSwapped()               |   1342/  214 |   276/    0 |
 |----------------------------------------+--------------+-------------|
 | qsort()                                |   2150/  214 |  1084/    0 |
 +---------------------------------------------------------------------+
@@ -100,7 +107,7 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | quickSortMiddle()                      |   4238/  354 |   178/    0 |
 | quickSortMedian()                      |   4290/  354 |   230/    0 |
-| quickSortMedianSwapped()               |   4338/  354 |   278/    0 |
+| quickSortMedianSwapped()               |   4336/  354 |   276/    0 |
 |----------------------------------------+--------------+-------------|
 | qsort()                                |   5144/  354 |  1084/    0 |
 +---------------------------------------------------------------------+
@@ -117,26 +124,26 @@ ASCII table.
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |  10664/    0 |     0/    0 |
+| Baseline                               |  10520/    0 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           |  10696/    0 |    32/    0 |
-| insertionSort()                        |  10712/    0 |    48/    0 |
-| selectionSort()                        |  10740/    0 |    76/    0 |
+| bubbleSort()                           |  10560/    0 |    40/    0 |
+| insertionSort()                        |  10568/    0 |    48/    0 |
+| selectionSort()                        |  10584/    0 |    64/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |  10720/    0 |    56/    0 |
-| shellSortKnuth()                       |  10736/    0 |    72/    0 |
-| shellSortTokuda()                      |  10836/    0 |   172/    0 |
+| shellSortClassic()                     |  10584/    0 |    64/    0 |
+| shellSortKnuth()                       |  10576/    0 |    56/    0 |
+| shellSortTokuda()                      |  10640/    0 |   120/    0 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           |  10724/    0 |    60/    0 |
-| combSort13m()                          |  10740/    0 |    76/    0 |
-| combSort133()                          |  10716/    0 |    52/    0 |
-| combSort133m()                         |  10740/    0 |    76/    0 |
+| combSort13()                           |  10584/    0 |    64/    0 |
+| combSort13m()                          |  10600/    0 |    80/    0 |
+| combSort133()                          |  10576/    0 |    56/    0 |
+| combSort133m()                         |  10592/    0 |    72/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      |  10764/    0 |   100/    0 |
-| quickSortMedian()                      |  10796/    0 |   132/    0 |
-| quickSortMedianSwapped()               |  10808/    0 |   144/    0 |
+| quickSortMiddle()                      |  10616/    0 |    96/    0 |
+| quickSortMedian()                      |  10648/    0 |   128/    0 |
+| quickSortMedianSwapped()               |  10664/    0 |   144/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                |  11448/    0 |   784/    0 |
+| qsort()                                |  11320/    0 |   800/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -161,7 +168,7 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | shellSortClassic()                     |  26884/ 3844 |    64/    0 |
 | shellSortKnuth()                       |  26900/ 3844 |    80/    0 |
-| shellSortTokuda()                      |  26956/ 3844 |   136/    0 |
+| shellSortTokuda()                      |  26944/ 3844 |   124/    0 |
 |----------------------------------------+--------------+-------------|
 | combSort13()                           |  26896/ 3844 |    76/    0 |
 | combSort13m()                          |  26904/ 3844 |    84/    0 |
@@ -195,7 +202,7 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | shellSortClassic()                     | 257180/26976 |    80/    0 |
 | shellSortKnuth()                       | 257212/26976 |   112/    0 |
-| shellSortTokuda()                      | 257256/27004 |   156/   28 |
+| shellSortTokuda()                      | 257240/27004 |   140/   28 |
 |----------------------------------------+--------------+-------------|
 | combSort13()                           | 257196/26976 |    96/    0 |
 | combSort13m()                          | 257212/26976 |   112/    0 |
@@ -259,26 +266,26 @@ usage by objects.
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |   7788/ 3256 |     0/    0 |
+| Baseline                               |   7116/ 3256 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           |   7816/ 3256 |    28/    0 |
-| insertionSort()                        |   7844/ 3256 |    56/    0 |
-| selectionSort()                        |   7852/ 3256 |    64/    0 |
+| bubbleSort()                           |   7148/ 3256 |    32/    0 |
+| insertionSort()                        |   7172/ 3256 |    56/    0 |
+| selectionSort()                        |   7180/ 3256 |    64/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   7868/ 3256 |    80/    0 |
-| shellSortKnuth()                       |   7880/ 3256 |    92/    0 |
-| shellSortTokuda()                      |   7976/ 3256 |   188/    0 |
+| shellSortClassic()                     |   7196/ 3256 |    80/    0 |
+| shellSortKnuth()                       |   7208/ 3256 |    92/    0 |
+| shellSortTokuda()                      |   7284/ 3256 |   168/    0 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           |   7864/ 3256 |    76/    0 |
-| combSort13m()                          |   7876/ 3256 |    88/    0 |
-| combSort133()                          |   7844/ 3256 |    56/    0 |
-| combSort133m()                         |   7860/ 3256 |    72/    0 |
+| combSort13()                           |   7192/ 3256 |    76/    0 |
+| combSort13m()                          |   7204/ 3256 |    88/    0 |
+| combSort133()                          |   7172/ 3256 |    56/    0 |
+| combSort133m()                         |   7188/ 3256 |    72/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      |   7896/ 3256 |   108/    0 |
-| quickSortMedian()                      |   7932/ 3256 |   144/    0 |
-| quickSortMedianSwapped()               |   7960/ 3256 |   172/    0 |
+| quickSortMiddle()                      |   7224/ 3256 |   108/    0 |
+| quickSortMedian()                      |   7260/ 3256 |   144/    0 |
+| quickSortMedianSwapped()               |   7288/ 3256 |   172/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                |   9248/ 3256 |  1460/    0 |
+| qsort()                                |   8576/ 3256 |  1460/    0 |
 +---------------------------------------------------------------------+
 
 ```

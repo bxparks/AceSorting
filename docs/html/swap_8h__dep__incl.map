@@ -1,10 +1,8 @@
 <map id="/home/brian/src/AceSorting/src/ace_sorting/swap.h" name="/home/brian/src/AceSorting/src/ace_sorting/swap.h">
-<area shape="rect" id="node1" title=" " alt="" coords="531,5,728,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="293,5,491,47"/>
 <area shape="rect" id="node2" href="$bubbleSort_8h.html" title=" " alt="" coords="5,95,216,136"/>
-<area shape="rect" id="node3" href="$AceSorting_8h_source.html" title=" " alt="" coords="531,184,728,225"/>
+<area shape="rect" id="node3" href="$AceSorting_8h_source.html" title=" " alt="" coords="293,184,491,225"/>
 <area shape="rect" id="node4" href="$combSort_8h.html" title=" " alt="" coords="291,95,493,136"/>
-<area shape="rect" id="node5" href="$insertionSort_8h.html" title=" " alt="" coords="518,95,741,136"/>
-<area shape="rect" id="node6" href="$quickSort_8h.html" title=" " alt="" coords="765,95,966,136"/>
-<area shape="rect" id="node7" href="$selectionSort_8h.html" title=" " alt="" coords="990,95,1215,136"/>
-<area shape="rect" id="node8" href="$shellSort_8h.html" title=" " alt="" coords="1240,95,1437,136"/>
+<area shape="rect" id="node5" href="$quickSort_8h.html" title=" " alt="" coords="518,95,719,136"/>
+<area shape="rect" id="node6" href="$selectionSort_8h.html" title=" " alt="" coords="743,95,969,136"/>
 </map>
