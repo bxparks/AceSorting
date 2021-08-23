@@ -34,13 +34,17 @@ SOFTWARE.
 
 #include "swap.h"
 
-// If set to 1, use the direct inlined implementation of the 2-argument
-// quickSortXxx(). Otherwise, use the 3-argument quickSortXxx() to implement
-// 2-argument quickSortXxx(). Unlike other sorting algorithms, the compiler
-// cannot seem to optimize away the extra level of indirection, probably due to
-// the recursive calls. We save 40 bytes of flash (out of 200-300 bytes) if we
-// use the direct inlined version for the 2-argument variant. Set this to 1.
 #if ! defined(ACE_SORTING_DIRECT_QUICK_SORT)
+  /**
+   * If set to 1, use the direct inlined implementation of the 2-argument
+   * quickSortXxx(). Otherwise, use the 3-argument quickSortXxx() to implement
+   * 2-argument quickSortXxx().
+   *
+   * Unlike other sorting algorithms, the compiler cannot seem to optimize away
+   * the extra level of indirection, probably due to the recursive calls. We
+   * save 40 bytes of flash (out of 200-300 bytes) by setting this to 1 so that
+   * the 2-argument variant is manually inlined.
+   */
   #define ACE_SORTING_DIRECT_QUICK_SORT 1
 #endif
 

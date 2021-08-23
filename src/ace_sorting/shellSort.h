@@ -32,11 +32,13 @@ SOFTWARE.
 #ifndef ACE_SORTING_SHELL_SORT_H
 #define ACE_SORTING_SHELL_SORT_H
 
-// If set to 1, use the direct inlined implementation of the 2-argument
-// shellSortXxx(). Otherwise, use the 3-argument shellSortXxx() to implement
-// 2-argument shellSortXxx(). For shellSortXxx(), the compiler will optimize
-// both versions to be identical.
 #if ! defined(ACE_SORTING_DIRECT_SHELL_SORT)
+  /**
+   * If set to 1, use the direct inlined implementation of the 2-argument
+   * shellSortXxx(). Otherwise, use the 3-argument shellSortXxx() to implement
+   * 2-argument shellSortXxx(). For shellSortXxx(), the compiler will optimize
+   * both versions to be identical.
+   */
   #define ACE_SORTING_DIRECT_SHELL_SORT 0
 #endif
 

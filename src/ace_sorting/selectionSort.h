@@ -36,11 +36,13 @@ SOFTWARE.
 
 namespace ace_sorting {
 
-// If set to 1, use the direct inlined implementation of the 2-argument
-// selectionSort(). Otherwise, use the 3-argument selectionSort() to implement
-// 2-argument selectionSort(). For selectionSort(), the compiler will optimize
-// both versions to be identical.
 #if ! defined(ACE_SORTING_DIRECT_SELECTION_SORT)
+  /**
+   * If set to 1, use the direct inlined implementation of the 2-argument
+   * selectionSort(). Otherwise, use the 3-argument selectionSort() to implement
+   * 2-argument selectionSort(). For selectionSort(), the compiler will optimize
+   * both versions to be identical.
+   */
   #define ACE_SORTING_DIRECT_SELECTION_SORT 0
 #endif
 
