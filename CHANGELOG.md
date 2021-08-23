@@ -19,7 +19,7 @@
 * v0.2 (2021-08-06)
     * Add Selection Sort, mostly for completeness. It's another `O(N^2)` sort
       but is slower than Insertion Sort, and is not a stable sort.
-    * Add [examples/HelloSort](examples/HelloSort).
+    * Add [examples/HelloSorting](examples/HelloSorting).
     * Add **tl;dr** section in README.md to summarize my recommendations.
 * v0.1 (2021-08-04)
     * Add `combSort133()` which uses a gap factor of 4/3, which eliminates

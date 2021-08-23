@@ -31,17 +31,20 @@ Supports the following algorithms:
 
 **tl;dr**
 
-* In most cases, use `shellSortKnuth()`, costing only 142 bytes on an AVR and
-  80-112 bytes on 32-bit processors. It is faster than any `O(N^2)` algorithm
-  while consuming only 34-82 extra bytes of flash over `insertionSort()`.
-* If `N > ~100`, and you need faster sorting, and you have sufficient memory for
-  recursive functions, use `quickSortMiddle()` on 8-bit AVR processors, and
-  `quickSortMedianSwapped()` on 32-bit processors.
-* Use `insertionSort()` if you need a stable sort.
+* In most cases, use `shellSortKnuth()`.
+    * It costs only 142 bytes on an AVR and 80-112 bytes on 32-bit processors.
+    * It is faster than any `O(N^2)` algorithm while consuming only 34-82 extra
+      bytes of flash over `insertionSort()`.
+* If `N > ~100`, *and* you have sufficient static memory for recursive
+  functions, *and* `shellSortKnuth()` is not fast enough, use
+  `quickSortMiddle()` on 8-bit AVR processors, and `quickSortMedianSwapped()` on
+  32-bit processors.
 * Use `combSort133()` or `shellSortClassic()` to get the smallest sorting
   function faster than `O(N^2)`.
-* Don't use the C library `qsort()`. It is 2-3X slower than the `quickSortXxx()`
-  functions in this library, and consumes 4-5X more in flash bytes.
+* Use `insertionSort()` if you need a stable sort.
+* Don't use the C library `qsort()`.
+    * It is 2-3X slower than the `quickSortXxx()` functions in this library, and
+      consumes 4-5X more in flash bytes.
 
 **Version**: 0.2 (2021-08-06)
 
@@ -49,7 +52,7 @@ Supports the following algorithms:
 
 ## Table of Contents
 
-* [Hello Sort](#HelloSort)
+* [Hello Sorting](#HelloSorting)
 * [Installation](#Installation)
     * [Source Code](#SourceCode)
     * [Dependencies](#Dependencies)
@@ -81,11 +84,11 @@ Supports the following algorithms:
 * [Feedback and Support](#FeedbackAndSupport)
 * [Authors](#Authors)
 
-<a name="HelloSort"></a>
-## Hello Sort
+<a name="HelloSorting"></a>
+## Hello Sorting
 
-This is a simplified version of the [examples/HelloSort](examples/HelloSort)
-demo:
+This is a simplified version of the
+[examples/HelloSorting](examples/HelloSorting) demo:
 
 ```C++
 #include <Arduino.h>
@@ -93,7 +96,7 @@ demo:
 
 using ace_sorting::shellSortKnuth;
 
-const uint16_t ARRAY_SIZE = 50;
+const uint16_t ARRAY_SIZE = 20;
 int array[ARRAY_SIZE];
 
 void printArray(int* array, uint16_t arraySize) {
@@ -179,7 +182,7 @@ Some of the examples may depend on:
 <a name="Examples"></a>
 ### Examples
 
-* [examples/HelloSort](examples/HelloSort)
+* [examples/HelloSorting](examples/HelloSorting)
     * A demo of one of the sorting functions.
 * [examples/CompoundSortingDemo](examples/CompoundSortingDemo)
     * Sorting by `name`, then break any ties by sorting by `score`.
@@ -543,9 +546,9 @@ lambda expression. When the comparison operator is simple and short, this
 feature can save us the hassle of creating a separate function that is used only
 once.
 
-The [examples/HelloSort](examples/HelloSort) example shows how to sort an array
-of integers in reverse order using an inlined lambda expression that reverses
-the comparison operator:
+The [examples/HelloSorting](examples/HelloSorting) example shows how to sort an
+array of integers in reverse order using an inlined lambda expression that
+reverses the comparison operator:
 
 ```C++
 const uint16_t ARRAY_SIZE = 20;
