@@ -865,7 +865,7 @@ handful, but I found them unsuitable for me.
 * https://github.com/arduino-libraries/Arduino_AVRSTL
     * Provides a template `sort()` function, which delegates to `stable_sort()`.
     * But this implementation is a bubble sort which is `O(N^2)` and in practice
-      much slower than `insertionSort().
+      much slower than `insertionSort()`.
         * In fairness, there is a "FIXME" note in the code which
           implies that a better algorithm ought to be provided.
     * The library is configured to target only the `avr` and `megaavr`
