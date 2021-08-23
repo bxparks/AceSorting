@@ -369,11 +369,14 @@ The `combSort13()` and `combSort13m()` functions use a gap factor of `10/13 =
 or 10. That apparently make the algorithm faster for reasons that I have not
 been able to find on the internet.
 
-The `combSort133()` and `combSort133m()` functions use a gap factor of `4/3 =
-1.33`. The `4/3` ratio allows the compiler to replace an integer division with a
-left bit shift, so that code is smaller and faster on 8-bit processors without
-hardware integer division. The `combSort133m()` function modifies the gap
-sequence when the gap is 9 or 10.
+The `combSort133()` function uses a gap factor of `4/3 = 1.33` instead of
+`10/13`. The `4/3` ratio means that the gap size is multiplied by `3/4` on each
+iteration, which allows the compiler to replace the integer division by `4` with
+a right bit shift operation, so that code is smaller and faster on 8-bit
+processors without hardware integer division.
+
+The `combSort133m()` function essentially the same as `combSort133()` but
+modifies the gap sequence when the gap is 9 or 10.
 
 In terms of performance, [examples/AutoBenchmark](examples/AutoBenchmark) shows
 that Comb Sort is consistently slower than Shell Sort so it is difficult to
