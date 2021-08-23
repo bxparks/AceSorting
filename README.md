@@ -783,19 +783,21 @@ them.
     * If you need bigger, copy the sorting algorithm that you want and change
       the `uint16_t n` to a `uint32_t n`.
     * Using a fixed `uint16_t` means that the edge case behavior of these
-      algorithms are consistency across all platforms.
+      algorithms are consistent across all platforms.
     * Certain implementation choices and optimizations can be made if we know
-      that `n` cannot exceed a bounded value. For example, the
-      `shellSortTokuda()` function can use a pre-generated sequence of gaps
-      which is a reasonable size because it only needs to go up to 65535.
+      that `n` cannot exceed a bounded value.
+        * For example, the `shellSortTokuda()` function can use a pre-generated
+          sequence of gaps which is a reasonable size because it only needs to
+          go up to 65535.
     * The alternative was to use the `size_t` type whose size is different on
       different platforms: 2 bytes on 8-bit processors, 4 bytes on 32-bit
-      processors, and 8 bytes on 64-bit processors. However, I did not want to
-      worry about edge case behavior of some of these algorithms for extremely
-      large values of `n`.
+      processors, and 8 bytes on 64-bit processors.
+        * However, I did not want to worry about edge case behavior of some of
+          these algorithms for extremely large values of `n`.
 * The behavior of the sorting algorithms with a `data` size of exactly `n =
   65535` has not been validated.
-    * Some algorithms may be buggy in this edge case due to integer overflows.
+    * Some algorithms may be buggy because this edge case may trigger
+      an integer overflow.
     * The actual maximum value of `n` may actually be `65534` for
       some algorithms.
 * Some of the Comb Sort algorithms have even lower limits of `n` due to integer
@@ -835,14 +837,13 @@ handful, but I found them unsuitable for me.
       `quickSortMiddle()` provided by this library.
     * No unit tests provided.
 * https://github.com/arduino-libraries/Arduino_AVRSTL
-    * Provides a template `sort()` function.
-    * Often STL library functions are too general, therefore, too bloated for
-      many resource constrained environments. I suspect that the STL `sort()`
-      function falls into this category.
+    * Provides a template `sort()` function, which delegates to `stable_sort()`.
+    * But this implementation is a bubble sort which is `O(N^2)` and
+      is not even stable.
+        * In fairness, there is a "FIXME" note in the code which
+          implies that a better algorithm ought to be provided.
     * The library is configured to target only the `avr` and `megaavr`
-      platforms. Does it work on other processors? I don't know, and I don't
-      want to spend the time to figure that out, because working with the STL
-      code is too painful.
+      platforms.
     * No unit tests provided.
 
 Here are some of the reasons that I created my own library:
@@ -856,10 +857,10 @@ Here are some of the reasons that I created my own library:
   algorithms. I wanted to know these numbers precisely so that I could make
   informed trade off decisions.
 * I did not want to deal with the complexity of the C++ STL library. It is just
-  too painful in an embedded environment.
+  too painful in small embedded programming projects.
 * Lastly, I wanted to implement my own sorting routines to make sure that I had
-  a complete understanding of each algorithm. I had forgotten so much since my
-  undergraduate years.
+  a complete understanding of each algorithm. I had forgotten so much since
+  learning many of these in my undergraduate years.
 
 <a name="License"></a>
 ## License
