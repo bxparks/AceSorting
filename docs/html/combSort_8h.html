@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceSorting
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
-   <div id="projectbrief">Sorting algorithms for Arduino (Bubble Sort, Insertion Sort, Shell Sort, Comb Sort, Quick Sort)</div>
+   <div id="projectbrief">Sorting algorithms for Arduino including Bubble Sort, Insertion Sort, Selection Sort, Shell Sort (3 versions), Comb Sort (4 versions), Quick Sort (3 versions)</div>
   </td>
  </tr>
  </tbody>
@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">combSort.h File Reference</div>  </div>
@@ -95,32 +96,74 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="combSort_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a1422101fefaf413a2c4e90e3eb8ff383"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="combSort_8h.html#a1422101fefaf413a2c4e90e3eb8ff383">ACE_SORTING_DIRECT_COMB_SORT</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a1422101fefaf413a2c4e90e3eb8ff383"><td class="mdescLeft">&#160;</td><td class="mdescRight">If set to 1, use the direct inlined implementation of the 2-argument combSortXxx().  <a href="combSort_8h.html#a1422101fefaf413a2c4e90e3eb8ff383">More...</a><br /></td></tr>
+<tr class="separator:a1422101fefaf413a2c4e90e3eb8ff383"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aa80bb895dd5f95eb13e09b404e4661c9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa80bb895dd5f95eb13e09b404e4661c9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#aa80bb895dd5f95eb13e09b404e4661c9">ace_sorting::combSort13</a> (T data[], uint16_t n)</td></tr>
 <tr class="memdesc:aa80bb895dd5f95eb13e09b404e4661c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comb sort using a gap factor of 1.3 (successive gap is multiplied by 10 / 13).  <a href="combSort_8h.html#aa80bb895dd5f95eb13e09b404e4661c9">More...</a><br /></td></tr>
 <tr class="separator:aa80bb895dd5f95eb13e09b404e4661c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05d86362a42cf0fc782c08135ee0d0f6"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:a05d86362a42cf0fc782c08135ee0d0f6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6">ace_sorting::combSort13</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:a05d86362a42cf0fc782c08135ee0d0f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6" title="Same as the 2-argument combSort13() with the addition of a lessThan lambda expression or function.">combSort13()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6">More...</a><br /></td></tr>
+<tr class="separator:a05d86362a42cf0fc782c08135ee0d0f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0e984a1bfc3f295ab4d9220da0fdc7f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ac0e984a1bfc3f295ab4d9220da0fdc7f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#ac0e984a1bfc3f295ab4d9220da0fdc7f">ace_sorting::combSort13m</a> (T data[], uint16_t n)</td></tr>
-<tr class="memdesc:ac0e984a1bfc3f295ab4d9220da0fdc7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="combSort_8h.html#aa80bb895dd5f95eb13e09b404e4661c9" title="Comb sort using a gap factor of 1.3 (successive gap is multiplied by 10 / 13).">combSort13()</a> with the modification that if the gap is 9 or 10, it is set to 11, so that the gap sequence becomes (11, 8, 6, 4, 3, 2, 1).  <a href="combSort_8h.html#ac0e984a1bfc3f295ab4d9220da0fdc7f">More...</a><br /></td></tr>
+<tr class="memdesc:ac0e984a1bfc3f295ab4d9220da0fdc7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6" title="Same as the 2-argument combSort13() with the addition of a lessThan lambda expression or function.">combSort13()</a> with the modification that if the gap is 9 or 10, it is set to 11, so that the gap sequence becomes (11, 8, 6, 4, 3, 2, 1).  <a href="combSort_8h.html#ac0e984a1bfc3f295ab4d9220da0fdc7f">More...</a><br /></td></tr>
 <tr class="separator:ac0e984a1bfc3f295ab4d9220da0fdc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43d0f574d6ada7592850acd2a86d2672"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:a43d0f574d6ada7592850acd2a86d2672"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#a43d0f574d6ada7592850acd2a86d2672">ace_sorting::combSort13m</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:a43d0f574d6ada7592850acd2a86d2672"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="combSort_8h.html#a43d0f574d6ada7592850acd2a86d2672" title="Same as the 2-argument combSort13m() with the addition of a lessThan lambda expression or function.">combSort13m()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="combSort_8h.html#a43d0f574d6ada7592850acd2a86d2672">More...</a><br /></td></tr>
+<tr class="separator:a43d0f574d6ada7592850acd2a86d2672"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b128ab4c802690dc782da161357aab0"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a7b128ab4c802690dc782da161357aab0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#a7b128ab4c802690dc782da161357aab0">ace_sorting::combSort133</a> (T data[], uint16_t n)</td></tr>
 <tr class="memdesc:a7b128ab4c802690dc782da161357aab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comb sort using a gap factor of 4/3=1.33 (successive gap is multiplied by 3 / 4).  <a href="combSort_8h.html#a7b128ab4c802690dc782da161357aab0">More...</a><br /></td></tr>
 <tr class="separator:a7b128ab4c802690dc782da161357aab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3056e3e2ebf49fcb580822d8a02f0ecf"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:a3056e3e2ebf49fcb580822d8a02f0ecf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#a3056e3e2ebf49fcb580822d8a02f0ecf">ace_sorting::combSort133</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:a3056e3e2ebf49fcb580822d8a02f0ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="combSort_8h.html#a3056e3e2ebf49fcb580822d8a02f0ecf" title="Same as the 2-argument combSort133() with the addition of a lessThan lambda expression or function.">combSort133()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="combSort_8h.html#a3056e3e2ebf49fcb580822d8a02f0ecf">More...</a><br /></td></tr>
+<tr class="separator:a3056e3e2ebf49fcb580822d8a02f0ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0148155acfcb2e3152df431035ab3da8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0148155acfcb2e3152df431035ab3da8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#a0148155acfcb2e3152df431035ab3da8">ace_sorting::combSort133m</a> (T data[], uint16_t n)</td></tr>
-<tr class="memdesc:a0148155acfcb2e3152df431035ab3da8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="combSort_8h.html#a7b128ab4c802690dc782da161357aab0" title="Comb sort using a gap factor of 4/3=1.33 (successive gap is multiplied by 3 / 4).">combSort133()</a> but modified so that a gap of 9 or 10 becomes gap=11 so that the final sequence becomes (11, 8, 6, 4, 3, 2, 1).  <a href="combSort_8h.html#a0148155acfcb2e3152df431035ab3da8">More...</a><br /></td></tr>
+<tr class="memdesc:a0148155acfcb2e3152df431035ab3da8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="combSort_8h.html#a3056e3e2ebf49fcb580822d8a02f0ecf" title="Same as the 2-argument combSort133() with the addition of a lessThan lambda expression or function.">combSort133()</a> but modified so that a gap of 9 or 10 becomes gap=11 so that the final sequence becomes (11, 8, 6, 4, 3, 2, 1).  <a href="combSort_8h.html#a0148155acfcb2e3152df431035ab3da8">More...</a><br /></td></tr>
 <tr class="separator:a0148155acfcb2e3152df431035ab3da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cc90f96182e8fa488aadcb198ed79c9"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:a6cc90f96182e8fa488aadcb198ed79c9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="combSort_8h.html#a6cc90f96182e8fa488aadcb198ed79c9">ace_sorting::combSort133m</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:a6cc90f96182e8fa488aadcb198ed79c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="combSort_8h.html#a6cc90f96182e8fa488aadcb198ed79c9" title="Same as the 2-argument combSort133m() with the addition of a lessThan lambda expression or function.">combSort133m()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="combSort_8h.html#a6cc90f96182e8fa488aadcb198ed79c9">More...</a><br /></td></tr>
+<tr class="separator:a6cc90f96182e8fa488aadcb198ed79c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Comb sort. </p>
 
 <p class="definition">Definition in file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a1422101fefaf413a2c4e90e3eb8ff383"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1422101fefaf413a2c4e90e3eb8ff383">&#9670;&nbsp;</a></span>ACE_SORTING_DIRECT_COMB_SORT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ACE_SORTING_DIRECT_COMB_SORT&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If set to 1, use the direct inlined implementation of the 2-argument combSortXxx(). </p>
+<p>Otherwise, use the 3-argument combSortXxx() to implement 2-argument combSortXxx(). For combSortXxx(), the compiler will optimize both versions to be identical. </p>
+
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00043">43</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="aa80bb895dd5f95eb13e09b404e4661c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa80bb895dd5f95eb13e09b404e4661c9">&#9670;&nbsp;</a></span>combSort13()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa80bb895dd5f95eb13e09b404e4661c9">&#9670;&nbsp;</a></span>combSort13() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -157,12 +200,59 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00050">50</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00082">82</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+
+</div>
+</div>
+<a id="a05d86362a42cf0fc782c08135ee0d0f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05d86362a42cf0fc782c08135ee0d0f6">&#9670;&nbsp;</a></span>combSort13() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::combSort13 </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6" title="Same as the 2-argument combSort13() with the addition of a lessThan lambda expression or function.">combSort13()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00098">98</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
 
 </div>
 </div>
 <a id="a7b128ab4c802690dc782da161357aab0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b128ab4c802690dc782da161357aab0">&#9670;&nbsp;</a></span>combSort133()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b128ab4c802690dc782da161357aab0">&#9670;&nbsp;</a></span>combSort133() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,8 +281,8 @@ template&lt;typename T &gt; </div>
 
 <p>Comb sort using a gap factor of 4/3=1.33 (successive gap is multiplied by 3 / 4). </p>
 <p>The multiplication by 3 can overflow the 2-byte <code>int</code> type on 8-bit processors, so the largest <code>n</code> supported by this function is 65535 / 3 or 21845.</p>
-<p>This gap ratio seemed appealing because the division by 4 will be optimized by the compiler into a left shift by 2 bits, so this algorithm does not perform any integer division. Experimentation on 8-bit processors without hardware dvision this algorithm is slightly faster than <a class="el" href="combSort_8h.html#aa80bb895dd5f95eb13e09b404e4661c9" title="Comb sort using a gap factor of 1.3 (successive gap is multiplied by 10 / 13).">combSort13()</a> on average.</p>
-<p>On 32-bit or 64-bit processors with hardware division, experimentation shows that this algorithm is actually slightly slower on average than <a class="el" href="combSort_8h.html#aa80bb895dd5f95eb13e09b404e4661c9" title="Comb sort using a gap factor of 1.3 (successive gap is multiplied by 10 / 13).">combSort13()</a>. And it seems to have a slightly higher variance, with some input data causing large spikes in runtime compared to the average.</p>
+<p>This gap ratio seemed appealing because the division by 4 will be optimized by the compiler into a right shift of 2 bits, so this algorithm does not perform any integer division. Experimentation on 8-bit processors without hardware dvision shows that this algorithm is slightly faster than <a class="el" href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6" title="Same as the 2-argument combSort13() with the addition of a lessThan lambda expression or function.">combSort13()</a> on average.</p>
+<p>On 32-bit or 64-bit processors with hardware division, on larger input <code>data</code>, experimentation shows that this algorithm is actually slightly slower on average than <a class="el" href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6" title="Same as the 2-argument combSort13() with the addition of a lessThan lambda expression or function.">combSort13()</a>. And it seems to have a slightly higher variance, with some input data causing large spikes in runtime compared to the average.</p>
 <p>Average complexity: O(n^2 / 2^p). See <a href="https://en.wikipedia.org/wiki/Comb_sort">https://en.wikipedia.org/wiki/Comb_sort</a></p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -201,12 +291,59 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00130">130</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00247">247</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+
+</div>
+</div>
+<a id="a3056e3e2ebf49fcb580822d8a02f0ecf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3056e3e2ebf49fcb580822d8a02f0ecf">&#9670;&nbsp;</a></span>combSort133() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::combSort133 </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="combSort_8h.html#a3056e3e2ebf49fcb580822d8a02f0ecf" title="Same as the 2-argument combSort133() with the addition of a lessThan lambda expression or function.">combSort133()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00263">263</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
 
 </div>
 </div>
 <a id="a0148155acfcb2e3152df431035ab3da8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0148155acfcb2e3152df431035ab3da8">&#9670;&nbsp;</a></span>combSort133m()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0148155acfcb2e3152df431035ab3da8">&#9670;&nbsp;</a></span>combSort133m() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,8 +370,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Same as <a class="el" href="combSort_8h.html#a7b128ab4c802690dc782da161357aab0" title="Comb sort using a gap factor of 4/3=1.33 (successive gap is multiplied by 3 / 4).">combSort133()</a> but modified so that a gap of 9 or 10 becomes gap=11 so that the final sequence becomes (11, 8, 6, 4, 3, 2, 1). </p>
-<p>Experimentation shows that this is often slightly slower than than <a class="el" href="combSort_8h.html#a7b128ab4c802690dc782da161357aab0" title="Comb sort using a gap factor of 4/3=1.33 (successive gap is multiplied by 3 / 4).">combSort133()</a>, probably due to the extra if/then/else statements in the loop.</p>
+<p>Same as <a class="el" href="combSort_8h.html#a3056e3e2ebf49fcb580822d8a02f0ecf" title="Same as the 2-argument combSort133() with the addition of a lessThan lambda expression or function.">combSort133()</a> but modified so that a gap of 9 or 10 becomes gap=11 so that the final sequence becomes (11, 8, 6, 4, 3, 2, 1). </p>
+<p>Experimentation shows that this is often slightly slower than than <a class="el" href="combSort_8h.html#a3056e3e2ebf49fcb580822d8a02f0ecf" title="Same as the 2-argument combSort133() with the addition of a lessThan lambda expression or function.">combSort133()</a>, probably due to the extra if/then/else statements in the loop.</p>
 <p>Average complexity: O(n^2 / 2^p). See <a href="https://en.wikipedia.org/wiki/Comb_sort">https://en.wikipedia.org/wiki/Comb_sort</a></p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -243,12 +380,59 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00162">162</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00323">323</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+
+</div>
+</div>
+<a id="a6cc90f96182e8fa488aadcb198ed79c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cc90f96182e8fa488aadcb198ed79c9">&#9670;&nbsp;</a></span>combSort133m() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::combSort133m </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="combSort_8h.html#a6cc90f96182e8fa488aadcb198ed79c9" title="Same as the 2-argument combSort133m() with the addition of a lessThan lambda expression or function.">combSort133m()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00339">339</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
 
 </div>
 </div>
 <a id="ac0e984a1bfc3f295ab4d9220da0fdc7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0e984a1bfc3f295ab4d9220da0fdc7f">&#9670;&nbsp;</a></span>combSort13m()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0e984a1bfc3f295ab4d9220da0fdc7f">&#9670;&nbsp;</a></span>combSort13m() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,7 +459,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Same as <a class="el" href="combSort_8h.html#aa80bb895dd5f95eb13e09b404e4661c9" title="Comb sort using a gap factor of 1.3 (successive gap is multiplied by 10 / 13).">combSort13()</a> with the modification that if the gap is 9 or 10, it is set to 11, so that the gap sequence becomes (11, 8, 6, 4, 3, 2, 1). </p>
+<p>Same as <a class="el" href="combSort_8h.html#a05d86362a42cf0fc782c08135ee0d0f6" title="Same as the 2-argument combSort13() with the addition of a lessThan lambda expression or function.">combSort13()</a> with the modification that if the gap is 9 or 10, it is set to 11, so that the gap sequence becomes (11, 8, 6, 4, 3, 2, 1). </p>
 <p>For reasons that I don't understand, this makes the algorithm faster and more resistence to outliers.</p>
 <p>Average complexity: O(n^2 / 2^p). See <a href="https://en.wikipedia.org/wiki/Comb_sort">https://en.wikipedia.org/wiki/Comb_sort</a> and <a href="https://rosettacode.org/wiki/Sorting_algorithms/Comb_sort">https://rosettacode.org/wiki/Sorting_algorithms/Comb_sort</a>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -285,7 +469,54 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00083">83</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00159">159</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
+
+</div>
+</div>
+<a id="a43d0f574d6ada7592850acd2a86d2672"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43d0f574d6ada7592850acd2a86d2672">&#9670;&nbsp;</a></span>combSort13m() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::combSort13m </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="combSort_8h.html#a43d0f574d6ada7592850acd2a86d2672" title="Same as the 2-argument combSort13m() with the addition of a lessThan lambda expression or function.">combSort13m()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="combSort_8h_source.html#l00175">175</a> of file <a class="el" href="combSort_8h_source.html">combSort.h</a>.</p>
 
 </div>
 </div>

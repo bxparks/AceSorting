@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceSorting
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
-   <div id="projectbrief">Sorting algorithms for Arduino (Bubble Sort, Insertion Sort, Shell Sort, Comb Sort, Quick Sort)</div>
+   <div id="projectbrief">Sorting algorithms for Arduino including Bubble Sort, Insertion Sort, Selection Sort, Shell Sort (3 versions), Comb Sort (4 versions), Quick Sort (3 versions)</div>
   </td>
  </tr>
  </tbody>
@@ -68,22 +68,13 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">shellSort.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="swap_8h_source.html">swap.h</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for shellSort.h:</div>
-<div class="dyncontent">
-<div class="center"><img src="shellSort_8h__incl.png" border="0" usemap="#_2home_2brian_2src_2AceSorting_2src_2ace__sorting_2shellSort_8h" alt=""/></div>
-<map name="_2home_2brian_2src_2AceSorting_2src_2ace__sorting_2shellSort_8h" id="_2home_2brian_2src_2AceSorting_2src_2ace__sorting_2shellSort_8h">
-<area shape="rect" title=" " alt="" coords="5,5,203,47"/>
-<area shape="rect" href="swap_8h.html" title=" " alt="" coords="70,95,138,121"/>
-</map>
-</div>
-</div><div class="textblock"><div class="dynheader">
+<div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="shellSort_8h__dep__incl.png" border="0" usemap="#_2home_2brian_2src_2AceSorting_2src_2ace__sorting_2shellSort_8hdep" alt=""/></div>
@@ -95,28 +86,66 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="shellSort_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ad9776023d66c43bcd73ca3a075582a25"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#ad9776023d66c43bcd73ca3a075582a25">ACE_SORTING_DIRECT_SHELL_SORT</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ad9776023d66c43bcd73ca3a075582a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">If set to 1, use the direct inlined implementation of the 2-argument shellSortXxx().  <a href="shellSort_8h.html#ad9776023d66c43bcd73ca3a075582a25">More...</a><br /></td></tr>
+<tr class="separator:ad9776023d66c43bcd73ca3a075582a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aa17d405fc10023a2dae35c6800f72992"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa17d405fc10023a2dae35c6800f72992"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#aa17d405fc10023a2dae35c6800f72992">ace_sorting::shellSortClassic</a> (T data[], uint16_t n)</td></tr>
 <tr class="memdesc:aa17d405fc10023a2dae35c6800f72992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell sort with gap size reduced by factor of 2 each iteration.  <a href="shellSort_8h.html#aa17d405fc10023a2dae35c6800f72992">More...</a><br /></td></tr>
 <tr class="separator:aa17d405fc10023a2dae35c6800f72992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac95cc3d68f249a973e1a9d3519b7fd49"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:ac95cc3d68f249a973e1a9d3519b7fd49"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#ac95cc3d68f249a973e1a9d3519b7fd49">ace_sorting::shellSortClassic</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:ac95cc3d68f249a973e1a9d3519b7fd49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell sort with gap size reduced by factor of 2 each iteration.  <a href="shellSort_8h.html#ac95cc3d68f249a973e1a9d3519b7fd49">More...</a><br /></td></tr>
+<tr class="separator:ac95cc3d68f249a973e1a9d3519b7fd49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3ffa9009047d108d89f27a97f250731"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa3ffa9009047d108d89f27a97f250731"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#aa3ffa9009047d108d89f27a97f250731">ace_sorting::shellSortKnuth</a> (T data[], uint16_t n)</td></tr>
 <tr class="memdesc:aa3ffa9009047d108d89f27a97f250731"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell sort using gap size from Knuth.  <a href="shellSort_8h.html#aa3ffa9009047d108d89f27a97f250731">More...</a><br /></td></tr>
 <tr class="separator:aa3ffa9009047d108d89f27a97f250731"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecfe06e8598182f86aaaa192ae643f7c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aecfe06e8598182f86aaaa192ae643f7c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#aecfe06e8598182f86aaaa192ae643f7c">ace_sorting::shellSortTokuda</a> (T data[], const uint16_t n)</td></tr>
-<tr class="memdesc:aecfe06e8598182f86aaaa192ae643f7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell sort using gap sizes empirically determined by Tokuda.  <a href="shellSort_8h.html#aecfe06e8598182f86aaaa192ae643f7c">More...</a><br /></td></tr>
-<tr class="separator:aecfe06e8598182f86aaaa192ae643f7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af78075091d5961c4001d658d49835bfd"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:af78075091d5961c4001d658d49835bfd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#af78075091d5961c4001d658d49835bfd">ace_sorting::shellSortKnuth</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:af78075091d5961c4001d658d49835bfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell sort using gap size from Knuth.  <a href="shellSort_8h.html#af78075091d5961c4001d658d49835bfd">More...</a><br /></td></tr>
+<tr class="separator:af78075091d5961c4001d658d49835bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00e01bc0bdc73d9e59164095fda8664e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a00e01bc0bdc73d9e59164095fda8664e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#a00e01bc0bdc73d9e59164095fda8664e">ace_sorting::shellSortTokuda</a> (T data[], uint16_t n)</td></tr>
+<tr class="memdesc:a00e01bc0bdc73d9e59164095fda8664e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell sort using gap sizes empirically determined by Tokuda.  <a href="shellSort_8h.html#a00e01bc0bdc73d9e59164095fda8664e">More...</a><br /></td></tr>
+<tr class="separator:a00e01bc0bdc73d9e59164095fda8664e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2563aa1b90e1a15d2da68980775bc90a"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:a2563aa1b90e1a15d2da68980775bc90a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="shellSort_8h.html#a2563aa1b90e1a15d2da68980775bc90a">ace_sorting::shellSortTokuda</a> (T data[], const uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:a2563aa1b90e1a15d2da68980775bc90a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell sort using gap sizes empirically determined by Tokuda.  <a href="shellSort_8h.html#a2563aa1b90e1a15d2da68980775bc90a">More...</a><br /></td></tr>
+<tr class="separator:a2563aa1b90e1a15d2da68980775bc90a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Shell sort with different gap algorithms. </p>
+<div class="textblock"><p>Shell sort with different gap algorithms. See <a href="https://en.wikipedia.org/wiki/Shellsort">https://en.wikipedia.org/wiki/Shellsort</a> </p>
 
 <p class="definition">Definition in file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ad9776023d66c43bcd73ca3a075582a25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9776023d66c43bcd73ca3a075582a25">&#9670;&nbsp;</a></span>ACE_SORTING_DIRECT_SHELL_SORT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ACE_SORTING_DIRECT_SHELL_SORT&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If set to 1, use the direct inlined implementation of the 2-argument shellSortXxx(). </p>
+<p>Otherwise, use the 3-argument shellSortXxx() to implement 2-argument shellSortXxx(). For shellSortXxx(), the compiler will optimize both versions to be identical. </p>
+
+<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00042">42</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="aa17d405fc10023a2dae35c6800f72992"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa17d405fc10023a2dae35c6800f72992">&#9670;&nbsp;</a></span>shellSortClassic()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa17d405fc10023a2dae35c6800f72992">&#9670;&nbsp;</a></span>shellSortClassic() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -152,12 +181,60 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00046">46</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00082">82</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
+
+</div>
+</div>
+<a id="ac95cc3d68f249a973e1a9d3519b7fd49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac95cc3d68f249a973e1a9d3519b7fd49">&#9670;&nbsp;</a></span>shellSortClassic() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::shellSortClassic </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shell sort with gap size reduced by factor of 2 each iteration. </p>
+<p>Average complexity: Between O(n^1.3) to O(n^1.5) See <a href="https://en.wikipedia.org/wiki/Shellsort">https://en.wikipedia.org/wiki/Shellsort</a></p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00099">99</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
 
 </div>
 </div>
 <a id="aa3ffa9009047d108d89f27a97f250731"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3ffa9009047d108d89f27a97f250731">&#9670;&nbsp;</a></span>shellSortKnuth()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ffa9009047d108d89f27a97f250731">&#9670;&nbsp;</a></span>shellSortKnuth() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,12 +270,108 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00078">78</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00169">169</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
 
 </div>
 </div>
-<a id="aecfe06e8598182f86aaaa192ae643f7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecfe06e8598182f86aaaa192ae643f7c">&#9670;&nbsp;</a></span>shellSortTokuda()</h2>
+<a id="af78075091d5961c4001d658d49835bfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af78075091d5961c4001d658d49835bfd">&#9670;&nbsp;</a></span>shellSortKnuth() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::shellSortKnuth </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shell sort using gap size from Knuth. </p>
+<p>Average complexity: Between O(n^1.3) to O(n^1.5)</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00185">185</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
+
+</div>
+</div>
+<a id="a2563aa1b90e1a15d2da68980775bc90a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2563aa1b90e1a15d2da68980775bc90a">&#9670;&nbsp;</a></span>shellSortTokuda() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::shellSortTokuda </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shell sort using gap sizes empirically determined by Tokuda. </p>
+<p>See <a href="https://en.wikipedia.org/wiki/Shellsort">https://en.wikipedia.org/wiki/Shellsort</a> and <a href="https://oeis.org/A108870">https://oeis.org/A108870</a>. Average complexity: Between O(n^1.3) to O(n^1.5)</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00285">285</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
+
+</div>
+</div>
+<a id="a00e01bc0bdc73d9e59164095fda8664e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00e01bc0bdc73d9e59164095fda8664e">&#9670;&nbsp;</a></span>shellSortTokuda() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,7 +387,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>n</em>&#160;</td>
         </tr>
         <tr>
@@ -234,7 +407,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00119">119</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shellSort_8h_source.html#l00268">268</a> of file <a class="el" href="shellSort_8h_source.html">shellSort.h</a>.</p>
 
 </div>
 </div>

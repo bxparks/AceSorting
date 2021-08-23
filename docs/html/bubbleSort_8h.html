@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceSorting
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
-   <div id="projectbrief">Sorting algorithms for Arduino (Bubble Sort, Insertion Sort, Shell Sort, Comb Sort, Quick Sort)</div>
+   <div id="projectbrief">Sorting algorithms for Arduino including Bubble Sort, Insertion Sort, Selection Sort, Shell Sort (3 versions), Comb Sort (4 versions), Quick Sort (3 versions)</div>
   </td>
  </tr>
  </tbody>
@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">bubbleSort.h File Reference</div>  </div>
@@ -95,20 +96,50 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="bubbleSort_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a0736ba440330c5708367115dc73b0389"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bubbleSort_8h.html#a0736ba440330c5708367115dc73b0389">ACE_SORTING_DIRECT_BUBBLE_SORT</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a0736ba440330c5708367115dc73b0389"><td class="mdescLeft">&#160;</td><td class="mdescRight">If set to 1, use the direct inlined implementation of the 2-argument <a class="el" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e" title="Same as the 2-argument bubbleSort() with the addition of a lessThan lambda expression or function.">bubbleSort()</a>.  <a href="bubbleSort_8h.html#a0736ba440330c5708367115dc73b0389">More...</a><br /></td></tr>
+<tr class="separator:a0736ba440330c5708367115dc73b0389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a09f50f1f164d939d14f5ac3ac48eabaa"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a09f50f1f164d939d14f5ac3ac48eabaa"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">ace_sorting::bubbleSort</a> (T data[], uint16_t n)</td></tr>
 <tr class="memdesc:a09f50f1f164d939d14f5ac3ac48eabaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bubble sort.  <a href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">More...</a><br /></td></tr>
 <tr class="separator:a09f50f1f164d939d14f5ac3ac48eabaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9fcb9a9cd3305a2b5b8057a06e2d64e"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:ad9fcb9a9cd3305a2b5b8057a06e2d64e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e">ace_sorting::bubbleSort</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:ad9fcb9a9cd3305a2b5b8057a06e2d64e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e" title="Same as the 2-argument bubbleSort() with the addition of a lessThan lambda expression or function.">bubbleSort()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e">More...</a><br /></td></tr>
+<tr class="separator:ad9fcb9a9cd3305a2b5b8057a06e2d64e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Bubble sort. </p>
 
 <p class="definition">Definition in file <a class="el" href="bubbleSort_8h_source.html">bubbleSort.h</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a0736ba440330c5708367115dc73b0389"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0736ba440330c5708367115dc73b0389">&#9670;&nbsp;</a></span>ACE_SORTING_DIRECT_BUBBLE_SORT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ACE_SORTING_DIRECT_BUBBLE_SORT&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If set to 1, use the direct inlined implementation of the 2-argument <a class="el" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e" title="Same as the 2-argument bubbleSort() with the addition of a lessThan lambda expression or function.">bubbleSort()</a>. </p>
+<p>Otherwise, use the 3-argument <a class="el" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e" title="Same as the 2-argument bubbleSort() with the addition of a lessThan lambda expression or function.">bubbleSort()</a> to implement 2-argument <a class="el" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e" title="Same as the 2-argument bubbleSort() with the addition of a lessThan lambda expression or function.">bubbleSort()</a>. For bubbleSort, the compiler will optimize both versions to be identical. </p>
+
+<p class="definition">Definition at line <a class="el" href="bubbleSort_8h_source.html#l00043">43</a> of file <a class="el" href="bubbleSort_8h_source.html">bubbleSort.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="a09f50f1f164d939d14f5ac3ac48eabaa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09f50f1f164d939d14f5ac3ac48eabaa">&#9670;&nbsp;</a></span>bubbleSort()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a09f50f1f164d939d14f5ac3ac48eabaa">&#9670;&nbsp;</a></span>bubbleSort() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +175,54 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="bubbleSort_8h_source.html#l00045">45</a> of file <a class="el" href="bubbleSort_8h_source.html">bubbleSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bubbleSort_8h_source.html#l00070">70</a> of file <a class="el" href="bubbleSort_8h_source.html">bubbleSort.h</a>.</p>
+
+</div>
+</div>
+<a id="ad9fcb9a9cd3305a2b5b8057a06e2d64e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9fcb9a9cd3305a2b5b8057a06e2d64e">&#9670;&nbsp;</a></span>bubbleSort() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::bubbleSort </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e" title="Same as the 2-argument bubbleSort() with the addition of a lessThan lambda expression or function.">bubbleSort()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="bubbleSort_8h_source.html#l00084">84</a> of file <a class="el" href="bubbleSort_8h_source.html">bubbleSort.h</a>.</p>
 
 </div>
 </div>

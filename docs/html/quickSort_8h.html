@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceSorting
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
-   <div id="projectbrief">Sorting algorithms for Arduino (Bubble Sort, Insertion Sort, Shell Sort, Comb Sort, Quick Sort)</div>
+   <div id="projectbrief">Sorting algorithms for Arduino including Bubble Sort, Insertion Sort, Selection Sort, Shell Sort (3 versions), Comb Sort (4 versions), Quick Sort (3 versions)</div>
   </td>
  </tr>
  </tbody>
@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">quickSort.h File Reference</div>  </div>
@@ -95,28 +96,67 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="quickSort_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a34d4758b814849a2f2deed5609a4fee6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="quickSort_8h.html#a34d4758b814849a2f2deed5609a4fee6">ACE_SORTING_DIRECT_QUICK_SORT</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a34d4758b814849a2f2deed5609a4fee6"><td class="mdescLeft">&#160;</td><td class="mdescRight">If set to 1, use the direct inlined implementation of the 2-argument quickSortXxx().  <a href="quickSort_8h.html#a34d4758b814849a2f2deed5609a4fee6">More...</a><br /></td></tr>
+<tr class="separator:a34d4758b814849a2f2deed5609a4fee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a341b8d661849f81b882ed6c1dc195e1c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a341b8d661849f81b882ed6c1dc195e1c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="quickSort_8h.html#a341b8d661849f81b882ed6c1dc195e1c">ace_sorting::quickSortMiddle</a> (T data[], uint16_t n)</td></tr>
 <tr class="memdesc:a341b8d661849f81b882ed6c1dc195e1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quick sort using Hoare's original partition where the pivot is the middle of the array.  <a href="quickSort_8h.html#a341b8d661849f81b882ed6c1dc195e1c">More...</a><br /></td></tr>
 <tr class="separator:a341b8d661849f81b882ed6c1dc195e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb976f27be600c8797a458df7491cda"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:aecb976f27be600c8797a458df7491cda"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="quickSort_8h.html#aecb976f27be600c8797a458df7491cda">ace_sorting::quickSortMiddle</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:aecb976f27be600c8797a458df7491cda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="quickSort_8h.html#aecb976f27be600c8797a458df7491cda" title="Same as the 2-argument quickSortMiddle() with the addition of a lessThan lambda expression or functio...">quickSortMiddle()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="quickSort_8h.html#aecb976f27be600c8797a458df7491cda">More...</a><br /></td></tr>
+<tr class="separator:aecb976f27be600c8797a458df7491cda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8822a1e77ec6e6a1f4b1ecd19f5c4887"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a8822a1e77ec6e6a1f4b1ecd19f5c4887"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="quickSort_8h.html#a8822a1e77ec6e6a1f4b1ecd19f5c4887">ace_sorting::quickSortMedian</a> (T data[], uint16_t n)</td></tr>
 <tr class="memdesc:a8822a1e77ec6e6a1f4b1ecd19f5c4887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quick sort using Sedgewick's recommendation of using the median of low, middle and high.  <a href="quickSort_8h.html#a8822a1e77ec6e6a1f4b1ecd19f5c4887">More...</a><br /></td></tr>
 <tr class="separator:a8822a1e77ec6e6a1f4b1ecd19f5c4887"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03af968ac0babb7dcc1ee0a9409d3cd3"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:a03af968ac0babb7dcc1ee0a9409d3cd3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="quickSort_8h.html#a03af968ac0babb7dcc1ee0a9409d3cd3">ace_sorting::quickSortMedian</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:a03af968ac0babb7dcc1ee0a9409d3cd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="quickSort_8h.html#a03af968ac0babb7dcc1ee0a9409d3cd3" title="Same as the 2-argument quickSortMedian() with the addition of a lessThan lambda expression or functio...">quickSortMedian()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="quickSort_8h.html#a03af968ac0babb7dcc1ee0a9409d3cd3">More...</a><br /></td></tr>
+<tr class="separator:a03af968ac0babb7dcc1ee0a9409d3cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84bf2af64a70082a735f1ce9353984b4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a84bf2af64a70082a735f1ce9353984b4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="quickSort_8h.html#a84bf2af64a70082a735f1ce9353984b4">ace_sorting::quickSortMedianSwapped</a> (T data[], uint16_t n)</td></tr>
-<tr class="memdesc:a84bf2af64a70082a735f1ce9353984b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="quickSort_8h.html#a8822a1e77ec6e6a1f4b1ecd19f5c4887" title="Quick sort using Sedgewick&#39;s recommendation of using the median of low, middle and high.">quickSortMedian()</a>, but swap the low and high so that low, mid, and high elements become sorted.  <a href="quickSort_8h.html#a84bf2af64a70082a735f1ce9353984b4">More...</a><br /></td></tr>
+<tr class="memdesc:a84bf2af64a70082a735f1ce9353984b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="quickSort_8h.html#a03af968ac0babb7dcc1ee0a9409d3cd3" title="Same as the 2-argument quickSortMedian() with the addition of a lessThan lambda expression or functio...">quickSortMedian()</a>, but swap the low and high so that low, mid, and high elements become sorted.  <a href="quickSort_8h.html#a84bf2af64a70082a735f1ce9353984b4">More...</a><br /></td></tr>
 <tr class="separator:a84bf2af64a70082a735f1ce9353984b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae10d9e1e79c3860fc1a04cc95d49515b"><td class="memTemplParams" colspan="2">template&lt;typename T , typename F &gt; </td></tr>
+<tr class="memitem:ae10d9e1e79c3860fc1a04cc95d49515b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="quickSort_8h.html#ae10d9e1e79c3860fc1a04cc95d49515b">ace_sorting::quickSortMedianSwapped</a> (T data[], uint16_t n, F &amp;&amp;lessThan)</td></tr>
+<tr class="memdesc:ae10d9e1e79c3860fc1a04cc95d49515b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as the 2-argument <a class="el" href="quickSort_8h.html#ae10d9e1e79c3860fc1a04cc95d49515b" title="Same as the 2-argument quickSortMedianSwapped() with the addition of a lessThan lambda expression or ...">quickSortMedianSwapped()</a> with the addition of a <code>lessThan</code> lambda expression or function.  <a href="quickSort_8h.html#ae10d9e1e79c3860fc1a04cc95d49515b">More...</a><br /></td></tr>
+<tr class="separator:ae10d9e1e79c3860fc1a04cc95d49515b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Quick sort algorithms. </p>
+<div class="textblock"><p>Quick sort algorithms. See <a href="https://en.wikipedia.org/wiki/Quicksort">https://en.wikipedia.org/wiki/Quicksort</a> </p>
 
 <p class="definition">Definition in file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a34d4758b814849a2f2deed5609a4fee6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34d4758b814849a2f2deed5609a4fee6">&#9670;&nbsp;</a></span>ACE_SORTING_DIRECT_QUICK_SORT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ACE_SORTING_DIRECT_QUICK_SORT&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If set to 1, use the direct inlined implementation of the 2-argument quickSortXxx(). </p>
+<p>Otherwise, use the 3-argument quickSortXxx() to implement 2-argument quickSortXxx().</p>
+<p>Unlike other sorting algorithms, the compiler cannot seem to optimize away the extra level of indirection, probably due to the recursive calls. We save 40 bytes of flash (out of 200-300 bytes) by setting this to 1 so that the 2-argument variant is manually inlined. </p>
+
+<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00048">48</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="a8822a1e77ec6e6a1f4b1ecd19f5c4887"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8822a1e77ec6e6a1f4b1ecd19f5c4887">&#9670;&nbsp;</a></span>quickSortMedian()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8822a1e77ec6e6a1f4b1ecd19f5c4887">&#9670;&nbsp;</a></span>quickSortMedian() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,12 +193,59 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00081">81</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00143">143</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
+
+</div>
+</div>
+<a id="a03af968ac0babb7dcc1ee0a9409d3cd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03af968ac0babb7dcc1ee0a9409d3cd3">&#9670;&nbsp;</a></span>quickSortMedian() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::quickSortMedian </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="quickSort_8h.html#a03af968ac0babb7dcc1ee0a9409d3cd3" title="Same as the 2-argument quickSortMedian() with the addition of a lessThan lambda expression or functio...">quickSortMedian()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00197">197</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
 
 </div>
 </div>
 <a id="a84bf2af64a70082a735f1ce9353984b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84bf2af64a70082a735f1ce9353984b4">&#9670;&nbsp;</a></span>quickSortMedianSwapped()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a84bf2af64a70082a735f1ce9353984b4">&#9670;&nbsp;</a></span>quickSortMedianSwapped() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -185,8 +272,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Same as <a class="el" href="quickSort_8h.html#a8822a1e77ec6e6a1f4b1ecd19f5c4887" title="Quick sort using Sedgewick&#39;s recommendation of using the median of low, middle and high.">quickSortMedian()</a>, but swap the low and high so that low, mid, and high elements become sorted. </p>
-<p>This means that the low and high are already partitioned, so we can omit those 2 points from the partitioning while-loop. This code consumes a lot more flash memory due to the additional <a class="el" href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0" title="Swap the parameters.">swap()</a> calls.</p>
+<p>Same as <a class="el" href="quickSort_8h.html#a03af968ac0babb7dcc1ee0a9409d3cd3" title="Same as the 2-argument quickSortMedian() with the addition of a lessThan lambda expression or functio...">quickSortMedian()</a>, but swap the low and high so that low, mid, and high elements become sorted. </p>
+<p>This means that the low and high are already partitioned, so we can omit those 2 points from the partitioning while-loop. This code consumes a lot more flash memory due to the additional <a class="el" href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0" title="Swap the parameters.">swap()</a> calls, but runs slightly faster.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
@@ -194,12 +281,59 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00128">128</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00247">247</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
+
+</div>
+</div>
+<a id="ae10d9e1e79c3860fc1a04cc95d49515b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae10d9e1e79c3860fc1a04cc95d49515b">&#9670;&nbsp;</a></span>quickSortMedianSwapped() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::quickSortMedianSwapped </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="quickSort_8h.html#ae10d9e1e79c3860fc1a04cc95d49515b" title="Same as the 2-argument quickSortMedianSwapped() with the addition of a lessThan lambda expression or ...">quickSortMedianSwapped()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00301">301</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
 
 </div>
 </div>
 <a id="a341b8d661849f81b882ed6c1dc195e1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a341b8d661849f81b882ed6c1dc195e1c">&#9670;&nbsp;</a></span>quickSortMiddle()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a341b8d661849f81b882ed6c1dc195e1c">&#9670;&nbsp;</a></span>quickSortMiddle() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -236,7 +370,54 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00048">48</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00064">64</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
+
+</div>
+</div>
+<a id="aecb976f27be600c8797a458df7491cda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb976f27be600c8797a458df7491cda">&#9670;&nbsp;</a></span>quickSortMiddle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename F &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_sorting::quickSortMiddle </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>lessThan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Same as the 2-argument <a class="el" href="quickSort_8h.html#aecb976f27be600c8797a458df7491cda" title="Same as the 2-argument quickSortMiddle() with the addition of a lessThan lambda expression or functio...">quickSortMiddle()</a> with the addition of a <code>lessThan</code> lambda expression or function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>type of data to sort </td></tr>
+    <tr><td class="paramname">F</td><td>type of lambda expression or function that returns true if a &lt; b </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="quickSort_8h_source.html#l00107">107</a> of file <a class="el" href="quickSort_8h_source.html">quickSort.h</a>.</p>
 
 </div>
 </div>

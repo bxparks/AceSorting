@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceSorting
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
-   <div id="projectbrief">Sorting algorithms for Arduino (Bubble Sort, Insertion Sort, Shell Sort, Comb Sort, Quick Sort)</div>
+   <div id="projectbrief">Sorting algorithms for Arduino including Bubble Sort, Insertion Sort, Selection Sort, Shell Sort (3 versions), Comb Sort (4 versions), Quick Sort (3 versions)</div>
   </td>
  </tr>
  </tbody>
@@ -100,29 +100,56 @@ $(function() {
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="swap_8h.html">swap.h</a>&quot;</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>ace_sorting {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#if ! defined(ACE_SORTING_DIRECT_BUBBLE_SORT)</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">   45</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">bubbleSort</a>(T data[], uint16_t n) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordtype">bool</span> swapped;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">do</span> {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    swapped = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">for</span> (uint16_t i = 1; i &lt; n; i++) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">if</span> (data[i - 1] &gt; data[i]) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0">swap</a>(data[i - 1], data[i]);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        swapped = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  } <span class="keywordflow">while</span> (swapped);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="bubbleSort_8h.html#a0736ba440330c5708367115dc73b0389">   43</a></span>&#160;<span class="preprocessor">  #define ACE_SORTING_DIRECT_BUBBLE_SORT 0</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">namespace </span>ace_sorting {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#if ACE_SORTING_DIRECT_BUBBLE_SORT</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">void</span> bubbleSort(T data[], uint16_t n) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordtype">bool</span> swapped;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    swapped = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (uint16_t i = 1; i &lt; n; i++) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">if</span> (data[i] &lt; data[i - 1]) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        swap(data[i - 1], data[i]);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        swapped = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  } <span class="keywordflow">while</span> (swapped);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">   70</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">bubbleSort</a>(T data[], uint16_t n) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keyword">auto</span>&amp;&amp; lessThan = [](<span class="keyword">const</span> T&amp; a, <span class="keyword">const</span> T&amp; b) -&gt; <span class="keywordtype">bool</span> { <span class="keywordflow">return</span> a &lt; b; };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <a class="code" href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">bubbleSort</a>(data, n, lessThan);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> F&gt;</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="bubbleSort_8h.html#ad9fcb9a9cd3305a2b5b8057a06e2d64e">   84</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">bubbleSort</a>(T data[], uint16_t n, F&amp;&amp; lessThan) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordtype">bool</span> swapped;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    swapped = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">for</span> (uint16_t i = 1; i &lt; n; i++) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <span class="keywordflow">if</span> (lessThan(data[i], data[i - 1])) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0">swap</a>(data[i - 1], data[i]);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        swapped = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  } <span class="keywordflow">while</span> (swapped);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aswap_8h_html"><div class="ttname"><a href="swap_8h.html">swap.h</a></div></div>
 <div class="ttc" id="aswap_8h_html_a14e0c07fb427a4bc51b26fa03ae19eb0"><div class="ttname"><a href="swap_8h.html#a14e0c07fb427a4bc51b26fa03ae19eb0">ace_sorting::swap</a></div><div class="ttdeci">void swap(T &amp;a, T &amp;b)</div><div class="ttdoc">Swap the parameters.</div><div class="ttdef"><b>Definition:</b> <a href="swap_8h_source.html#l00041">swap.h:41</a></div></div>
-<div class="ttc" id="abubbleSort_8h_html_a09f50f1f164d939d14f5ac3ac48eabaa"><div class="ttname"><a href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">ace_sorting::bubbleSort</a></div><div class="ttdeci">void bubbleSort(T data[], uint16_t n)</div><div class="ttdoc">Bubble sort.</div><div class="ttdef"><b>Definition:</b> <a href="bubbleSort_8h_source.html#l00045">bubbleSort.h:45</a></div></div>
+<div class="ttc" id="abubbleSort_8h_html_a09f50f1f164d939d14f5ac3ac48eabaa"><div class="ttname"><a href="bubbleSort_8h.html#a09f50f1f164d939d14f5ac3ac48eabaa">ace_sorting::bubbleSort</a></div><div class="ttdeci">void bubbleSort(T data[], uint16_t n)</div><div class="ttdoc">Bubble sort.</div><div class="ttdef"><b>Definition:</b> <a href="bubbleSort_8h_source.html#l00070">bubbleSort.h:70</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
