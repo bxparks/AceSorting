@@ -43,8 +43,8 @@ SOFTWARE.
 #endif
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_SORTING_VERSION 200
-#define ACE_SORTING_VERSION_STRING "0.2.0"
+#define ACE_SORTING_VERSION 300
+#define ACE_SORTING_VERSION_STRING "0.3.0"
 
 #include "ace_sorting/swap.h"
 #include "ace_sorting/bubbleSort.h"

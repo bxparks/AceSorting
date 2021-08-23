@@ -46,7 +46,7 @@ Supports the following algorithms:
     * It is 2-3X slower than the `quickSortXxx()` functions in this library, and
       consumes 4-5X more in flash bytes.
 
-**Version**: 0.2 (2021-08-06)
+**Version**: 0.3 (2021-08-23)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -138,17 +138,16 @@ void loop() {}
 <a name="Installation"></a>
 ## Installation
 
-The latest stable release will eventually be available in the Arduino IDE
-Library Manager. Search for "AceSorting". Click install. (It is not there
-yet.)
+The latest stable release is available in the Arduino IDE Library Manager.
+Search for "AceSorting". Click install.
 
 The development version can be installed by cloning the
 [GitHub repository](https://github.com/bxparks/AceSorting), checking out the
-`develop` branch, then manually copying over the contents to the `./libraries`
-directory used by the Arduino IDE. (The result is a directory named
-`./libraries/AceSorting`.)
+`develop` branch, then manually copying over to or creating a symlink from the
+`./libraries` directory used by the Arduino IDE. (The result is a directory
+or link named `./libraries/AceSorting`.)
 
-The `master` branch contains the stable release.
+The `master` branch contains the stable releases.
 
 <a name="SourceCode"></a>
 ### Source Code
@@ -183,9 +182,10 @@ Some of the examples may depend on:
 ### Examples
 
 * [examples/HelloSorting](examples/HelloSorting)
-    * A demo of one of the sorting functions.
+    * A simple demo of one of the sorting functions.
 * [examples/CompoundSortingDemo](examples/CompoundSortingDemo)
-    * Sorting by `name`, then break any ties by sorting by `score`.
+    * A more complex example of sorting by a compound key, first by
+      `score`, then breaking any ties by `name`.
 * Benchmarks
     * [examples/MemoryBenchmark](examples/MemoryBenchmark)
         * Determine flash and static RAM consumption of various algorithms.
@@ -193,7 +193,7 @@ Some of the examples may depend on:
         * Determine CPU runtime of various algorithms.
     * [examples/WorstCaseBenchmark](examples/WorstCaseBenchmark)
         * Determine CPU runtime of worst case input data (e.g. sorted, reverse
-        sorted).
+          sorted).
 
 <a name="Usage"></a>
 ## Usage
@@ -205,7 +205,8 @@ Only a single header file `AceSorting.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
 classes are defined in the `ace_sorting` namespace. To use the code without
 prepending the `ace_sorting::` prefix, use the `using` directive to select the
-specific algorithm:
+specific algorithm. For example, to use the `shellSortKnut()` function, use
+something like this:
 
 ```C++
 #include <Arduino.h>
@@ -231,6 +232,9 @@ void bubbleSort(T data[], uint16_t n);
 * Additional ram consumption: none
 * Runtime complexity: `O(N^2)`
 * Stable sort: Yes
+* Performance Notes:
+    * If `data[]` is already sorted, this is `O(N)`.
+    * Worst performance `O(N^2)` when data is reverse sorted.
 * **Not recommended**
 
 <a name="InsertionSort"></a>
@@ -251,6 +255,9 @@ void insertionSort(T data[], uint16_t n);
 * Additional ram consumption: none
 * Runtime complexity: `O(N^2)` but 5-6X faster than `bubbleSort()`
 * Stable sort: Yes
+* Performance Notes:
+    * If `data[]` is already sorted, this algorithm is `O(N)`.
+    * Worst performance `O(N^2)` when data is reverse sorted.
 * **Recommendation**: Use for N smaller than about 100 and only if you need
   a stable sort
 
@@ -272,6 +279,9 @@ void selectionSort(T data[], uint16_t n);
 * Additional ram consumption: none
 * Runtime complexity: `O(N^2)` but 2X slower than `insertionSort()`
 * Stable sort: No
+* Performance Notes:
+    * Little change in performance when data is already sorted or reverse
+      sorted.
 * **Not recommended**:
     * Larger and slower than `insertionSort()` but is not a stable sort.
     * The only thing it has going for it is that it has the least number of
@@ -303,6 +313,10 @@ void shellSortTokuda(T data[], uint16_t n);
 * Additional ram consumption: none
 * Runtime complexity: `O(N^k)` where `k=1.3 to 1.5`
 * Stable sort: No
+* Performance Notes:
+    * As fast as Quick Sort for `N < ~100`.
+    * Little change in performance when data is already sorted or reverse
+      sorted.
 * **Recomendation**: Use `shellSortKnuth()`, which seems consistently faster
   than `shellSortClassic()`, just as fast as `shellSortTokuda()` but is simpler
   and takes less flash memory than `shellSortTokuda()`.
@@ -336,12 +350,17 @@ void combSort133m(T data[], uint16_t n);
 * Additional ram consumption: none
 * Runtime complexity: `O(N^k)` where k seems similar to Shell Sort
 * Stable sort: No
+* Performance Notes:
+    * Slightly slower than Shell Sort over similar data sets.
+    * Little change in performance when data is already sorted or reverse
+      sorted.
 * Upper limits:
     * `combSort13()` and `combSort13m()`:  `n = 6553` on 8-bit AVR processors
       due to integer overflow.
     * `combSort133()` and `combSort133m()`: `n = 21845` on 8-bit AVR processors
       due to integer overflow.
 * **Recommendation**:
+    * Prefer Shell Sort over Comb Sort in most situations.
     * Use `combSort133()` on 8-bit processors.
     * Use `combSort13m()` on 32-bit processors.
 
@@ -395,6 +414,10 @@ void quickSortMedianSwapped(T data[], uint16_t n);
 * Additional ram consumption: `O(log(N))` bytes on stack due to recursion
 * Runtime complexity: `O(N log(N))`
 * Stable sort: No
+* Performance Notes:
+    * Fastest algorithm for large (`N > ~100`) data sets.
+    * Little change in performance when data is already sorted or reverse
+      sorted.
 * **Recommendation**
     * Avoid on 8-bit processors with limited ram due to extra stack usage by
       recursion.
@@ -838,8 +861,8 @@ handful, but I found them unsuitable for me.
     * No unit tests provided.
 * https://github.com/arduino-libraries/Arduino_AVRSTL
     * Provides a template `sort()` function, which delegates to `stable_sort()`.
-    * But this implementation is a bubble sort which is `O(N^2)` and
-      is not even stable.
+    * But this implementation is a bubble sort which is `O(N^2)` and in practice
+      much slower than `insertionSort().
         * In fairness, there is a "FIXME" note in the code which
           implies that a better algorithm ought to be provided.
     * The library is configured to target only the `avr` and `megaavr`

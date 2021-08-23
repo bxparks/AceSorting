@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* v0.3 (2021-08-23)
     * Add 3-argument versions of each sorting function which accepts a lambda
       expression or function pointer that evalutes the general "less-than"
       comparison between 2 elements in the array.
