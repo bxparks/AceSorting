@@ -33,6 +33,14 @@ SOFTWARE.
 
 #include "swap.h"
 
+// If set to 1, use the direct inlined implementation of the 2-argument
+// combSortXxx(). Otherwise, use the 3-argument combSortXxx() to implement
+// 2-argument combSortXxx(). For combSortXxx(), the compiler will optimize both
+// versions to be identical.
+#if ! defined(ACE_SORTING_DIRECT_COMB_SORT)
+  #define ACE_SORTING_DIRECT_COMB_SORT 0
+#endif
+
 namespace ace_sorting {
 
 /**
@@ -46,26 +54,66 @@ namespace ace_sorting {
  *
  * @tparam T type of data to sort
  */
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort13(T data[], uint16_t n) {
-	bool swapped = true;
+  bool swapped = true;
 
-	uint16_t gap = n;
-	while (swapped || gap > 1) {
-		gap = gap * 10 / 13;
-		if (gap == 0) gap = 1;
-		swapped = false;
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 10 / 13;
+    if (gap == 0) gap = 1;
+    swapped = false;
 
-		uint16_t i;
+    uint16_t i;
     uint16_t j;
-		for (i = 0, j = gap; j < n; i++, j++) {
-			if (data[i] > data[j]) {
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (data[j] < data[i]) {
         swap(data[i], data[j]);
-				swapped = true;
-			}
-		}
-	}
+        swapped = true;
+      }
+    }
+  }
 }
+#else
+template <typename T>
+void combSort13(T data[], uint16_t n) {
+  // This lambda expression does not perform any captures, so the compiler will
+  // optimize and inline the less-than expression.
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  combSort13(data, n, lessThan);
+}
+#endif
+
+/**
+ * Same as the 2-argument combSort13() with the addition of a `lessThan` lambda
+ * expression or function.
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template <typename T, typename F>
+void combSort13(T data[], uint16_t n, F&& lessThan) {
+  bool swapped = true;
+
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 10 / 13;
+    if (gap == 0) gap = 1;
+    swapped = false;
+
+    uint16_t i;
+    uint16_t j;
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (lessThan(data[j], data[i])) {
+        swap(data[i], data[j]);
+        swapped = true;
+      }
+    }
+  }
+}
+
+//-----------------------------------------------------------------------------
 
 /**
  * Same as combSort13() with the modification that if the gap is 9 or 10, it is
@@ -79,30 +127,74 @@ void combSort13(T data[], uint16_t n) {
  *
  * @tparam T type of data to sort
  */
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort13m(T data[], uint16_t n) {
-	bool swapped = true;
+  bool swapped = true;
 
-	uint16_t gap = n;
-	while (swapped || gap > 1) {
-		gap = gap * 10 / 13;
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 10 / 13;
     if (gap == 9 || gap == 10) {
       gap = 11;
     } else if (gap == 0) {
       gap = 1;
     }
-		swapped = false;
+    swapped = false;
 
-		uint16_t i;
+    uint16_t i;
     uint16_t j;
-		for (i = 0, j = gap; j < n; i++, j++) {
-			if (data[i] > data[j]) {
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (data[j] < data[i]) {
         swap(data[i], data[j]);
-				swapped = true;
-			}
-		}
-	}
+        swapped = true;
+      }
+    }
+  }
 }
+#else
+template <typename T>
+void combSort13m(T data[], uint16_t n) {
+  // This lambda expression does not perform any captures, so the compiler will
+  // optimize and inline the less-than expression.
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  combSort13m(data, n, lessThan);
+}
+#endif
+
+/**
+ * Same as the 2-argument combSort13m() with the addition of a `lessThan` lambda
+ * expression or function.
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template <typename T, typename F>
+void combSort13m(T data[], uint16_t n, F&& lessThan) {
+  bool swapped = true;
+
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 10 / 13;
+    if (gap == 9 || gap == 10) {
+      gap = 11;
+    } else if (gap == 0) {
+      gap = 1;
+    }
+    swapped = false;
+
+    uint16_t i;
+    uint16_t j;
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (lessThan(data[j], data[i])) {
+        swap(data[i], data[j]);
+        swapped = true;
+      }
+    }
+  }
+}
+
+//-----------------------------------------------------------------------------
 
 /**
  * Comb sort using a gap factor of 4/3=1.33 (successive gap is multiplied by 3
@@ -111,41 +203,82 @@ void combSort13m(T data[], uint16_t n) {
  * 21845.
  *
  * This gap ratio seemed appealing because the division by 4 will be optimized
- * by the compiler into a left shift by 2 bits, so this algorithm does not
+ * by the compiler into a right shift of 2 bits, so this algorithm does not
  * perform any integer division. Experimentation on 8-bit processors without
- * hardware dvision this algorithm is slightly faster than combSort13() on
- * average.
+ * hardware dvision shows that this algorithm is slightly faster than
+ * combSort13() on average.
  *
- * On 32-bit or 64-bit processors with hardware division, experimentation shows
- * that this algorithm is actually slightly slower on average than combSort13().
- * And it seems to have a slightly higher variance, with some input data causing
- * large spikes in runtime compared to the average.
+ * On 32-bit or 64-bit processors with hardware division, on larger input
+ * `data`, experimentation shows that this algorithm is actually slightly slower
+ * on average than combSort13(). And it seems to have a slightly higher
+ * variance, with some input data causing large spikes in runtime compared to
+ * the average.
  *
  * Average complexity: O(n^2 / 2^p).
  * See https://en.wikipedia.org/wiki/Comb_sort
  *
  * @tparam T type of data to sort
  */
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort133(T data[], uint16_t n) {
-	bool swapped = true;
+  bool swapped = true;
 
-	uint16_t gap = n;
-	while (swapped || gap > 1) {
-		gap = gap * 3 / 4;
-		if (gap == 0) gap = 1;
-		swapped = false;
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 3 / 4;
+    if (gap == 0) gap = 1;
+    swapped = false;
 
-		uint16_t i;
+    uint16_t i;
     uint16_t j;
-		for (i = 0, j = gap; j < n; i++, j++) {
-			if (data[i] > data[j]) {
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (data[j] < data[i]) {
         swap(data[i], data[j]);
-				swapped = true;
-			}
-		}
-	}
+        swapped = true;
+      }
+    }
+  }
 }
+#else
+template <typename T>
+void combSort133(T data[], uint16_t n) {
+  // This lambda expression does not perform any captures, so the compiler will
+  // optimize and inline the less-than expression.
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  combSort133(data, n, lessThan);
+}
+#endif
+
+/**
+ * Same as the 2-argument combSort133() with the addition of a `lessThan` lambda
+ * expression or function.
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template <typename T, typename F>
+void combSort133(T data[], uint16_t n, F&& lessThan) {
+  bool swapped = true;
+
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 3 / 4;
+    if (gap == 0) gap = 1;
+    swapped = false;
+
+    uint16_t i;
+    uint16_t j;
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (lessThan(data[j], data[i])) {
+        swap(data[i], data[j]);
+        swapped = true;
+      }
+    }
+  }
+}
+
+//-----------------------------------------------------------------------------
 
 /**
  * Same as combSort133() but modified so that a gap of 9 or 10 becomes gap=11 so
@@ -158,29 +291,71 @@ void combSort133(T data[], uint16_t n) {
  *
  * @tparam T type of data to sort
  */
+#if ACE_SORTING_DIRECT_COMB_SORT
 template <typename T>
 void combSort133m(T data[], uint16_t n) {
-	bool swapped = true;
+  bool swapped = true;
 
-	uint16_t gap = n;
-	while (swapped || gap > 1) {
-		gap = gap * 3 / 4;
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 3 / 4;
     if (gap == 9 || gap == 10) {
       gap = 11;
     } else if (gap == 0) {
       gap = 1;
     }
-		swapped = false;
+    swapped = false;
 
-		uint16_t i;
+    uint16_t i;
     uint16_t j;
-		for (i = 0, j = gap; j < n; i++, j++) {
-			if (data[i] > data[j]) {
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (data[j] < data[i]) {
         swap(data[i], data[j]);
-				swapped = true;
-			}
-		}
-	}
+        swapped = true;
+      }
+    }
+  }
+}
+#else
+template <typename T>
+void combSort133m(T data[], uint16_t n) {
+  // This lambda expression does not perform any captures, so the compiler will
+  // optimize and inline the less-than expression.
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  combSort133m(data, n, lessThan);
+}
+#endif
+
+/**
+ * Same as the 2-argument combSort133m() with the addition of a `lessThan`
+ * lambda expression or function.
+ *
+ * @tparam T type of data to sort
+ * @tparam F type of lambda expression or function that returns true if a < b
+ */
+template <typename T, typename F>
+void combSort133m(T data[], uint16_t n, F&& lessThan) {
+  bool swapped = true;
+
+  uint16_t gap = n;
+  while (swapped || gap > 1) {
+    gap = gap * 3 / 4;
+    if (gap == 9 || gap == 10) {
+      gap = 11;
+    } else if (gap == 0) {
+      gap = 1;
+    }
+    swapped = false;
+
+    uint16_t i;
+    uint16_t j;
+    for (i = 0, j = gap; j < n; i++, j++) {
+      if (lessThan(data[j], data[i])) {
+        swap(data[i], data[j]);
+        swapped = true;
+      }
+    }
+  }
 }
 
 }

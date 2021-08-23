@@ -63,6 +63,13 @@ ASCII table.
   indicates that the `qsort()` function is already compiled into the ESP32
   runtime library.
 
+**v0.2+**
+
+* Add 3-argument version of sorting functions to pass in a comparison predicate,
+  and route the 2-argument version into the 3-argument version.
+* Usually no difference in flash size, as the compiler seems to be able to
+  inline the lambda expression. In fact, some actually got a few bytes smaller.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
