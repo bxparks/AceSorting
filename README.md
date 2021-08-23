@@ -45,9 +45,6 @@ Supports the following algorithms:
 
 **Version**: 0.2 (2021-08-06)
 
-**Status**: Simple versions are working and stable. Versions accepting custom
-comparators coming soon.
-
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## Table of Contents
@@ -67,6 +64,10 @@ comparators coming soon.
     * [Comb Sort](#CombSort)
     * [Quick Sort](#QuickSort)
     * [C Library Qsort](#CLibraryQsort)
+* [Advanced Usage](#AdvancedUsage)
+    * [Function Pointer](#FunctionPointer)
+    * [Lambda Expression](#LambdaExpression)
+    * [Compiler Optimizations](#CompilerOptimizations)
 * [Resource Consumption](#ResourceConsumption)
     * [Flash And Static Memory](#FlashAndStaticMemory)
     * [CPU Cycles](#CpuCycles)
@@ -180,6 +181,8 @@ Some of the examples may depend on:
 
 * [examples/HelloSort](examples/HelloSort)
     * A demo of one of the sorting functions.
+* [examples/CompoundSortingDemo](examples/CompoundSortingDemo)
+    * Sorting by `name`, then break any ties by sorting by `score`.
 * Benchmarks
     * [examples/MemoryBenchmark](examples/MemoryBenchmark)
         * Determine flash and static RAM consumption of various algorithms.
@@ -213,8 +216,12 @@ using ace_sorting::shellSortKnuth;
 See https://en.wikipedia.org/wiki/Bubble_sort.
 
 ```C++
+namespace ace_sorting {
+
 template <typename T>
 void bubbleSort(T data[], uint16_t n);
+
+}
 ```
 
 * Flash consumption: 44 bytes on AVR
@@ -229,8 +236,12 @@ void bubbleSort(T data[], uint16_t n);
 See https://en.wikipedia.org/wiki/Insertion_sort.
 
 ```C++
+namespace ace_sorting {
+
 template <typename T>
 void insertionSort(T data[], uint16_t n);
+
+}
 ```
 
 * Flash consumption, 60 bytes on AVR
@@ -246,8 +257,12 @@ void insertionSort(T data[], uint16_t n);
 See https://en.wikipedia.org/wiki/Selection_sort.
 
 ```C++
+namespace ace_sorting {
+
 template <typename T>
 void selectionSort(T data[], uint16_t n);
+
+}
 ```
 
 * Flash consumption, 100 bytes on AVR
@@ -267,6 +282,8 @@ See https://en.wikipedia.org/wiki/Shellsort. Three versions are provided in this
 library:
 
 ```C++
+namespace ace_sorting {
+
 template <typename T>
 void shellSortClassic(T data[], uint16_t n);
 
@@ -275,6 +292,8 @@ void shellSortKnuth(T data[], uint16_t n);
 
 template <typename T>
 void shellSortTokuda(T data[], uint16_t n);
+
+}
 ```
 
 * Flash consumption: 100-180 bytes of flash on AVR
@@ -293,6 +312,8 @@ and https://rosettacode.org/wiki/Sorting_algorithms/Comb_sort.
 Four versions are provided in this library:
 
 ```C++
+namespace ace_sorting {
+
 template <typename T>
 void combSort13(T data[], uint16_t n);
 
@@ -304,12 +325,19 @@ void combSort133(T data[], uint16_t n);
 
 template <typename T>
 void combSort133m(T data[], uint16_t n);
+
+}
 ```
 
 * Flash consumption: 106-172 bytes on AVR
 * Additional ram consumption: none
 * Runtime complexity: `O(N^k)` where k seems similar to Shell Sort
 * Stable sort: No
+* Upper limits:
+    * `combSort13()` and `combSort13m()`:  `n = 6553` on 8-bit AVR processors
+      due to integer overflow.
+    * `combSort133()` and `combSort133m()`: `n = 21845` on 8-bit AVR processors
+      due to integer overflow.
 * **Recommendation**:
     * Use `combSort133()` on 8-bit processors.
     * Use `combSort13m()` on 32-bit processors.
@@ -319,23 +347,25 @@ The `combSort13()` and `combSort13m()` functions use a gap factor of `10/13 =
 or 10. That apparently make the algorithm faster for reasons that I have not
 been able to find on the internet.
 
-The `combSort133()` and `combSort133m()` use a gap factor of `4/3 = 1.33`. The
-`4/3` ratio allows the compiler to replace an integer division with a left bit
-shift, so that code is smaller and faster on 8-bit processors without hardware
-integer division. The `combSort133m()` function modifies the gap sequence when
-the gap is 9 or 10.
+The `combSort133()` and `combSort133m()` functions use a gap factor of `4/3 =
+1.33`. The `4/3` ratio allows the compiler to replace an integer division with a
+left bit shift, so that code is smaller and faster on 8-bit processors without
+hardware integer division. The `combSort133m()` function modifies the gap
+sequence when the gap is 9 or 10.
 
-Overall, [examples/AutoBenchmark](examples/AutoBenchmark) shows that Comb Sort
-is consistently slower than Shell Sort so it is difficult to recommend it over
-Shell Sort.
+In terms of performance, [examples/AutoBenchmark](examples/AutoBenchmark) shows
+that Comb Sort is consistently slower than Shell Sort so it is difficult to
+recommend it over Shell Sort.
 
 <a name="QuickSort"></a>
 ### Quick Sort
 
-https://en.wikipedia.org/wiki/Quicksort. Three versions are provided in this
+See https://en.wikipedia.org/wiki/Quicksort. Three versions are provided in this
 library:
 
 ```C++
+namespace ace_sorting {
+
 template <typename T>
 void quickSortMiddle(T data[], uint16_t n);
 
@@ -344,8 +374,20 @@ void quickSortMedian(T data[], uint16_t n);
 
 template <typename T>
 void quickSortMedianSwapped(T data[], uint16_t n);
+
+}
 ```
 
+* `quickSortMiddle()`
+    * The pivot is the middle element in each partition, regardless of its
+      value.
+* `quickSortMedian()`
+    * The pivot is the median element among the 3 elements on the left, middle,
+      and right slots of each partition.
+* `quickSortMedianSwapped()`
+    * The pivot is the median element among the 3 elements on the left, middle,
+      and right slots of each partition.
+    * The 3 elements are swapped so that they are sorted.
 * Flash consumption: 178-278 bytes on AVR
 * Additional ram consumption: `O(log(N))` bytes on stack due to recursion
 * Runtime complexity: `O(N log(N))`
@@ -379,11 +421,173 @@ It has the following characteristics:
 * Stable sort: No
 * **Not recommended** due to excessive flash consumption and slowness.
 
-According to benchmarks, `qsort()` is 2-3X slower than the C++ `quickSortXxx()`,
-and consumes 4-5X more flash memory. The `qsort()` function is probably more
-sophisticated in the handling of edge cases, but it suffers from being a general
-function that uses pointer to a comparator call-back function. That makes it
-2-3X slower than the C++ template functions in this library. Not recommended.
+According to benchmarks, `qsort()` is 2-3X slower than the C++ `quickSortXxx()`
+functions provided by this library, and consumes 4-5X more flash memory. The
+`qsort()` function is probably more sophisticated in the handling of edge cases,
+but it suffers from being a general function that uses a call-back function. The
+overhead of that function call makes it 2-3X slower than the C++ template
+functions in this library where the comparison function call is usually inlined
+by the compiler. For these reasons, it is difficult to recommend the C-library
+`qsort()` function.
+
+<a name="AdvancedUsage"></a>
+## Advanced Usage
+
+Each sorting algorithm comes in another variant that takes 3 arguments instead
+of 2 arguments. For completeness, here are the signatures of the 3-argument
+variants:
+
+```C++
+namespace ace_sorting {
+
+template <typename T, typename F>
+void bubbleSort(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void insertionSort(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void selectionSort(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void shellSortClassic(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void shellSortKnuth(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void shellSortTokuda(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void combSort13(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void combSort13m(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void combSort133(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void combSort133m(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void quickSortMiddle(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void quickSortMedian(T data[], uint16_t n, F&& lessThan);
+
+template <typename T, typename F>
+void quickSortMedianSwapped(T data[], uint16_t n, F&& lessThan);
+
+}
+```
+
+The 3rd argument `lessThan` is a user-defined function pointer or a lambda
+expression that implements the "less than" comparison operator between 2
+elements in the `data[]` array. (The `F&&` is a C++11 syntax that means "rvalue
+reference to a templatized type of `F`".) In the context of this library, the
+`lessThan` parameter can be thought of as a function-like thing that accepts 2
+elements of type `T` and returns a `bool`. Two types of this `lessThan`
+parameter is explained below.
+
+<a name="FunctionPointer"></a>
+### Function Pointer
+
+If `lessThan` is a function pointer, then its signature should look something
+like one of these:
+
+```C++
+bool lessThan(const T& a, const T& b);
+
+bool lessThan(T a, T b);
+```
+
+The [examples/CompoundSortingDemo](examples/CompoundSortingDemo) example shows
+what this looks like to sort an array of pointers to `Record` entries by
+`score`, then by `name`, to break any ties:
+
+```C++
+struct Record {
+  const char* name;
+  int score;
+};
+
+bool sortByScoreThenName(const Record* a, const Record* b) {
+  if (a->score < b->score) {
+    return true;
+  } else if (a->score > b->score) {
+    return false;
+  } else {
+    return strcmp(a->name, b->name) < 0;
+  }
+}
+
+const uint16_t ARRAY_SIZE = 10;
+const Record RECORDS[ARRAY_SIZE] = {
+  ...
+};
+
+const Record* recordPtrs[ARRAY_SIZE];
+
+void doSorting() {
+  shellSortKnuth(recordPtrs, ARRAY_SIZE, sortByScoreThenName);
+  ...
+}
+```
+
+<a name="LambdaExpression"></a>
+### Lambda Expression
+
+Through the magic of C++ templates, the `lessThan` parameter can also be a
+lambda expression. When the comparison operator is simple and short, this
+feature can save us the hassle of creating a separate function that is used only
+once.
+
+The [examples/HelloSort](examples/HelloSort) example shows how to sort an array
+of integers in reverse order using an inlined lambda expression that reverses
+the comparison operator:
+
+```C++
+const uint16_t ARRAY_SIZE = 20;
+int array[ARRAY_SIZE];
+
+void doSorting() {
+  shellSortKnuth(array, ARRAY_SIZE, [](int a, int b) { return a > b; });
+  ...
+}
+```
+
+<a name="CompilerOptimizations"></a>
+### Compiler Optimizations
+
+All 2-argument variants of the sorting functions (except for the Quick Sort
+functions `quickSortXxx()`, see below) are implemented by simply calling the
+3-argument sorting functions using a default lambda expression using the `<`
+operator like this:
+
+```C++
+template <typename T>
+void shellSortKnuth(T data[], uint16_t n) {
+  auto&& lessThan = [](const T& a, const T& b) -> bool { return a < b; };
+  shellSortKnuth(data, n, lessThan);
+}
+```
+
+The benchmarks in [examples/MemoryBenchmark](examples/MemoryBenchmark) show that
+the compiler is able to completely optimize away the overhead of the inlined
+lambda expression and produce code that is equivalent to inserting the `<`
+binary operator directly into the code that implements the 3-argument variant.
+No additional flash memory is consumed.
+
+The only exception to this compiler optimization occurs with the Quick Sort
+algorithms. The compiler seems unable to optimize away the extra layer of
+indirection, probably due to the recursive function calls in the Quick Sort
+algorithms. Therefore, the 2-argument variants of `quickSortXxx()` algorithms
+are duplicated from the 3-argument variants with the simple `<` operator
+hardcoded, so that the simple case of ascending sorting consumes as little flash
+memory as possible. (In the source code, the `ACE_SORTING_DIRECT_QUICK_SORT`
+macro is set to `1` by default to achieve this, in contrast to all other sorting
+functions where the equivalent macro is set to `0`.)
 
 <a name="ResourceConsumption"></a>
 ## Resource Consumption
@@ -586,6 +790,14 @@ them.
       processors, and 8 bytes on 64-bit processors. However, I did not want to
       worry about edge case behavior of some of these algorithms for extremely
       large values of `n`.
+* The behavior of the sorting algorithms with a `data` size of exactly `n =
+  65535` has not been validated.
+    * Some algorithms may be buggy in this edge case due to integer overflows.
+    * The actual maximum value of `n` may actually be `65534` for
+      some algorithms.
+* Some of the Comb Sort algorithms have even lower limits of `n` due to integer
+  overflows.
+    * See remarks above and in the source code.
 * No hybrid sorting algorithms.
     * Different sorting algorithms are more efficient at different ranges of
       `N`. So hybrid algorithms will use different sorting algorithms at
