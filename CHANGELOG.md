@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+    * Add special case for SparkFun Pro Micro in `examples/AutoBenchmark` whose
+      ATmega32U4 has 2.5kB of ram, enough to handle `N=1000`.
 * v0.3 (2021-08-23)
     * Add 3-argument versions of each sorting function which accepts a lambda
       expression or function pointer that evalutes the general "less-than"

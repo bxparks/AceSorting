@@ -35,16 +35,19 @@ Supports the following algorithms:
     * It costs only 142 bytes on an AVR and 80-112 bytes on 32-bit processors.
     * It is faster than any `O(N^2)` algorithm while consuming only 34-82 extra
       bytes of flash over `insertionSort()`.
-* If `N > ~100`, *and* you have sufficient static memory for recursive
-  functions, *and* `shellSortKnuth()` is not fast enough, use
-  `quickSortMiddle()` on 8-bit AVR processors, and `quickSortMedianSwapped()` on
-  32-bit processors.
+* If `N >= ~1000`, *and* you have sufficient static memory for recursive
+  functions, *and* `shellSortKnuth()` is not fast enough, use:
+    * `quickSortMiddle()` on 8-bit AVR processors, and
+    * `quickSortMedianSwapped()` on 32-bit processors.
 * Use `combSort133()` or `shellSortClassic()` to get the smallest sorting
   function faster than `O(N^2)`.
 * Use `insertionSort()` if you need a stable sort.
 * Don't use the C library `qsort()`.
     * It is 2-3X slower than the `quickSortXxx()` functions in this library, and
       consumes 4-5X more in flash bytes.
+* Never use Bubble Sort.
+    * Insertion Sort is 5-6X faster with only a handful (0-32) bytes of extra
+      flash.
 
 **Version**: 0.3 (2021-08-23)
 
@@ -314,7 +317,7 @@ void shellSortTokuda(T data[], uint16_t n);
 * Runtime complexity: `O(N^k)` where `k=1.3 to 1.5`
 * Stable sort: No
 * Performance Notes:
-    * As fast as Quick Sort for `N < ~100`.
+    * As fast as Quick Sort for `N <= ~300`.
     * Little change in performance when data is already sorted or reverse
       sorted.
 * **Recomendation**: Use `shellSortKnuth()`, which seems consistently faster
@@ -418,7 +421,7 @@ void quickSortMedianSwapped(T data[], uint16_t n);
 * Runtime complexity: `O(N log(N))`
 * Stable sort: No
 * Performance Notes:
-    * Fastest algorithm for large (`N > ~100`) data sets.
+    * Fastest algorithm for large (`N >= ~1000`) data sets.
     * Little change in performance when data is already sorted or reverse
       sorted.
 * **Recommendation**
@@ -627,32 +630,32 @@ functions where the equivalent macro is set to `0`.)
 The full details of flash and static memory consumptions are given in
 [examples/MemoryBenchmark](examples/MemoryBenchmark). Here are 2 samples.
 
-**Arduino Nano (ATmega328)**
+**SparkFun Pro Micro (ATmega32U4)**
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |   1066/  214 |     0/    0 |
+| Baseline                               |   4060/  354 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           |   1110/  214 |    44/    0 |
-| insertionSort()                        |   1126/  214 |    60/    0 |
-| selectionSort()                        |   1154/  214 |    88/    0 |
+| bubbleSort()                           |   4104/  354 |    44/    0 |
+| insertionSort()                        |   4120/  354 |    60/    0 |
+| selectionSort()                        |   4148/  354 |    88/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   1162/  214 |    96/    0 |
-| shellSortKnuth()                       |   1208/  214 |   142/    0 |
-| shellSortTokuda()                      |   1248/  240 |   182/   26 |
+| shellSortClassic()                     |   4156/  354 |    96/    0 |
+| shellSortKnuth()                       |   4202/  354 |   142/    0 |
+| shellSortTokuda()                      |   4242/  380 |   182/   26 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           |   1220/  214 |   154/    0 |
-| combSort13m()                          |   1238/  214 |   172/    0 |
-| combSort133()                          |   1172/  214 |   106/    0 |
-| combSort133m()                         |   1194/  214 |   128/    0 |
+| combSort13()                           |   4214/  354 |   154/    0 |
+| combSort13m()                          |   4232/  354 |   172/    0 |
+| combSort133()                          |   4166/  354 |   106/    0 |
+| combSort133m()                         |   4188/  354 |   128/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      |   1244/  214 |   178/    0 |
-| quickSortMedian()                      |   1296/  214 |   230/    0 |
-| quickSortMedianSwapped()               |   1344/  214 |   276/    0 |
+| quickSortMiddle()                      |   4238/  354 |   178/    0 |
+| quickSortMedian()                      |   4290/  354 |   230/    0 |
+| quickSortMedianSwapped()               |   4336/  354 |   276/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                |   2150/  214 |  1084/    0 |
+| qsort()                                |   5144/  354 |  1084/    0 |
 +---------------------------------------------------------------------+
 ```
 
@@ -692,31 +695,31 @@ The CPU benchmark numbers can be seen in
 [examples/AutoBenchmark](examples/AutoBenchmark). All times in milliseconds.
 Here are 2 samples.
 
-**Arduino Nano (ATmega328)**
+**SparkFun Pro Micro (ATmega32U4)**
 
 ```
 +---------------------+------------------------+---------+---------+---------+
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.099 | 1.044 | 12.305 | 118.589 |         |         |
-| insertionSort()     | 0.049 | 0.251 |  2.463 |  21.288 |         |         |
-| selectionSort()     | 0.087 | 0.553 |  5.365 |  46.275 |         |         |
+| bubbleSort()        | 0.116 | 1.140 | 12.103 | 118.579 |         |         |
+| insertionSort()     | 0.043 | 0.268 |  2.552 |  22.140 | 237.771 |         |
+| selectionSort()     | 0.083 | 0.555 |  5.387 |  46.521 | 509.019 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.074 | 0.306 |  1.711 |   6.868 |         |         |
-| shellSortKnuth()    | 0.100 | 0.325 |  1.431 |   5.683 |         |         |
-| shellSortTokuda()   | 0.075 | 0.336 |  1.616 |   6.555 |         |         |
+| shellSortClassic()  | 0.074 | 0.310 |  1.714 |   6.942 |  28.923 |         |
+| shellSortKnuth()    | 0.100 | 0.334 |  1.431 |   5.701 |  24.914 |         |
+| shellSortTokuda()   | 0.075 | 0.337 |  1.631 |   6.586 |  28.066 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.167 | 0.534 |  2.215 |   8.260 |         |         |
-| combSort13m()       | 0.164 | 0.557 |  2.233 |   8.176 |         |         |
-| combSort133()       | 0.084 | 0.400 |  1.968 |   7.730 |         |         |
-| combSort133m()      | 0.087 | 0.419 |  1.979 |   7.805 |         |         |
+| combSort13()        | 0.164 | 0.546 |  2.223 |   8.269 |  36.057 |         |
+| combSort13m()       | 0.166 | 0.555 |  2.273 |   8.169 |  35.030 |         |
+| combSort133()       | 0.085 | 0.386 |  1.983 |   7.691 |  34.824 |         |
+| combSort133m()      | 0.088 | 0.418 |  1.989 |   7.765 |  33.834 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.097 | 0.373 |  1.582 |   5.536 |         |         |
-| quickSortMedian()   | 0.117 | 0.423 |  1.717 |   5.905 |         |         |
-| quickSortMdnSwppd() | 0.092 | 0.338 |  1.396 |   4.895 |         |         |
+| quickSortMiddle()   | 0.097 | 0.374 |  1.564 |   5.715 |  22.072 |         |
+| quickSortMedian()   | 0.117 | 0.435 |  1.725 |   5.932 |  22.815 |         |
+| quickSortMdnSwppd() | 0.092 | 0.346 |  1.420 |   4.846 |  18.956 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.208 | 0.827 |  3.642 |  13.068 |         |         |
+| qsort()             | 0.196 | 0.849 |  3.672 |  13.040 |         |         |
 +---------------------+-------+-------+--------+---------+---------+---------+
 ```
 

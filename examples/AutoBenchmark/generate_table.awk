@@ -55,7 +55,7 @@ END {
     name = u[i]["name"]
     dataSize = u[i]["dataSize"]
     avg = u[i]["avg"]
-    g[name][dataSize] = avg
+    g[name][dataSize] = (avg >= 1000.0) ? "" : avg
 
     # Insert name into names[] array to keep track of ordering.
     if (! (name in names_map)) {
