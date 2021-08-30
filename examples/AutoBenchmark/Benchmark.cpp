@@ -175,10 +175,16 @@ static void runSortForSizes(
         || sortFunction == &selectionSort<uint16_t>) {
       if (dataSize > 1000) break;
     }
-  #if defined(ARDUINO_AVR_PROMICRO)
-    // Don't run qsort for N>=1000 because it runs out of stack space.
-    if (sortFunction == doQsort && dataSize >= 1000) break;
-  #endif
+    // Don't run qsort for N>=1000 on Pro Micro because it runs out of stack
+    // space.
+    #if defined(ARDUINO_AVR_PROMICRO)
+      if (sortFunction == doQsort && dataSize >= 1000) break;
+    #endif
+
+    // Don't run bubbleSort() with N>=1000 any AVR because it takes too long.
+    #if defined(ARDUINO_ARCH_AVR)
+      if (sortFunction == &bubbleSort<uint16_t> && dataSize >= 1000) break;
+    #endif
 
     runSort(name, dataSize, sampleSize, sortFunction);
   }

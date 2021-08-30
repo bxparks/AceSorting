@@ -59,14 +59,15 @@ $ make README.md
 * No performance change after rerouting 2-argument sorting functions into
   the 3-argument versions using a default lambda expression.
 
-**v0.3_**
+**v0.3+**
 
-* Add N=1000 for SparkFun Pro Micro because it has 2.5kB of ram which supports
-  sorting 1000 16-bit integers. Except for C-library `qsort()` which seems to
-  run out of stack space due to recursion.
+* Add N=1000 for SparkFun Pro Micro because it has 2.5kB of ram.
+    * Except for C-library `qsort()` which seems to run out of stack space due
+      to recursion.
     * The Shell Sort algorithms seem to hold up well compared to Quick Sort for
       N=1000.
-    * Increase Shell Sort to Quick Sort cut over from N >= ~100 to ~1000.
+    * Increase Shell Sort to Quick Sort recommendation cut over from N >= ~100
+      to ~1000.
 
 ## Results
 
@@ -119,24 +120,24 @@ when sorting different array sizes.
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.116 | 1.140 | 12.103 | 118.579 |         |         |
-| insertionSort()     | 0.043 | 0.268 |  2.552 |  22.140 | 237.771 |         |
-| selectionSort()     | 0.083 | 0.555 |  5.387 |  46.521 | 509.019 |         |
+| bubbleSort()        | 0.124 | 0.996 | 12.217 | 119.496 |         |         |
+| insertionSort()     | 0.043 | 0.277 |  2.521 |  20.917 | 233.309 |         |
+| selectionSort()     | 0.084 | 0.555 |  5.389 |  46.520 | 509.023 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.074 | 0.310 |  1.714 |   6.942 |  28.923 |         |
-| shellSortKnuth()    | 0.100 | 0.334 |  1.431 |   5.701 |  24.914 |         |
-| shellSortTokuda()   | 0.075 | 0.337 |  1.631 |   6.586 |  28.066 |         |
+| shellSortClassic()  | 0.075 | 0.312 |  1.708 |   6.915 |  29.044 |         |
+| shellSortKnuth()    | 0.101 | 0.329 |  1.456 |   5.665 |  25.056 |         |
+| shellSortTokuda()   | 0.075 | 0.340 |  1.633 |   6.564 |  28.070 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.164 | 0.546 |  2.223 |   8.269 |  36.057 |         |
-| combSort13m()       | 0.166 | 0.555 |  2.273 |   8.169 |  35.030 |         |
-| combSort133()       | 0.085 | 0.386 |  1.983 |   7.691 |  34.824 |         |
-| combSort133m()      | 0.088 | 0.418 |  1.989 |   7.765 |  33.834 |         |
+| combSort13()        | 0.168 | 0.540 |  2.223 |   8.274 |  36.335 |         |
+| combSort13m()       | 0.164 | 0.553 |  2.299 |   8.238 |  34.796 |         |
+| combSort133()       | 0.087 | 0.394 |  1.968 |   7.745 |  34.949 |         |
+| combSort133m()      | 0.088 | 0.420 |  2.007 |   7.708 |  33.783 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.097 | 0.374 |  1.564 |   5.715 |  22.072 |         |
-| quickSortMedian()   | 0.117 | 0.435 |  1.725 |   5.932 |  22.815 |         |
-| quickSortMdnSwppd() | 0.092 | 0.346 |  1.420 |   4.846 |  18.956 |         |
+| quickSortMiddle()   | 0.095 | 0.380 |  1.587 |   5.740 |  22.172 |         |
+| quickSortMedian()   | 0.118 | 0.428 |  1.727 |   6.009 |  22.693 |         |
+| quickSortMdnSwppd() | 0.092 | 0.341 |  1.400 |   4.952 |  19.110 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.196 | 0.849 |  3.672 |  13.040 |         |         |
+| qsort()             | 0.204 | 0.852 |  3.665 |  13.105 |         |         |
 +---------------------+-------+-------+--------+---------+---------+---------+
 
 ```

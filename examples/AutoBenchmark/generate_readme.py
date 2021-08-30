@@ -84,14 +84,15 @@ $ make README.md
 * No performance change after rerouting 2-argument sorting functions into
   the 3-argument versions using a default lambda expression.
 
-**v0.3_**
+**v0.3+**
 
-* Add N=1000 for SparkFun Pro Micro because it has 2.5kB of ram which supports
-  sorting 1000 16-bit integers. Except for C-libary `qsort()` which seems to
-  run out of stack space due to recursion.
+* Add N=1000 for SparkFun Pro Micro because it has 2.5kB of ram.
+    * Except for C-library `qsort()` which seems to run out of stack space due
+      to recursion.
     * The Shell Sort algorithms seem to hold up well compared to Quick Sort for
       N=1000.
-    * Increase Shell Sort recommendation upper limit to N ~= 1000 from 300.
+    * Increase Shell Sort to Quick Sort recommendation cut over from N >= ~100
+      to ~1000.
 
 ## Results
 
