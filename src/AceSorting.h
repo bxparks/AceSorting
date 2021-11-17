@@ -33,8 +33,8 @@ SOFTWARE.
  * Click on the "Files" menu above to see the list of header files.
  */
 
-#ifndef ACE_SEGMENT_ACE_SEGMENT_H
-#define ACE_SEGMENT_ACE_SEGMENT_H
+#ifndef ACE_SORTING_ACE_SORTING_H
+#define ACE_SORTING_ACE_SORTING_H
 
 // Blacklist platforms using https://github.com/arduino/ArduinoCore-api due to
 // incompatibilities.
