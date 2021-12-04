@@ -1,6 +1,16 @@
 # Changelog
 
 * Unreleased
+* v1.0.0 (2021-12-04)
+    * Add special case for SparkFun Pro Micro in `examples/AutoBenchmark` whose
+      ATmega32U4 has 2.5kB of ram, enough to handle `N=1000`.
+    * Fix incorrect C++ header guard in `src/AceSorting.h`.
+    * Upgrade tool chain
+        * Upgrade Arduino IDE to 1.8.16.
+        * Upgrade Arduino CLI to 0.19.2.
+        * Upgrade SparkFun SAMD to 1.8.4.
+        * Upgrade ESP8266 to 3.0.2.
+        * Upgrade TeensyDuino to 1.55.
 * v0.3 (2021-08-23)
     * Add 3-argument versions of each sorting function which accepts a lambda
       expression or function pointer that evalutes the general "less-than"

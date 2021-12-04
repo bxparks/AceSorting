@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceSorting v0.3
+**Version**: AceSorting v1.0.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -70,10 +70,15 @@ ASCII table.
 * Usually no difference in flash size, as the compiler seems to be able to
   inline the lambda expression. In fact, some actually got a few bytes smaller.
 
+**v1.0.0**
+* Some minor changes to total flash consumption due to upgrading the
+  tool chain for SAMD21, ESP8266 and TeensyDuino. The delta flash consumption
+  of each algorithm did not change much.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * Arduino AVR Boards 1.8.3
 
 ```
@@ -83,7 +88,7 @@ ASCII table.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.13
+* Arduino 1.8.16, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -93,8 +98,8 @@ ASCII table.
 ## SAMD21 M0 Mini
 
 * 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.13
-* Sparkfun SAMD Boards 1.8.3
+* Arduino 1.8.16, Arduino CLI 0.19.2
+* Sparkfun SAMD Boards 1.8.4
 
 ```
 {samd_results}
@@ -105,7 +110,7 @@ ASCII table.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.13
+* Arduino 1.8.16, Arduino CLI 0.19.2
 * STM32duino 2.0.0
 
 ```
@@ -115,8 +120,8 @@ ASCII table.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.13
-* ESP8266 Boards 2.7.4
+* Arduino 1.8.16, Arduino CLI 0.19.2
+* ESP8266 Boards 3.0.2
 
 ```
 {esp8266_results}
@@ -125,7 +130,7 @@ ASCII table.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.13
+* Arduino 1.8.16, Arduino CLI 0.19.2
 * ESP32 Boards 1.0.6
 
 ```
@@ -139,8 +144,8 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.13
-* Teensyduino 1.53
+* Arduino 1.8.16, Arduino CLI 0.19.2
+* Teensyduino 1.55
 
 ```
 {teensy32_results}

@@ -39,12 +39,18 @@ const uint16_t DATA_SIZES[] = {10, 30, 100, 300, 1000, 3000, 10000, 30000};
 //const uint16_t DATA_SIZES[] = {65000};
 const uint16_t SLOW_SAMPLE_SIZE = 3;
 const uint16_t FAST_SAMPLE_SIZE = 25;
+#elif defined(ARDUINO_AVR_PROMICRO)
+// ATmega32U4 has 2.5kB of ram, so it can handle N=1000... except qsort()
+// which seems to run out of stack space.
+const uint16_t DATA_SIZES[] = {10, 30, 100, 300, 1000};
+const uint16_t SLOW_SAMPLE_SIZE = 3;
+const uint16_t FAST_SAMPLE_SIZE = 25;
 #elif defined(ARDUINO_ARCH_AVR)
 const uint16_t DATA_SIZES[] = {10, 30, 100, 300};
-//const uint16_t DATA_SIZES[] = {300};
 const uint16_t SLOW_SAMPLE_SIZE = 3;
 const uint16_t FAST_SAMPLE_SIZE = 25;
 #else
+// All 32-bit boards that I own can handle at least N=3000.
 const uint16_t DATA_SIZES[] = {10, 30, 100, 300, 1000, 3000};
 const uint16_t SLOW_SAMPLE_SIZE = 3;
 const uint16_t FAST_SAMPLE_SIZE = 20;
@@ -111,6 +117,16 @@ static void fillArray(uint16_t data[], uint16_t n) {
   }
 }
 
+static int compare(const void* a, const void* b) {
+  uint16_t va = *((uint16_t*) a);
+  uint16_t vb = *((uint16_t*) b);
+  return (va < vb) ? -1 : ((va == vb) ? 0 : 1);
+}
+
+static void doQsort(uint16_t data[], uint16_t n) {
+  qsort(data, n, sizeof(uint16_t), compare);
+}
+
 static void runSort(
     const __FlashStringHelper* name,
     uint16_t dataSize,
@@ -159,19 +175,19 @@ static void runSortForSizes(
         || sortFunction == &selectionSort<uint16_t>) {
       if (dataSize > 1000) break;
     }
+    // Don't run qsort for N>=1000 on Pro Micro because it runs out of stack
+    // space.
+    #if defined(ARDUINO_AVR_PROMICRO)
+      if (sortFunction == doQsort && dataSize >= 1000) break;
+    #endif
+
+    // Don't run bubbleSort() with N>=1000 any AVR because it takes too long.
+    #if defined(ARDUINO_ARCH_AVR)
+      if (sortFunction == &bubbleSort<uint16_t> && dataSize >= 1000) break;
+    #endif
 
     runSort(name, dataSize, sampleSize, sortFunction);
   }
-}
-
-int compare(const void* a, const void* b) {
-  uint16_t va = *((uint16_t*) a);
-  uint16_t vb = *((uint16_t*) b);
-  return (va < vb) ? -1 : ((va == vb) ? 0 : 1);
-}
-
-void doQsort(uint16_t data[], uint16_t n) {
-  qsort(data, n, sizeof(uint16_t), compare);
 }
 
 //-----------------------------------------------------------------------------

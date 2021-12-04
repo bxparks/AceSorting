@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 #
 # Shell script that runs 'auniter verify ${board} MemoryBenchmark.ino',
-# and collects the flash memory and static RAM usage for each of
-# the FEATURE (0..13).
+# and collects the flash memory and static RAM usage for each FEATURE.
 #
 # Usage: collect.sh {board} {result_file}
 #

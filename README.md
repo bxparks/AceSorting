@@ -35,18 +35,21 @@ Supports the following algorithms:
     * It costs only 142 bytes on an AVR and 80-112 bytes on 32-bit processors.
     * It is faster than any `O(N^2)` algorithm while consuming only 34-82 extra
       bytes of flash over `insertionSort()`.
-* If `N > ~100`, *and* you have sufficient static memory for recursive
-  functions, *and* `shellSortKnuth()` is not fast enough, use
-  `quickSortMiddle()` on 8-bit AVR processors, and `quickSortMedianSwapped()` on
-  32-bit processors.
+* If `N >= ~1000`, *and* you have sufficient static memory for recursive
+  functions, *and* `shellSortKnuth()` is not fast enough, use:
+    * `quickSortMiddle()` on 8-bit AVR processors, and
+    * `quickSortMedianSwapped()` on 32-bit processors.
 * Use `combSort133()` or `shellSortClassic()` to get the smallest sorting
   function faster than `O(N^2)`.
 * Use `insertionSort()` if you need a stable sort.
 * Don't use the C library `qsort()`.
     * It is 2-3X slower than the `quickSortXxx()` functions in this library, and
       consumes 4-5X more in flash bytes.
+* Never use Bubble Sort.
+    * Insertion Sort is 5-6X faster with only a handful (0-32) bytes of extra
+      flash.
 
-**Version**: 0.3 (2021-08-23)
+**Version**: 1.0.0 (2021-12-04)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -314,7 +317,7 @@ void shellSortTokuda(T data[], uint16_t n);
 * Runtime complexity: `O(N^k)` where `k=1.3 to 1.5`
 * Stable sort: No
 * Performance Notes:
-    * As fast as Quick Sort for `N < ~100`.
+    * As fast as Quick Sort for `N <= ~300`.
     * Little change in performance when data is already sorted or reverse
       sorted.
 * **Recomendation**: Use `shellSortKnuth()`, which seems consistently faster
@@ -418,7 +421,7 @@ void quickSortMedianSwapped(T data[], uint16_t n);
 * Runtime complexity: `O(N log(N))`
 * Stable sort: No
 * Performance Notes:
-    * Fastest algorithm for large (`N > ~100`) data sets.
+    * Fastest algorithm for large (`N >= ~1000`) data sets.
     * Little change in performance when data is already sorted or reverse
       sorted.
 * **Recommendation**
@@ -627,32 +630,32 @@ functions where the equivalent macro is set to `0`.)
 The full details of flash and static memory consumptions are given in
 [examples/MemoryBenchmark](examples/MemoryBenchmark). Here are 2 samples.
 
-**Arduino Nano (ATmega328)**
+**SparkFun Pro Micro (ATmega32U4)**
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |   1066/  214 |     0/    0 |
+| Baseline                               |   4060/  354 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           |   1110/  214 |    44/    0 |
-| insertionSort()                        |   1126/  214 |    60/    0 |
-| selectionSort()                        |   1154/  214 |    88/    0 |
+| bubbleSort()                           |   4104/  354 |    44/    0 |
+| insertionSort()                        |   4120/  354 |    60/    0 |
+| selectionSort()                        |   4148/  354 |    88/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   1162/  214 |    96/    0 |
-| shellSortKnuth()                       |   1208/  214 |   142/    0 |
-| shellSortTokuda()                      |   1248/  240 |   182/   26 |
+| shellSortClassic()                     |   4156/  354 |    96/    0 |
+| shellSortKnuth()                       |   4202/  354 |   142/    0 |
+| shellSortTokuda()                      |   4242/  380 |   182/   26 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           |   1220/  214 |   154/    0 |
-| combSort13m()                          |   1238/  214 |   172/    0 |
-| combSort133()                          |   1172/  214 |   106/    0 |
-| combSort133m()                         |   1194/  214 |   128/    0 |
+| combSort13()                           |   4214/  354 |   154/    0 |
+| combSort13m()                          |   4232/  354 |   172/    0 |
+| combSort133()                          |   4166/  354 |   106/    0 |
+| combSort133m()                         |   4188/  354 |   128/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      |   1244/  214 |   178/    0 |
-| quickSortMedian()                      |   1296/  214 |   230/    0 |
-| quickSortMedianSwapped()               |   1344/  214 |   276/    0 |
+| quickSortMiddle()                      |   4238/  354 |   178/    0 |
+| quickSortMedian()                      |   4290/  354 |   230/    0 |
+| quickSortMedianSwapped()               |   4336/  354 |   276/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                |   2150/  214 |  1084/    0 |
+| qsort()                                |   5144/  354 |  1084/    0 |
 +---------------------------------------------------------------------+
 ```
 
@@ -662,26 +665,26 @@ The full details of flash and static memory consumptions are given in
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               | 257100/26976 |     0/    0 |
+| Baseline                               | 260497/28108 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           | 257164/26976 |    64/    0 |
-| insertionSort()                        | 257164/26976 |    64/    0 |
-| selectionSort()                        | 257180/26976 |    80/    0 |
+| bubbleSort()                           | 260545/28108 |    48/    0 |
+| insertionSort()                        | 260545/28108 |    48/    0 |
+| selectionSort()                        | 260561/28108 |    64/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     | 257180/26976 |    80/    0 |
-| shellSortKnuth()                       | 257212/26976 |   112/    0 |
-| shellSortTokuda()                      | 257256/27004 |   140/   28 |
+| shellSortClassic()                     | 260577/28108 |    80/    0 |
+| shellSortKnuth()                       | 260577/28108 |    80/    0 |
+| shellSortTokuda()                      | 260637/28128 |   140/   20 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           | 257196/26976 |    96/    0 |
-| combSort13m()                          | 257212/26976 |   112/    0 |
-| combSort133()                          | 257180/26976 |    80/    0 |
-| combSort133m()                         | 257196/26976 |    96/    0 |
+| combSort13()                           | 260609/28108 |   112/    0 |
+| combSort13m()                          | 260625/28108 |   128/    0 |
+| combSort133()                          | 260593/28108 |    96/    0 |
+| combSort133m()                         | 260609/28108 |   112/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      | 257244/26976 |   144/    0 |
-| quickSortMedian()                      | 257276/26976 |   176/    0 |
-| quickSortMedianSwapped()               | 257308/26976 |   208/    0 |
+| quickSortMiddle()                      | 260641/28108 |   144/    0 |
+| quickSortMedian()                      | 260673/28108 |   176/    0 |
+| quickSortMedianSwapped()               | 260689/28108 |   192/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                | 258076/26976 |   976/    0 |
+| qsort()                                | 261617/28108 |  1120/    0 |
 +---------------------------------------------------------------------+
 ```
 
@@ -692,31 +695,31 @@ The CPU benchmark numbers can be seen in
 [examples/AutoBenchmark](examples/AutoBenchmark). All times in milliseconds.
 Here are 2 samples.
 
-**Arduino Nano (ATmega328)**
+**SparkFun Pro Micro (ATmega32U4)**
 
 ```
 +---------------------+------------------------+---------+---------+---------+
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.099 | 1.044 | 12.305 | 118.589 |         |         |
-| insertionSort()     | 0.049 | 0.251 |  2.463 |  21.288 |         |         |
-| selectionSort()     | 0.087 | 0.553 |  5.365 |  46.275 |         |         |
+| bubbleSort()        | 0.083 | 1.211 | 13.093 | 118.403 |         |         |
+| insertionSort()     | 0.044 | 0.259 |  2.515 |  21.941 | 240.911 |         |
+| selectionSort()     | 0.084 | 0.555 |  5.388 |  46.517 | 509.037 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.074 | 0.306 |  1.711 |   6.868 |         |         |
-| shellSortKnuth()    | 0.100 | 0.325 |  1.431 |   5.683 |         |         |
-| shellSortTokuda()   | 0.075 | 0.336 |  1.616 |   6.555 |         |         |
+| shellSortClassic()  | 0.076 | 0.311 |  1.738 |   6.895 |  28.869 |         |
+| shellSortKnuth()    | 0.100 | 0.336 |  1.450 |   5.681 |  25.273 |         |
+| shellSortTokuda()   | 0.076 | 0.339 |  1.636 |   6.543 |  28.090 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.167 | 0.534 |  2.215 |   8.260 |         |         |
-| combSort13m()       | 0.164 | 0.557 |  2.233 |   8.176 |         |         |
-| combSort133()       | 0.084 | 0.400 |  1.968 |   7.730 |         |         |
-| combSort133m()      | 0.087 | 0.419 |  1.979 |   7.805 |         |         |
+| combSort13()        | 0.163 | 0.532 |  2.235 |   8.240 |  36.409 |         |
+| combSort13m()       | 0.166 | 0.559 |  2.225 |   8.279 |  34.916 |         |
+| combSort133()       | 0.085 | 0.385 |  2.030 |   7.787 |  34.229 |         |
+| combSort133m()      | 0.088 | 0.422 |  1.991 |   7.713 |  34.179 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.097 | 0.373 |  1.582 |   5.536 |         |         |
-| quickSortMedian()   | 0.117 | 0.423 |  1.717 |   5.905 |         |         |
-| quickSortMdnSwppd() | 0.092 | 0.338 |  1.396 |   4.895 |         |         |
+| quickSortMiddle()   | 0.098 | 0.367 |  1.601 |   5.659 |  22.104 |         |
+| quickSortMedian()   | 0.118 | 0.432 |  1.701 |   5.984 |  22.732 |         |
+| quickSortMdnSwppd() | 0.087 | 0.335 |  1.385 |   4.871 |  18.914 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.208 | 0.827 |  3.642 |  13.068 |         |         |
+| qsort()             | 0.202 | 0.876 |  3.685 |  13.098 |         |         |
 +---------------------+-------+-------+--------+---------+---------+---------+
 ```
 
@@ -727,24 +730,24 @@ Here are 2 samples.
 |            \      N |    10 |    30 |    100 |     300 |    1000 |    3000 |
 | Function    \       |       |       |        |         |         |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| bubbleSort()        | 0.022 | 0.181 |  2.116 |  19.118 | 213.942 |         |
-| insertionSort()     | 0.011 | 0.037 |  0.361 |   3.222 |  34.652 |         |
-| selectionSort()     | 0.017 | 0.092 |  0.961 |   8.500 |  93.980 |         |
+| bubbleSort()        | 0.017 | 0.145 |  1.604 |  14.477 | 169.490 |         |
+| insertionSort()     | 0.008 | 0.036 |  0.338 |   2.895 |  31.947 |         |
+| selectionSort()     | 0.013 | 0.071 |  0.715 |   6.270 |  69.023 |         |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| shellSortClassic()  | 0.010 | 0.039 |  0.215 |   0.878 |   3.610 |  13.789 |
-| shellSortKnuth()    | 0.010 | 0.036 |  0.172 |   0.690 |   3.021 |  11.306 |
-| shellSortTokuda()   | 0.009 | 0.040 |  0.188 |   0.756 |   3.227 |  11.678 |
+| shellSortClassic()  | 0.008 | 0.032 |  0.180 |   0.719 |   3.030 |  11.560 |
+| shellSortKnuth()    | 0.009 | 0.031 |  0.149 |   0.588 |   2.608 |  10.006 |
+| shellSortTokuda()   | 0.007 | 0.029 |  0.137 |   0.552 |   2.358 |   8.532 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| combSort13()        | 0.013 | 0.048 |  0.219 |   0.846 |   3.712 |  13.695 |
-| combSort13m()       | 0.013 | 0.051 |  0.223 |   0.840 |   3.625 |  13.102 |
-| combSort133()       | 0.010 | 0.040 |  0.208 |   0.796 |   3.571 |  12.430 |
-| combSort133m()      | 0.010 | 0.045 |  0.206 |   0.793 |   3.466 |  12.387 |
+| combSort13()        | 0.014 | 0.052 |  0.238 |   0.899 |   4.001 |  14.567 |
+| combSort13m()       | 0.015 | 0.056 |  0.240 |   0.903 |   3.903 |  14.197 |
+| combSort133()       | 0.010 | 0.043 |  0.209 |   0.852 |   3.840 |  13.288 |
+| combSort133m()      | 0.010 | 0.047 |  0.222 |   0.850 |   3.733 |  13.341 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| quickSortMiddle()   | 0.013 | 0.045 |  0.185 |   0.650 |   2.518 |   8.303 |
-| quickSortMedian()   | 0.016 | 0.052 |  0.203 |   0.684 |   2.574 |   8.470 |
-| quickSortMdnSwppd() | 0.012 | 0.039 |  0.160 |   0.560 |   2.128 |   7.129 |
+| quickSortMiddle()   | 0.013 | 0.044 |  0.175 |   0.616 |   2.353 |   8.087 |
+| quickSortMedian()   | 0.015 | 0.049 |  0.189 |   0.634 |   2.370 |   7.764 |
+| quickSortMdnSwppd() | 0.012 | 0.037 |  0.149 |   0.513 |   1.951 |   6.597 |
 |---------------------+-------+-------+--------+---------+---------+---------|
-| qsort()             | 0.027 | 0.092 |  0.417 |   1.515 |   6.009 |  20.782 |
+| qsort()             | 0.028 | 0.094 |  0.405 |   1.472 |   5.826 |  19.875 |
 +---------------------+-------+-------+--------+---------+---------+---------+
 ```
 
@@ -782,17 +785,17 @@ The following boards are **not** supported:
 <a name="ToolChain"></a>
 ### Tool Chain
 
-* [Arduino IDE 1.8.13](https://www.arduino.cc/en/Main/Software)
-* [Arduino CLI 0.15.2](https://arduino.github.io/arduino-cli)
+* [Arduino IDE 1.8.16](https://www.arduino.cc/en/Main/Software)
+* [Arduino CLI 0.19.2](https://arduino.github.io/arduino-cli)
 * [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
 * [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
 * [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.8.3](https://github.com/sparkfun/Arduino_Boards)
+* [SparkFun SAMD Boards 1.8.4](https://github.com/sparkfun/Arduino_Boards)
 * [STM32duino 2.0.0](https://github.com/stm32duino/Arduino_Core_STM32)
-* [ESP8266 Arduino 2.7.4](https://github.com/esp8266/Arduino)
+* [ESP8266 Arduino 3.0.2](https://github.com/esp8266/Arduino)
 * [ESP32 Arduino 1.0.6](https://github.com/espressif/arduino-esp32)
-* [Teensyduino 1.54](https://www.pjrc.com/teensy/td_download.html)
+* [Teensyduino 1.55](https://www.pjrc.com/teensy/td_download.html)
 
 <a name="OperatingSystem"></a>
 ### Operating System
@@ -865,7 +868,7 @@ handful, but I found them unsuitable for me.
 * https://github.com/arduino-libraries/Arduino_AVRSTL
     * Provides a template `sort()` function, which delegates to `stable_sort()`.
     * But this implementation is a bubble sort which is `O(N^2)` and in practice
-      much slower than `insertionSort().
+      much slower than `insertionSort()`.
         * In fairness, there is a "FIXME" note in the code which
           implies that a better algorithm ought to be provided.
     * The library is configured to target only the `avr` and `megaavr`
@@ -896,14 +899,14 @@ Here are some of the reasons that I created my own library:
 <a name="FeedbackAndSupport"></a>
 ## Feedback and Support
 
-If you have any questions, comments and other support questions about how to
-use this library, use the
-[GitHub Discussions](https://github.com/bxparks/AceSorting/discussions)
-for this project. If you have bug reports or feature requests, file a ticket in
-[GitHub Issues](https://github.com/bxparks/AceSorting/issues). I'd love to hear
-about how this software and its documentation can be improved. I can't promise
-that I will incorporate everything, but I will give your ideas serious
-consideration.
+If you have any questions, comments, or feature requests for this library,
+please use the [GitHub
+Discussions](https://github.com/bxparks/AceSorting/discussions) for this
+project. If you have bug reports, please file a ticket in [GitHub
+Issues](https://github.com/bxparks/AceSorting/issues). Feature requests should
+go into Discussions first because they often have alternative solutions which
+are useful to remain visible, instead of disappearing from the default view of
+the Issue tracker after the ticket is closed.
 
 Please refrain from emailing me directly unless the content is sensitive. The
 problem with email is that I cannot reference the email conversation when other

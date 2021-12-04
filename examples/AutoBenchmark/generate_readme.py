@@ -27,7 +27,7 @@ print(f"""\
 
 Determine the speed of various AceSorting functions, for various array sizes.
 
-**Version**: AceSorting v0.3
+**Version**: AceSorting v1.0.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -84,6 +84,19 @@ $ make README.md
 * No performance change after rerouting 2-argument sorting functions into
   the 3-argument versions using a default lambda expression.
 
+**v0.3+**
+
+* Add N=1000 for SparkFun Pro Micro because it has 2.5kB of ram.
+    * Except for C-library `qsort()` which seems to run out of stack space due
+      to recursion.
+    * The Shell Sort algorithms seem to hold up well compared to Quick Sort for
+      N=1000.
+    * Increase Shell Sort to Quick Sort recommendation cut over from N >= ~100
+      to ~1000.
+
+**v1.0.0**
+* Upgrade various tool chains.  No significant changes to runtimes.
+
 ## Results
 
 The following results show the runtime of each sorting function in milliseconds,
@@ -92,7 +105,7 @@ when sorting different array sizes.
 ### Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * Arduino AVR Boards 1.8.3
 * `micros()` has a resolution of 4 microseconds
 
@@ -103,7 +116,7 @@ when sorting different array sizes.
 ### SparkFun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 * `micros()` has a resolution of 4 microseconds
 
@@ -114,8 +127,8 @@ when sorting different array sizes.
 ### SAMD21 M0 Mini
 
 * 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.13
-* SparkFun SAMD Core 1.8.3
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* SparkFun SAMD Core 1.8.4
 
 ```
 {samd_results}
@@ -124,7 +137,7 @@ when sorting different array sizes.
 ### STM32
 
 * STM32 "Blue Pill", STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * STM32duino 2.0.0
 
 ```
@@ -134,8 +147,8 @@ when sorting different array sizes.
 ### ESP8266
 
 * NodeMCU 1.0 clone, 80MHz ESP8266
-* Arduino IDE 1.8.13
-* ESP8266 Boards 2.7.4
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* ESP8266 Boards 3.0.2
 
 ```
 {esp8266_results}
@@ -144,7 +157,7 @@ when sorting different array sizes.
 ### ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * ESP32 Boards 1.0.6
 
 ```
@@ -154,8 +167,8 @@ when sorting different array sizes.
 ### Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.13
-* Teensyduino 1.53
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Teensyduino 1.55
 * Compiler options: "Faster"
 
 ```
