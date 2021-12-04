@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceSorting v0.3
+**Version**: AceSorting v1.0.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -46,10 +46,15 @@ ASCII table.
 * Usually no difference in flash size, as the compiler seems to be able to
   inline the lambda expression. In fact, some actually got a few bytes smaller.
 
+**v1.0.0**
+* Some minor changes to total flash consumption due to upgrading the
+  tool chain for SAMD21, ESP8266 and TeensyDuino. The delta flash consumption
+  of each algorithm did not change much.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * Arduino AVR Boards 1.8.3
 
 ```
@@ -83,7 +88,7 @@ ASCII table.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.13
+* Arduino 1.8.16, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -117,33 +122,33 @@ ASCII table.
 ## SAMD21 M0 Mini
 
 * 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.13
-* Sparkfun SAMD Boards 1.8.3
+* Arduino 1.8.16, Arduino CLI 0.19.2
+* Sparkfun SAMD Boards 1.8.4
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |  10520/    0 |     0/    0 |
+| Baseline                               |  10584/    0 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           |  10560/    0 |    40/    0 |
-| insertionSort()                        |  10568/    0 |    48/    0 |
-| selectionSort()                        |  10584/    0 |    64/    0 |
+| bubbleSort()                           |  10624/    0 |    40/    0 |
+| insertionSort()                        |  10632/    0 |    48/    0 |
+| selectionSort()                        |  10648/    0 |    64/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |  10584/    0 |    64/    0 |
-| shellSortKnuth()                       |  10576/    0 |    56/    0 |
-| shellSortTokuda()                      |  10640/    0 |   120/    0 |
+| shellSortClassic()                     |  10648/    0 |    64/    0 |
+| shellSortKnuth()                       |  10640/    0 |    56/    0 |
+| shellSortTokuda()                      |  10704/    0 |   120/    0 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           |  10584/    0 |    64/    0 |
-| combSort13m()                          |  10600/    0 |    80/    0 |
-| combSort133()                          |  10576/    0 |    56/    0 |
-| combSort133m()                         |  10592/    0 |    72/    0 |
+| combSort13()                           |  10648/    0 |    64/    0 |
+| combSort13m()                          |  10664/    0 |    80/    0 |
+| combSort133()                          |  10640/    0 |    56/    0 |
+| combSort133m()                         |  10656/    0 |    72/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      |  10616/    0 |    96/    0 |
-| quickSortMedian()                      |  10648/    0 |   128/    0 |
-| quickSortMedianSwapped()               |  10664/    0 |   144/    0 |
+| quickSortMiddle()                      |  10680/    0 |    96/    0 |
+| quickSortMedian()                      |  10712/    0 |   128/    0 |
+| quickSortMedianSwapped()               |  10728/    0 |   144/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                |  11320/    0 |   800/    0 |
+| qsort()                                |  11384/    0 |   800/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -153,7 +158,7 @@ ASCII table.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.13
+* Arduino 1.8.16, Arduino CLI 0.19.2
 * STM32duino 2.0.0
 
 ```
@@ -187,33 +192,33 @@ ASCII table.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.13
-* ESP8266 Boards 2.7.4
+* Arduino 1.8.16, Arduino CLI 0.19.2
+* ESP8266 Boards 3.0.2
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               | 257100/26976 |     0/    0 |
+| Baseline                               | 260497/28108 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           | 257164/26976 |    64/    0 |
-| insertionSort()                        | 257164/26976 |    64/    0 |
-| selectionSort()                        | 257180/26976 |    80/    0 |
+| bubbleSort()                           | 260545/28108 |    48/    0 |
+| insertionSort()                        | 260545/28108 |    48/    0 |
+| selectionSort()                        | 260561/28108 |    64/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     | 257180/26976 |    80/    0 |
-| shellSortKnuth()                       | 257212/26976 |   112/    0 |
-| shellSortTokuda()                      | 257240/27004 |   140/   28 |
+| shellSortClassic()                     | 260577/28108 |    80/    0 |
+| shellSortKnuth()                       | 260577/28108 |    80/    0 |
+| shellSortTokuda()                      | 260637/28128 |   140/   20 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           | 257196/26976 |    96/    0 |
-| combSort13m()                          | 257212/26976 |   112/    0 |
-| combSort133()                          | 257180/26976 |    80/    0 |
-| combSort133m()                         | 257196/26976 |    96/    0 |
+| combSort13()                           | 260609/28108 |   112/    0 |
+| combSort13m()                          | 260625/28108 |   128/    0 |
+| combSort133()                          | 260593/28108 |    96/    0 |
+| combSort133m()                         | 260609/28108 |   112/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      | 257244/26976 |   144/    0 |
-| quickSortMedian()                      | 257276/26976 |   176/    0 |
-| quickSortMedianSwapped()               | 257308/26976 |   208/    0 |
+| quickSortMiddle()                      | 260641/28108 |   144/    0 |
+| quickSortMedian()                      | 260673/28108 |   176/    0 |
+| quickSortMedianSwapped()               | 260689/28108 |   192/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                | 258076/26976 |   976/    0 |
+| qsort()                                | 261617/28108 |  1120/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -221,7 +226,7 @@ ASCII table.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.13
+* Arduino 1.8.16, Arduino CLI 0.19.2
 * ESP32 Boards 1.0.6
 
 ```
@@ -259,33 +264,33 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.13
-* Teensyduino 1.53
+* Arduino 1.8.16, Arduino CLI 0.19.2
+* Teensyduino 1.55
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |   7116/ 3256 |     0/    0 |
+| Baseline                               |   7124/ 3256 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| bubbleSort()                           |   7148/ 3256 |    32/    0 |
-| insertionSort()                        |   7172/ 3256 |    56/    0 |
-| selectionSort()                        |   7180/ 3256 |    64/    0 |
+| bubbleSort()                           |   7156/ 3256 |    32/    0 |
+| insertionSort()                        |   7180/ 3256 |    56/    0 |
+| selectionSort()                        |   7188/ 3256 |    64/    0 |
 |----------------------------------------+--------------+-------------|
-| shellSortClassic()                     |   7196/ 3256 |    80/    0 |
-| shellSortKnuth()                       |   7208/ 3256 |    92/    0 |
-| shellSortTokuda()                      |   7284/ 3256 |   168/    0 |
+| shellSortClassic()                     |   7204/ 3256 |    80/    0 |
+| shellSortKnuth()                       |   7216/ 3256 |    92/    0 |
+| shellSortTokuda()                      |   7292/ 3256 |   168/    0 |
 |----------------------------------------+--------------+-------------|
-| combSort13()                           |   7192/ 3256 |    76/    0 |
-| combSort13m()                          |   7204/ 3256 |    88/    0 |
-| combSort133()                          |   7172/ 3256 |    56/    0 |
-| combSort133m()                         |   7188/ 3256 |    72/    0 |
+| combSort13()                           |   7200/ 3256 |    76/    0 |
+| combSort13m()                          |   7212/ 3256 |    88/    0 |
+| combSort133()                          |   7180/ 3256 |    56/    0 |
+| combSort133m()                         |   7196/ 3256 |    72/    0 |
 |----------------------------------------+--------------+-------------|
-| quickSortMiddle()                      |   7224/ 3256 |   108/    0 |
-| quickSortMedian()                      |   7260/ 3256 |   144/    0 |
-| quickSortMedianSwapped()               |   7288/ 3256 |   172/    0 |
+| quickSortMiddle()                      |   7232/ 3256 |   108/    0 |
+| quickSortMedian()                      |   7268/ 3256 |   144/    0 |
+| quickSortMedianSwapped()               |   7296/ 3256 |   172/    0 |
 |----------------------------------------+--------------+-------------|
-| qsort()                                |   8576/ 3256 |  1460/    0 |
+| qsort()                                |   8584/ 3256 |  1460/    0 |
 +---------------------------------------------------------------------+
 
 ```
