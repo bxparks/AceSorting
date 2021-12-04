@@ -1,16 +1,16 @@
 BENCHMARKS
-bubbleSort() 1000 65.067 0.067 67.146 3
-insertionSort() 1000 15.068 0.092 29.422 3
-selectionSort() 1000 33.620 33.620 32.592 3
-shellSortClassic() 1000 1.267 0.774 1.065 20
-shellSortKnuth() 1000 1.102 0.552 0.778 20
-shellSortTokuda() 1000 1.112 0.683 0.942 20
-combSort13() 1000 1.750 1.417 1.492 20
-combSort13m() 1000 1.644 1.491 1.568 20
-combSort133() 1000 1.632 1.365 1.439 20
-combSort133m() 1000 1.588 1.441 1.516 20
-quickSortMiddle() 1000 0.990 0.715 0.697 20
-quickSortMedian() 1000 0.961 0.745 0.728 20
-quickSortMedianSwapped() 1000 0.834 0.700 0.681 20
-qsort() 1000 2.096 0.608 0.849 20
+bubbleSort() 1000 65.540 0.070 67.146 3
+insertionSort() 1000 14.555 0.097 29.422 3
+selectionSort() 1000 29.458 29.477 28.440 3
+shellSortClassic() 1000 1.273 0.774 1.064 20
+shellSortKnuth() 1000 1.109 0.551 0.776 20
+shellSortTokuda() 1000 1.113 0.683 0.942 20
+combSort13() 1000 1.685 1.416 1.492 20
+combSort13m() 1000 1.644 1.493 1.568 20
+combSort133() 1000 1.652 1.364 1.441 20
+combSort133m() 1000 1.588 1.440 1.517 20
+quickSortMiddle() 1000 0.987 0.715 0.697 20
+quickSortMedian() 1000 0.962 0.745 0.727 20
+quickSortMedianSwapped() 1000 0.818 0.701 0.682 20
+qsort() 1000 2.087 0.607 0.850 20
 END
